@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
-using prid2122_g03.Models;
+using prid_tuto.Models;
 
-namespace prid2122_g03.Helpers
+namespace prid_tuto.Helpers
 {
     public class AuthorizedAttribute : AuthorizeAttribute
     {

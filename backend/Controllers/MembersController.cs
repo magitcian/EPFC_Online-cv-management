@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using prid_tuto.Models;
+using AutoMapper;
 using PRID_Framework;
-using prid2122_g03.Models;
-using prid2122_g03.Helpers;
+using prid_tuto.Helpers;
 
-namespace prid2122_g03.Controllers
+
+namespace prid_tuto.Controllers
 {
-    [Authorize]
+    [Authorize] // to protect the controller
     [Route("api/[controller]")]
     [ApiController]
     public class MembersController : ControllerBase
@@ -33,6 +35,16 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
+
+
+        // OLD VERSION
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<Member>>> GetAll() {
+        //     // Récupère une liste de tous les membres
+        //     return await _context.Members.ToListAsync();
+        // }
+
+        // GET /api/members
         [Authorized(Role.Admin)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDTO>>> GetAll() {
@@ -48,6 +60,20 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<List<MemberDTO>>(await _context.Members.ToListAsync());
         }
 
+
+        // OLD VERSION
+        // [HttpGet("{pseudo}")]
+        // public async Task<ActionResult<Member>> GetOne(string pseudo) {
+        //     // Récupère en BD le membre dont le pseudo est passé en paramètre dans l'url
+        //     var member = await _context.Members.FindAsync(pseudo);
+        //     // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
+        //     if (member == null)
+        //         return NotFound();
+        //     // Retourne le membre
+        //     return member;
+        // }
+
+        // GET /api/members/{pseudo}
         [HttpGet("{pseudo}")]
         public async Task<ActionResult<MemberDTO>> GetOne(string pseudo) {
             // Récupère en BD le membre dont le pseudo est passé en paramètre dans l'url
@@ -59,6 +85,30 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<MemberDTO>(member);
         }
 
+
+
+        // OLD VERSION
+        // [HttpPost]
+        // public async Task<ActionResult<Member>> PostMember(Member member) {
+        //     // Vérifie s'il existe déjà un membre ayant le même pseudo que celui qu'on veut créer
+        //     var other = await _context.Members.FindAsync(member.Pseudo);
+        //     // Si on trouve un tel membre, on renvoit une erreur
+        //     if (other != null)
+        //         return BadRequest(new { error = $"Member {member.Pseudo} already exists" }); 
+
+        //     // Ajoute le nouveau membre au contexte EF
+        //     _context.Members.Add(member);
+        //     // Sauve les changements
+        //     await _context.SaveChangesAsync();
+
+        //     // Renvoie une réponse ayant dans son body les données du nouveau membre (3ème paramètre)
+        //     // et ayant dans ses headers une entrée 'Location' qui contient l'url associé à GetOne avec la bonne valeur 
+        //     // pour le paramètre 'pseudo' de cet url.
+        //     return CreatedAtAction(nameof(GetOne), new { pseudo = member.Pseudo }, member);
+        // }
+
+
+        // POST /api/members
         [HttpPost]
         public async Task<ActionResult<MemberDTO>> PostMember(MemberWithPasswordDTO member) {
             // Utilise le mapper pour convertir le DTO qu'on a reçu en une instance de Member
@@ -76,6 +126,26 @@ namespace prid2122_g03.Controllers
             return CreatedAtAction(nameof(GetOne), new { pseudo = member.Pseudo }, _mapper.Map<MemberDTO>(newMember));
         }
 
+
+
+        // OLD VERSION
+        // [HttpPut]
+        // public async Task<IActionResult> PutMember(Member member) {
+        //     // Vérifie si le membre à mettre à jour existe bien en BD
+        //     var exists = await _context.Members.CountAsync(m => m.Pseudo == member.Pseudo) > 0;
+        //     // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
+        //     if (!exists)
+        //         return NotFound();
+        //     // Ajoute le membre reçu en paramètre au contexte et force son état à "Modified" pour qu'EF fasse un update
+        //     _context.Entry(member).State = EntityState.Modified;
+        //     // Sauve les changements
+        //     await _context.SaveChangesAsync();
+        //     // Retourne un statut 204 avec une réponse vide
+        //     return NoContent();
+        // }
+
+
+        // PUT /api/members/{pseudo}
         [Authorized(Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> PutMember(MemberWithPasswordDTO dto) {
@@ -98,6 +168,8 @@ namespace prid2122_g03.Controllers
         }
 
 
+
+        // DELETE /api/members/{pseudo}
         [Authorized(Role.Admin)]
         [HttpDelete("{pseudo}")]
         public async Task<IActionResult> DeleteMember(string pseudo) {
@@ -114,7 +186,7 @@ namespace prid2122_g03.Controllers
             return NoContent();
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous] // to unprotect this method (the only one in the controller)
         [HttpPost("authenticate")]
         public async Task<ActionResult<MemberDTO>> Authenticate(MemberWithPasswordDTO dto) {
             var member = await Authenticate(dto.Pseudo, dto.Password);
@@ -153,6 +225,7 @@ namespace prid2122_g03.Controllers
 
             return member;
         }
+
 
     }
 }

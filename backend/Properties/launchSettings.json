@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:57937",
+      "applicationUrl": "http://localhost:29798",
       "sslPort": 0
     }
   },
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "prid2122_g03": {
+    "prid_tuto": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

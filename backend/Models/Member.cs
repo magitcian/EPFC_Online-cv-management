@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
 
-namespace prid2122_g03.Models
+
+namespace prid_tuto.Models
 {
     public enum Role
     {
         Admin = 2, Manager = 1, Member = 0
     }
-
     public class Member : IValidatableObject
     {
         [Key]
@@ -25,6 +25,7 @@ namespace prid2122_g03.Models
         public string FullName { get; set; }
         public DateTime? BirthDate { get; set; }
         public Role Role { get; set; } = Role.Member;
+
         [NotMapped]
         public string Token { get; set; }
 
@@ -73,3 +74,4 @@ namespace prid2122_g03.Models
         }
     }
 }
+

@@ -11,8 +11,14 @@ export class MemberService {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
     getAll(): Observable<Member[]> {
+        // new
         return this.http.get<any[]>(`${this.baseUrl}api/members`)
-            .pipe(map(res => plainToClass(Member, res)));
+            .pipe(map(res => plainToClass(Member, res))
+            );
+
+        // old
+        // return this.http.get<Member[]>(`${this.baseUrl}api/members`)
+        //     .pipe(map(res => res.map(m => new Member(m))));
     }
     
     getById(pseudo: string) {

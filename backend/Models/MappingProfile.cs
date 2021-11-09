@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace prid2122_g03.Models
+namespace prid_tuto.Models
 {
     /*
     Cette classe sert à configurer AutoMapper pour lui indiquer quels sont les mappings possibles
@@ -22,7 +22,6 @@ namespace prid2122_g03.Models
 
             CreateMap<Member, MemberWithPasswordDTO>();
             CreateMap<MemberWithPasswordDTO, Member>();
-
         }
     }
 }

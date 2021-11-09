@@ -1,6 +1,6 @@
 using System;
 
-namespace prid2122_g03.Models
+namespace prid_tuto.Models
 {
     public class WeatherForecast
     {

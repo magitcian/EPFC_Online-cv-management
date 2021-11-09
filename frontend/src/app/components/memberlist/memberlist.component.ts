@@ -13,10 +13,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { plainToClass } from 'class-transformer';
 
 @Component({
-    selector: 'app-memberlist',
+    selector: 'app-memberlist', // sélecteur utilisé pour un sous-composant
     templateUrl: './memberlist.component.html',
     styleUrls: ['./memberlist.component.css']
 })
+
 export class MemberListComponent implements AfterViewInit, OnDestroy {
     displayedColumns: string[] = ['pseudo', 'fullName', 'birthDate', 'role', 'actions'];
     dataSource: MatTableDataSource<Member> = new MatTableDataSource();
@@ -126,4 +127,5 @@ export class MemberListComponent implements AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.snackBar.dismiss();
     }
+
 }

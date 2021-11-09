@@ -1,21 +1,24 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using prid2122_g03.Models;
+using prid_tuto.Models;
+using AutoMapper;
+using AutoMapper.EquivalencyExpression;
+using Microsoft.IdentityModel.Tokens;
 
-namespace prid2122_g03
+
+namespace prid_tuto
 {
     public class Startup
     {
@@ -27,31 +30,38 @@ namespace prid2122_g03
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            // services.AddDbContext<MsnContext>(opt => opt.UseSqlite("data source=msn.db"));
+
             services.AddDbContext<MsnContext>(opt => opt.UseSqlite(
-               Configuration.GetConnectionString("prid2122-g03-sqlite")
+               Configuration.GetConnectionString("prid-tuto-sqlite")
             ));
             // services.AddDbContext<MsnContext>(opt => opt.UseSqlServer(
-            //     Configuration.GetConnectionString("prid2122-g03-mssql")
+            //     Configuration.GetConnectionString("prid-tuto-mssql")
             // ));
             // services.AddDbContext<MsnContext>(opt => opt.UseMySql(
-            //     Configuration.GetConnectionString("prid2122-g03-mysql"),
+            //     Configuration.GetConnectionString("prid-tuto-mysql"),
             //     ServerVersion.Parse("10.4.18-mariadb")
-            // ));
+            // )); 
+
+
             services.AddControllers();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => {
+                // configuration.RootPath = "frontend/dist"; // before heroku
+                // backend où il doit aller chercher les fichiers statiques sur le disque dur pour les envoyer au client
+                //  https://prid2122-tuto.herokuapp.com/index.html, c'est le fichier backend\wwwroot\frontend\index.html 
                 configuration.RootPath = "wwwroot/frontend";
             });
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "prid2122-g03", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "prid_tuto", Version = "v1" });
             });
 
             // Auto Mapper Configurations
             services.AddScoped(provider => new MapperConfiguration(cfg => {
-                cfg.AddProfile(new MappingProfile(provider.GetService<MsnContext>()));
-                // see: https://github.com/AutoMapper/AutoMapper.Collection
-                cfg.AddCollectionMappers();
-                cfg.UseEntityFrameworkCoreModel<MsnContext>(services);
+            cfg.AddProfile(new MappingProfile(provider.GetService<MsnContext>()));
+            // see: https://github.com/AutoMapper/AutoMapper.Collection
+            cfg.AddCollectionMappers();
+            cfg.UseEntityFrameworkCoreModel<MsnContext>(services);
             }).CreateMapper());
 
             //------------------------------ 
@@ -63,9 +73,9 @@ namespace prid2122_g03
             // On précise qu'on veut travaille avec JWT tant pour l'authentification  
             // que pour la vérification de l'authentification 
             services.AddAuthentication(x => {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(x => {
                     // On exige des requêtes sécurisées avec HTTPS 
                     x.RequireHttpsMetadata = true;
@@ -104,7 +114,7 @@ namespace prid2122_g03
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "prid2122-g03 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "prid_tuto v1"));
             }
 
             if (context.Database.IsSqlite())
@@ -123,7 +133,8 @@ namespace prid2122_g03
             else
                 context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-            context.SeedData(); //ajout
+
+            // why ? for which purpose ?
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
@@ -150,6 +161,7 @@ namespace prid2122_g03
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
+            
         }
     }
 }
