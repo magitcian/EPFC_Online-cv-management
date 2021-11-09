@@ -28,11 +28,11 @@ namespace prid2122_g03.Models
         public void SeedData() {
             Database.BeginTransaction();
 
-
             SaveChanges();
             Database.CommitTransaction();
         }
 
         public DbSet<Member> Members { get; set; }
+
     }
 }
