@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
 
 namespace prid_tuto.Models
 {
+    //test
     public enum Role
     {
         Admin = 2, Manager = 1, Member = 0
