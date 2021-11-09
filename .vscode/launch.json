@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Backend",
+            "type": "coreclr",
+            "request": "attach",
+            //"processName": "backend.exe"
+            "processName": "backend"
+        },
+        { 
+            //"type": "pwa-chrome", 
+            "type": "firefox", 
+            "request": "launch", 
+            "name": "Debug Frontend", 
+            "url": "http://localhost:5000", 
+            "webRoot": "${workspaceFolder}/frontend" 
+        }
+    ]
+}
