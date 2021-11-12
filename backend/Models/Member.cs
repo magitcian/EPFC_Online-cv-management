@@ -41,7 +41,7 @@ namespace prid2122_g03.Models
             }
         }
 
-        public bool CheckPseudoUnicity(MsnContext context) {
+        public bool CheckPseudoUnicity(CvContext context) {
             /*
             Vérifie si, en cas d'ajout d'un membre, il existe déjà un membre ayant le même pseudo que celui qu'on veut créer.
 
@@ -52,7 +52,7 @@ namespace prid2122_g03.Models
             return context.Entry(this).State == EntityState.Modified || context.Members.AsNoTracking().Count(m => m.Pseudo == Pseudo) == 0;
         }
 
-        public bool CheckFullNameUnicity(MsnContext context) {
+        public bool CheckFullNameUnicity(CvContext context) {
             if (string.IsNullOrEmpty(FullName))
                 return true;
             // Vérifie s'il existe un autre membre ayant le même FullName que celui qu'on veut créer ou mettre à jour.
@@ -60,7 +60,7 @@ namespace prid2122_g03.Models
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
-            var currContext = validationContext.GetService(typeof(MsnContext)) as MsnContext;
+            var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
             Debug.Assert(currContext != null);
             if (!CheckPseudoUnicity(currContext))
                 yield return new ValidationResult("The Pseudo of a member must be unique", new[] { nameof(Pseudo) });

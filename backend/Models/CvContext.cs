@@ -4,9 +4,9 @@ using System;
 
 namespace prid2122_g03.Models
 {
-    public class MsnContext : DbContext
+    public class CvContext : DbContext
     {
-        public MsnContext(DbContextOptions<MsnContext> options)
+        public CvContext(DbContextOptions<CvContext> options)
             : base(options) {
         } 
 

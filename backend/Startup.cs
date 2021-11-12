@@ -30,15 +30,15 @@ namespace prid2122_g03
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            // services.AddDbContext<MsnContext>(opt => opt.UseSqlite("data source=msn.db"));
+            // services.AddDbContext<CvContext>(opt => opt.UseSqlite("data source=msn.db"));
 
-            services.AddDbContext<MsnContext>(opt => opt.UseSqlite(
+            services.AddDbContext<CvContext>(opt => opt.UseSqlite(
                Configuration.GetConnectionString("prid-tuto-sqlite")
             ));
-            // services.AddDbContext<MsnContext>(opt => opt.UseSqlServer(
+            // services.AddDbContext<CvContext>(opt => opt.UseSqlServer(
             //     Configuration.GetConnectionString("prid-tuto-mssql")
             // ));
-            // services.AddDbContext<MsnContext>(opt => opt.UseMySql(
+            // services.AddDbContext<CvContext>(opt => opt.UseMySql(
             //     Configuration.GetConnectionString("prid-tuto-mysql"),
             //     ServerVersion.Parse("10.4.18-mariadb")
             // )); 
@@ -58,10 +58,10 @@ namespace prid2122_g03
 
             // Auto Mapper Configurations
             services.AddScoped(provider => new MapperConfiguration(cfg => {
-            cfg.AddProfile(new MappingProfile(provider.GetService<MsnContext>()));
+            cfg.AddProfile(new MappingProfile(provider.GetService<CvContext>()));
             // see: https://github.com/AutoMapper/AutoMapper.Collection
             cfg.AddCollectionMappers();
-            cfg.UseEntityFrameworkCoreModel<MsnContext>(services);
+            cfg.UseEntityFrameworkCoreModel<CvContext>(services);
             }).CreateMapper());
 
             //------------------------------ 
@@ -110,7 +110,7 @@ namespace prid2122_g03
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MsnContext context) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CvContext context) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();

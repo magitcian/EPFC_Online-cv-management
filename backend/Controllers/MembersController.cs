@@ -22,7 +22,7 @@ namespace prid2122_g03.Controllers
     [ApiController]
     public class MembersController : ControllerBase
     {
-        private readonly MsnContext _context;
+        private readonly CvContext _context;
         private readonly IMapper _mapper;
 
         /*
@@ -30,7 +30,7 @@ namespace prid2122_g03.Controllers
         Les deux paramètres du constructeur recoivent automatiquement, par injection de dépendance, 
         une instance du context EF (MsnContext) et une instance de l'auto-mapper (IMapper).
         */
-        public MembersController(MsnContext context, IMapper mapper) {
+        public MembersController(CvContext context, IMapper mapper) {
             _context = context;
             _mapper = mapper;
         }
