@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using prid_tuto.Models;
+using prid2122_g03.Models;
 
 
-namespace prid_tuto.Controllers
+namespace prid2122_g03.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,6 +1,6 @@
 using System;
 
-namespace prid_tuto.Models
+namespace prid2122_g03.Models
 {
     public class MemberDTO
     {

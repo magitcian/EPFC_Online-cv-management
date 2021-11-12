@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>prid_tuto</RootNamespace>
+    <RootNamespace>prid2122_g03</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

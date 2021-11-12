@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
 
 
-namespace prid_tuto.Models
+namespace prid2122_g03.Models
 {
     //test
     public enum Role

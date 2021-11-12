@@ -12,13 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using prid_tuto.Models;
+using prid2122_g03.Models;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Microsoft.IdentityModel.Tokens;
 
 
-namespace prid_tuto
+namespace prid2122_g03
 {
     public class Startup
     {
@@ -53,7 +53,7 @@ namespace prid_tuto
                 configuration.RootPath = "wwwroot/frontend";
             });
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "prid_tuto", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "prid2122_g03", Version = "v1" });
             });
 
             // Auto Mapper Configurations
@@ -114,7 +114,7 @@ namespace prid_tuto
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "prid_tuto v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "prid2122_g03 v1"));
             }
 
             if (context.Database.IsSqlite())
