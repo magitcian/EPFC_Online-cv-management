@@ -22,6 +22,9 @@ namespace prid2122_g03.Models
 
             CreateMap<Member, MemberWithPasswordDTO>();
             CreateMap<MemberWithPasswordDTO, Member>();
+
+            CreateMap<Phone, PhoneDTO>();
+            CreateMap<PhoneDTO, Phone>();
         }
     }
 }

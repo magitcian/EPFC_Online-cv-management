@@ -29,6 +29,7 @@ namespace prid2122_g03.Models
 
         [NotMapped]
         public string Token { get; set; }
+        public ICollection<Phone> Phones { get; set; } = new HashSet<Phone>();
 
         public int? Age {
             get {

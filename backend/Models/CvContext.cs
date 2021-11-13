@@ -25,9 +25,15 @@ namespace prid2122_g03.Models
                 new Member { Pseudo = "marc", Password = "marc", FullName = "Marc Michel" }
             ); 
 
+            modelBuilder.Entity<Phone>().HasData(
+                new Phone { PhoneId = 1, Type = "aaa", Number = "123", MemberPseudo = "ben" },
+                new Phone { PhoneId = 2, Type = "bbb", Number = "456", MemberPseudo = "ben" }
+            );
+
         } 
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<Phone> Phones { get; set; }
     }
 }
 

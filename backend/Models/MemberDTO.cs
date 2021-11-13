@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace prid2122_g03.Models
 {
@@ -10,6 +11,7 @@ namespace prid2122_g03.Models
 
         public Role Role { get; set; }
         public string Token { get; set; }
+        public ICollection<PhoneDTO> Phones { get; set; }
 
     }
 

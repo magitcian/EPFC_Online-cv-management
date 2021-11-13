@@ -49,7 +49,8 @@ namespace prid2122_g03.Controllers
             */
 
             // Récupère une liste de tous les membres et utilise le mapper pour les transformer en leur DTO
-            return _mapper.Map<List<MemberDTO>>(await _context.Members.ToListAsync());
+            // return _mapper.Map<List<MemberDTO>>(await _context.Members.ToListAsync()); // before link between members and phones
+            return _mapper.Map<List<MemberDTO>>(await _context.Members.Include(m => m.Phones).ToListAsync());
         }
 
 
@@ -57,7 +58,8 @@ namespace prid2122_g03.Controllers
         [HttpGet("{pseudo}")]
         public async Task<ActionResult<MemberDTO>> GetOne(string pseudo) {
             // Récupère en BD le membre dont le pseudo est passé en paramètre dans l'url
-            var member = await _context.Members.FindAsync(pseudo);
+            // var member = await _context.Members.FindAsync(pseudo); // before link between members and phones
+            var member = await _context.Members.Include(m => m.Phones).SingleAsync(m => m.Pseudo == pseudo);
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (member == null)
                 return NotFound();
@@ -90,7 +92,8 @@ namespace prid2122_g03.Controllers
         [HttpPut]
         public async Task<IActionResult> PutMember(MemberWithPasswordDTO dto) {
             // Récupère en BD le membre à mettre à jour
-            var member = await _context.Members.FindAsync(dto.Pseudo);
+            // var member = await _context.Members.FindAsync(dto.Pseudo); // before link between members and phones
+            var member = await _context.Members.Include(m => m.Phones).SingleAsync(m => m.Pseudo == dto.Pseudo);
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (member == null)
                 return NotFound();
@@ -98,7 +101,8 @@ namespace prid2122_g03.Controllers
             if (string.IsNullOrEmpty(dto.Password))
                 dto.Password = member.Password;
             // Mappe les données reçues sur celles du membre en question
-            _mapper.Map<MemberDTO, Member>(dto, member);
+            // _mapper.Map<MemberDTO, Member>(dto, member); // before link between members and phones
+            _mapper.Map<MemberWithPasswordDTO, Member>(dto, member);
             // Sauve les changements
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)

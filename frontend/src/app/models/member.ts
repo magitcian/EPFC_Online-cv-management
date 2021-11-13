@@ -9,6 +9,12 @@ export enum Role {
     Manager = 1,
     Admin = 2
   }
+
+export class Phone {
+    phoneId?: number;
+    type?: string; 
+    number?: string;
+}  
   
 export class Member {
     pseudo?: string;
@@ -17,11 +23,10 @@ export class Member {
     // décorateur pour faire fonctionner "this.birthDate.getFullYear" 
     @Type(() => Date)
     @Transform(({ value }) => value ? moment(value) : value, { toClassOnly: true })
-    // birthDate?: Date;
     birthDate?: Moment;
-
     role: Role = Role.Member;
     token?: string;
+    phones: Phone[] = [];
 
     public get roleAsString(): string {
         return Role[this.role];

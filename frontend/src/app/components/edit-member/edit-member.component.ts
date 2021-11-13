@@ -7,9 +7,11 @@ import { FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import * as _ from 'lodash-es';
-import { Member, Role } from 'src/app/models/member';
+// import { Member, Role } from 'src/app/models/member';
+import { Member, Phone, Role } from 'src/app/models/member';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { plainToClass } from 'class-transformer';
 
 @Component({
     selector: 'app-edit-member-mat',
@@ -18,13 +20,17 @@ import * as moment from 'moment';
 })
 export class EditMemberComponent {
     public frm!: FormGroup;
+    public frmPhone!: FormGroup; 
     public ctlPseudo!: FormControl;
     public ctlFullName!: FormControl;
     public ctlPassword!: FormControl;
     public ctlBirthDate!: FormControl;
     public ctlRole!: FormControl;
+    public ctlPhoneType!: FormControl; 
+    public ctlPhoneNumber!: FormControl; 
     public isNew: boolean;
     public maxDate: Moment = moment().subtract(18, 'years');
+    public phones!: Phone[];
 
     constructor(public dialogRef: MatDialogRef<EditMemberComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { member: Member; isNew: boolean; },
@@ -48,8 +54,16 @@ export class EditMemberComponent {
             role: this.ctlRole
         });
 
+        this.ctlPhoneType = this.fb.control('', []); 
+        this.ctlPhoneNumber = this.fb.control('', []); 
+        this.frmPhone = this.fb.group({ 
+            type: this.ctlPhoneType, 
+            number: this.ctlPhoneNumber 
+        });
+
         this.isNew = data.isNew;
         this.frm.patchValue(data.member);
+        this.phones = plainToClass(Phone, data.member.phones);
     }
 
     // Validateur bidon qui vérifie que la valeur est différente
@@ -100,10 +114,27 @@ export class EditMemberComponent {
     }
 
     update() {
-        this.dialogRef.close(this.frm.value);
+        // this.dialogRef.close(this.frm.value);
+        const data = this.frm.value; 
+        data.phones = this.phones; 
+        this.dialogRef.close(data); 
     }
 
     cancel() {
         this.dialogRef.close();
     }
+
+    phoneAdd() { 
+        if (!this.phones) { 
+            this.phones = []; 
+        } 
+        this.phones.push(this.frmPhone.value); 
+        this.frmPhone.reset(); 
+        this.frm.markAsDirty(); 
+    } 
+
+    phoneDelete(phone: Phone) { 
+        _.remove(this.phones, phone); 
+        this.frm.markAsDirty(); 
+    } 
 }
