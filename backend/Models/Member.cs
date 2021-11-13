@@ -12,7 +12,7 @@ namespace prid2122_g03.Models
     //test
     public enum Role
     {
-        Admin = 2, Manager = 1, Member = 0
+        Admin = 0, Manager = 1, Member = 2
     }
     public class Member : IValidatableObject
     {
