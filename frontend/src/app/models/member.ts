@@ -5,9 +5,9 @@ import { Moment } from "moment";
 import 'reflect-metadata';
 
 export enum Role {
-    Member = 0,
+    Admin = 0,
     Manager = 1,
-    Admin = 2
+    Member = 2
   }
 
 export class Phone {
