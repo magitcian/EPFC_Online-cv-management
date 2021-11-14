@@ -13,7 +13,7 @@ using prid2122_g03.Models;
 using AutoMapper;
 using PRID_Framework;
 using prid2122_g03.Helpers;
-
+using System.Text.Json;
 
 namespace prid2122_g03.Controllers
 {
@@ -168,6 +168,46 @@ namespace prid2122_g03.Controllers
             }
 
             return member;
+        }
+
+        [HttpGet("rels/{pseudo}")]
+        public async Task<ActionResult<IEnumerable<FriendDTO>>> GetMembersWithRelationship(string pseudo) {
+            var friends = from m in _context.Members
+                          let isFollower = m.Followees.Any(f => f.Pseudo == pseudo)
+                          let isFollowee = m.Followers.Any(f => f.Pseudo == pseudo)
+                          let isMutual = isFollower && isFollowee
+                          let isSelf = m.Pseudo == pseudo
+                          let rel = isSelf ? "self" : isMutual ? "mutual" : isFollower ? "follower" : isFollowee ? "followee" : "none"
+                          select new FriendDTO {
+                              Pseudo = m.Pseudo,
+                              FullName = m.FullName,
+                              Relationship = rel
+                          };
+            return Ok(await friends.OrderBy(m => m.Pseudo).ToListAsync());
+        }
+
+        [HttpPost("follow")]
+        public async Task<IActionResult> Follow([FromBody] JsonElement data) {
+            var follower = data.GetProperty("follower").ToString();
+            var followee = data.GetProperty("followee").ToString();
+            var rel = await _context.Follows.Where(f => f.Follower.Pseudo == follower && f.Followee.Pseudo == followee).SingleOrDefaultAsync();
+            if (rel == null) {
+                _context.Add(new Follow { FollowerPseudo = follower, FolloweePseudo = followee });
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
+        }
+
+        [HttpPost("unfollow")]
+        public async Task<IActionResult> UnFollow([FromBody] JsonElement data) {
+            var follower = data.GetProperty("follower").ToString();
+            var followee = data.GetProperty("followee").ToString();
+            var rel = await _context.Follows.Where(f => f.Follower.Pseudo == follower && f.Followee.Pseudo == followee).SingleOrDefaultAsync();
+            if (rel != null) {
+                _context.Remove(rel);
+                await _context.SaveChangesAsync();
+            }
+            return Ok();
         }
 
 

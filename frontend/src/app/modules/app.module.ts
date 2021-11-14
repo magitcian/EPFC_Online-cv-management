@@ -22,6 +22,7 @@ import { EditMemberComponent } from '../components/edit-member/edit-member.compo
 import { SharedModule } from './shared.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { RelationshipsComponent } from '../components/relationships/relationships.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -42,7 +43,8 @@ export function getBaseUrl() {
         UnknownComponent,
         RestrictedComponent,
         SetFocusDirective,
-        EditMemberComponent
+        EditMemberComponent,
+        RelationshipsComponent
     ],
     entryComponents: [
         EditMemberComponent

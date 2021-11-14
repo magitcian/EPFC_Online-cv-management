@@ -10,6 +10,7 @@ import { UnknownComponent } from '../components/unknown/unknown.component';
 import { AuthGuard } from '../services/auth.guard';
 import { Role } from '../models/member';
 import { CounterParentComponent } from '../components/counter-stateless/counter-parent.component';
+import { RelationshipsComponent } from '../components/relationships/relationships.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -23,10 +24,15 @@ const appRoutes: Routes = [
     component: MemberListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
+  }, 
+  {
+    path: 'friends',
+    component: RelationshipsComponent,
+    canActivate: [AuthGuard]
   },
   {
-      path: 'login',
-      component: LoginComponent
+    path: 'login',
+    component: LoginComponent
   },
   { path: 'restricted', component: RestrictedComponent },
   { path: '**', component: UnknownComponent }

@@ -9,7 +9,6 @@ using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
 
 namespace prid2122_g03.Models
 {
-    //test
     public enum Role
     {
         Admin = 0, Manager = 1, Member = 2
@@ -30,6 +29,8 @@ namespace prid2122_g03.Models
         [NotMapped]
         public string Token { get; set; }
         public ICollection<Phone> Phones { get; set; } = new HashSet<Phone>();
+        public ICollection<Member> Followers { get; set; } = new HashSet<Member>();
+        public ICollection<Member> Followees { get; set; } = new HashSet<Member>();
 
         public int? Age {
             get {
