@@ -22,7 +22,6 @@ namespace prid2122_g03.Models
         public string Description { get; set; }
         //[ForeignKey(nameof(Enterprise))]
         public virtual Enterprise Enterprise { get; set; }
-        public virtual Mission Mission { get; set; }
         //public virtual User User { get; set; } //en attentante du user de ines
         //public virtual ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using //en attentante du skill de ines
 

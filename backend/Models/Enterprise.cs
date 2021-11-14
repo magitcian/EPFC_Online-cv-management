@@ -15,7 +15,7 @@ namespace prid2122_g03.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>();
-
+        public virtual ICollection<Mission> Missions { get; set; } = new HashSet<Mission>();
         public Enterprise(string name) {
             Name = name;
         }
