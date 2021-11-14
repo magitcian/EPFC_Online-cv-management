@@ -25,11 +25,6 @@ namespace prid2122_g03.Controllers
         private readonly CvContext _context;
         private readonly IMapper _mapper;
 
-        /*
-        Le contrôleur est instancié automatiquement par ASP.NET Core quand une requête HTTP est reçue.
-        Les deux paramètres du constructeur recoivent automatiquement, par injection de dépendance, 
-        une instance du context EF (MsnContext) et une instance de l'auto-mapper (IMapper).
-        */
         public ExperiencesController(CvContext context, IMapper mapper) {
             _context = context;
             _mapper = mapper;
@@ -38,8 +33,8 @@ namespace prid2122_g03.Controllers
         //[Authorized(Role.Admin)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ExperienceDTO>>> GetAll() {
-            return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.ToListAsync()); 
-            //return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.Include(exp => exp.).ToListAsync());
+            //return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.ToListAsync()); 
+            return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.Include(exp => exp.Enterprise).ToListAsync());
         }
 
     }

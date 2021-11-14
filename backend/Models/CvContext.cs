@@ -38,7 +38,7 @@ namespace prid2122_g03.Models
                 new Member { Pseudo = "xavier", Password = "xavier", FullName = "Xavier Pigeolet" },
                 new Member { Pseudo = "boris", Password = "boris", FullName = "Boris Verhaegen" },
                 new Member { Pseudo = "marc", Password = "marc", FullName = "Marc Michel" }
-            );
+            );            
 
             modelBuilder.Entity<Phone>().HasData(
                 new Phone { PhoneId = 1, Type = "aaa", Number = "123", MemberPseudo = "ben" },
@@ -60,8 +60,8 @@ namespace prid2122_g03.Models
             );
 
             modelBuilder.Entity<Experience>().HasData(
-                new Experience { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Analyse", Description = "A"}, //, Enterprise = Enterprises.Find(1) },
-                new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P"} //, Enterprise = Enterprises.Find(1) }
+                new Experience { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Analyse", Description = "A"},
+                new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P"}
             );
         }
 
@@ -69,7 +69,8 @@ namespace prid2122_g03.Models
             Database.BeginTransaction();
             var ent = new Enterprise("Enterprise4");
             Enterprises.AddRange(ent);
-            var exp = new Experience(new DateTime(2017, 1, 2), new DateTime(2017, 3, 2), "Testing", "T");
+            var exp = new Experience(new DateTime(2017, 1, 2), new DateTime(2017, 3, 2), "Testing", "T", ent);
+            //Enterprise ent2 = Enterprises.SingleOrDefaultAsync(e => e.Id == 1); //Pq ne fonctionne pas ?
             Experiences.AddRange(exp);
             SaveChanges();
             Database.CommitTransaction();

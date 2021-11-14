@@ -25,12 +25,15 @@ namespace prid2122_g03.Models
         //public virtual User User { get; set; } //en attentante du user de ines
         //public virtual ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using //en attentante du skill de ines
 
-        public Experience(DateTime start, DateTime finish, string title, string description ) {
+        public Experience(DateTime start, DateTime finish, string title, string description, Enterprise enterprise):this(start, finish, title, description) {
+            Enterprise = enterprise;
+        }
+
+        public Experience(DateTime start, DateTime finish, string title, string description) {
             Start = start;
             Finish = finish;
             Title = title;
             Description = description;
-            //Enterprise = enterprise;
         }
 
         public Experience() {

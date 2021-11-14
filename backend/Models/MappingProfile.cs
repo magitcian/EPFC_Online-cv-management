@@ -30,6 +30,9 @@ namespace prid2122_g03.Models
             //ajout classes du projet prid2121-g03:
             CreateMap<Experience, ExperienceDTO>();
             CreateMap<ExperienceDTO, Experience>();
+
+            CreateMap<Enterprise, EnterpriseDTO>();
+            CreateMap<EnterpriseDTO, Enterprise>();
         }
     }
 }

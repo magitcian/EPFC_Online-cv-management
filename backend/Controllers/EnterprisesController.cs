@@ -17,7 +17,7 @@ using System.Text.Json;
 
 namespace prid2122_g03.Controllers
 {
-    [Authorize] // to protect the controller
+    //[Authorize] 
     [Route("api/[controller]")]
     [ApiController]
     public class EnterprisesController : ControllerBase
@@ -25,11 +25,6 @@ namespace prid2122_g03.Controllers
         private readonly CvContext _context;
         private readonly IMapper _mapper;
 
-        /*
-        Le contrôleur est instancié automatiquement par ASP.NET Core quand une requête HTTP est reçue.
-        Les deux paramètres du constructeur recoivent automatiquement, par injection de dépendance, 
-        une instance du context EF (MsnContext) et une instance de l'auto-mapper (IMapper).
-        */
         public EnterprisesController(CvContext context, IMapper mapper) {
             _context = context;
             _mapper = mapper;
