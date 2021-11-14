@@ -52,10 +52,33 @@ namespace prid2122_g03.Models
                 new Follow { FollowerPseudo = "bruno", FolloweePseudo = "ben" },
                 new Follow { FollowerPseudo = "bruno", FolloweePseudo = "xavier" }
             );
+
+            modelBuilder.Entity<Enterprise>().HasData(
+                new Enterprise { Id = 1, Name = "Enterprise1" },
+                new Enterprise { Id = 2, Name = "Enterprise2" },
+                new Enterprise { Id = 3, Name = "Enterprise3" }
+            );
+
+            modelBuilder.Entity<Experience>().HasData(
+                new Experience { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Analyse", Description = "A"}, //, Enterprise = Enterprises.Find(1) },
+                new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P"} //, Enterprise = Enterprises.Find(1) }
+            );
+        }
+
+        public void SeedData() {
+            Database.BeginTransaction();
+            var ent = new Enterprise("Enterprise4");
+            Enterprises.AddRange(ent);
+            var exp = new Experience(new DateTime(2017, 1, 2), new DateTime(2017, 3, 2), "Testing", "T");
+            Experiences.AddRange(exp);
+            SaveChanges();
+            Database.CommitTransaction();
         }
 
         public DbSet<Member> Members { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<Follow> Follows { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Enterprise> Enterprises { get; set; }
     }
 }

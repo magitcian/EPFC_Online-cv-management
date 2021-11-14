@@ -133,7 +133,7 @@ namespace prid2122_g03
             else
                 context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-
+            context.SeedData(); //ajout de sev
             // why ? for which purpose ?
             app.UseDefaultFiles();
 

@@ -25,6 +25,11 @@ namespace prid2122_g03.Models
 
             CreateMap<Phone, PhoneDTO>();
             CreateMap<PhoneDTO, Phone>();
+
+
+            //ajout classes du projet prid2121-g03:
+            CreateMap<Experience, ExperienceDTO>();
+            CreateMap<ExperienceDTO, Experience>();
         }
     }
 }
