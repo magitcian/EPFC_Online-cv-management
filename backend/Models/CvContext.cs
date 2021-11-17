@@ -41,6 +41,8 @@ namespace prid2122_g03.Models
                 new Member { Pseudo = "marc", Password = "marc", FullName = "Marc Michel" }
             );       
 
+            // Attention: add foreign keys in modelBuilders 
+
             // modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
 
             // modelBuilder.Entity<User>().HasData(
@@ -51,19 +53,14 @@ namespace prid2122_g03.Models
             // ); 
                
 
-            // modelBuilder.Entity<Manager>().HasIndex(m => m.Email).IsUnique();
-
-
-            // Attention: add foreign keys in modelBuilders 
+            modelBuilder.Entity<Manager>().HasIndex(m => m.Email).IsUnique();
 
             modelBuilder.Entity<Manager>().HasData(
                 new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno"},
                 new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben"}     
             );   
 
-            //Manager manager3 = new Manager { Id = 3, LastName = "aa", FirstName = "bb", Email = "ab@epfc.eu", Password = "ab"};
-
-            // modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();
+            modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();
 
             modelBuilder.Entity<Consultant>().HasData(
                 new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev"}, //, Manager = manager3},
@@ -94,7 +91,8 @@ namespace prid2122_g03.Models
                 new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P"}
             );
 
-            //modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
 
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "IT languages"},
@@ -102,6 +100,34 @@ namespace prid2122_g03.Models
                 new Category { Id = 3, Name = "Framework"},
                 new Category { Id = 4, Name = "Languages"},
                 new Category { Id = 5, Name = "Hobbies"}
+            );
+
+            modelBuilder.Entity<Skill>().HasIndex(c => c.Name).IsUnique();
+            // skills
+            modelBuilder.Entity<Skill>().HasData(
+                new Skill { Id = 1, Name = "Java", CategoryId = 1 },
+                new Skill { Id = 2, Name = "PHP", CategoryId = 1 },
+                new Skill { Id = 3, Name = "Sqlite", CategoryId = 2 },
+                new Skill { Id = 4, Name = "Entity", CategoryId = 3 },
+                new Skill { Id = 5, Name = "English", CategoryId = 4 }
+            );
+
+            // foreign key constraint 1 for Mastering
+            modelBuilder.Entity<Mastering>()
+                .HasOne(m => m.User)
+                .WithMany(u => u.MasteringSkillsLevels);    
+            
+            // foreign key constraint 2 for Mastering
+            modelBuilder.Entity<Mastering>()
+                .HasOne(m => m.Skill)
+                .WithMany(s => s.MasteringSkillsLevels);  
+
+            // masterings
+            modelBuilder.Entity<Mastering>().HasData(
+                new Mastering { Id = 1, Level = Level.Expert, UserId = 1, SkillId = 1 },
+                new Mastering { Id = 2, Level = Level.Senior, UserId = 2, SkillId = 2 },
+                new Mastering { Id = 3, Level = Level.Medior, UserId = 3, SkillId = 3 },
+                new Mastering { Id = 4, Level = Level.Junior, UserId = 4, SkillId = 4 }
             );
 
         }
@@ -116,8 +142,24 @@ namespace prid2122_g03.Models
             Experiences.AddRange(exp);
 
             // consultant & manager
-            Consultant consultant3 = new Consultant("AAA", "BBB", "ab@epfc.eu", "ab", Managers.SingleOrDefault(m => m.Id == 1)) ;
+            Consultant consultant3 = new Consultant("test", "test", "test@epfc.eu", "test", Managers.SingleOrDefault(m => m.Id == 1)) ;
             Consultants.AddRange(consultant3);
+
+            // skills
+            // Skill java = new Skill("Java", Categories.SingleOrDefault(c => c.Id == 1));
+            // Skill php = new Skill("PHP", Categories.SingleOrDefault(c => c.Id == 1));
+            // Skill sqlite = new Skill("Sqlite", Categories.SingleOrDefault(c => c.Id == 2));
+            // Skill entity = new Skill("Entity", Categories.SingleOrDefault(c => c.Id == 3));
+            // Skill english = new Skill("English", Categories.SingleOrDefault(c => c.Id == 4));
+            // Skills.AddRange(java, php, sqlite, entity, english);
+
+            // mastering Level level, User user, Skill skill
+            // Mastering brunoJava = new Mastering(Level.Expert, Users.SingleOrDefault(u => u.Id == 1), Skills.SingleOrDefault(s => s.Id == 1));
+            // Mastering benPhp = new Mastering(Level.Senior, Users.SingleOrDefault(u => u.Id == 2), Skills.SingleOrDefault(s => s.Id == 2));
+            // Mastering sevSqlite = new Mastering(Level.Medior, Users.SingleOrDefault(u => u.Id == 3), Skills.SingleOrDefault(s => s.Id == 3));
+            // Mastering inesEntity = new Mastering(Level.Junior, Users.SingleOrDefault(u => u.Id == 4), Skills.SingleOrDefault(s => s.Id == 4));
+            
+            // Masterings.AddRange(brunoJava, benPhp, sevSqlite, inesEntity);
             SaveChanges();
             Database.CommitTransaction();
         }
@@ -134,5 +176,9 @@ namespace prid2122_g03.Models
         public DbSet<User> Users { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Skill> Skills { get; set; }
+
+        public DbSet<Mastering> Masterings { get; set; }
     }
 }

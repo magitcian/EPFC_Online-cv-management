@@ -15,22 +15,40 @@ namespace prid2122_g03.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Required")]
-        [MinLength(3, ErrorMessage = "Minimum 3 characters")]
+        [Required(ErrorMessage = "Required"), MinLength(3, ErrorMessage = "Minimum 3 characters")]
         public string Name { get; set; }
 
         [Required]
         [ForeignKey(nameof(Category))]
-        public Category CategoryId { get; set; } // Category or CategoryName
+        public int CategoryId { get; set; } 
+
+        [Required]
+        public Category Category { get; set; } 
+
+        public ICollection<Mastering> MasteringSkillsLevels { get; set; } = new HashSet<Mastering>();
 
         public Skill() {
         } 
 
-        public Skill(string name) {
-            Name = name;
-        } 
+        // public Skill(string name) {
+        //     Name = name;
+        // } 
 
-        // add constructor with category ?
+        public Skill(string name, Category category) { 
+            Name = name;
+            Category = category;
+        }
+
+        public bool CheckNameUnicity(CvContext context) {
+            return context.Skills.Count(s => s.Id != Id && s.Name == Name) == 0; 
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
+            var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
+            Debug.Assert(currContext != null);
+            if (!CheckNameUnicity(currContext))
+                yield return new ValidationResult("The name of a skill must be unique", new[] { nameof(Name) });
+        }
 
 
     }
