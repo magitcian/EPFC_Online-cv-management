@@ -11,17 +11,7 @@ namespace prid2122_g03.Models
 {
     public enum Title
     {
-        SeniorManager = 0, MediorManager = 1, JuniorManager = 2, SeniorConsultant = 3, MediorConsultant = 4, JuniorConsultant = 5
-    }
-
-    // TODO ask Séverine: remove RoleUser but add Admin in Title
-    // public enum Title
-    // {
-    //     Admin = 0, SeniorManager = 1, MediorManager = 2, JuniorManager = 3, SeniorConsultant = 4, MediorConsultant = 5, JuniorConsultant = 6
-    // }
-    public enum RoleUser
-    {
-        Admin = 0, Manager = 1, Consultant = 2
+        AdminSystem = 0, SeniorManager = 1, MediorManager = 2, JuniorManager = 3, SeniorConsultant = 4, MediorConsultant = 5, JuniorConsultant = 6
     }
 
     public abstract class User : IValidatableObject
@@ -44,8 +34,6 @@ namespace prid2122_g03.Models
         public DateTime? BirthDate { get; set; }
 
         public Title Title { get; set; } = Title.JuniorConsultant;
-
-        public RoleUser RoleUser { get; set; } = RoleUser.Consultant;
 
         [NotMapped]
         public string Token { get; set; }

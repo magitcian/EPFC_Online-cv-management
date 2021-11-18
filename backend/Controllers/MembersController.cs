@@ -220,6 +220,7 @@ namespace prid2122_g03.Controllers
         [AllowAnonymous]
         [HttpPost("signup")]
         public async Task<ActionResult<MemberDTO>> SignUp(MemberWithPasswordDTO data) {
+            data.Role = Role.Member;
             return await PostMember(data);
         }
 

@@ -9,7 +9,7 @@ namespace prid2122_g03.Models
         public string FullName { get; set; }
         public DateTime? BirthDate { get; set; }
 
-        public Role Role { get; set; }
+        public Role Role { get; set; } = Role.Member;
         public string Token { get; set; }
         public ICollection<PhoneDTO> Phones { get; set; }
 
