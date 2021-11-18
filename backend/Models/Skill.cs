@@ -25,6 +25,7 @@ namespace prid2122_g03.Models
         [Required]
         public Category Category { get; set; } 
 
+        // TODO ask Sev: shall we keep the name or better to use "Masterings"
         public ICollection<Mastering> MasteringSkillsLevels { get; set; } = new HashSet<Mastering>();
 
         public Skill() {

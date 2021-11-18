@@ -112,6 +112,9 @@ namespace prid2122_g03.Models
                 new Skill { Id = 5, Name = "English", CategoryId = 4 }
             );
 
+
+            // TODO ask Sev & Bruno to improve
+            
             // foreign key constraint 1 for Mastering
             modelBuilder.Entity<Mastering>()
                 .HasOne(m => m.User)

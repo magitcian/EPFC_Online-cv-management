@@ -33,6 +33,53 @@ namespace prid2122_g03.Models
 
             CreateMap<Enterprise, EnterpriseDTO>();
             CreateMap<EnterpriseDTO, Enterprise>();
+
+            CreateMap<User, UserDTO>();
+            CreateMap<UserDTO, User>();
+
+            CreateMap<User, UserWithPasswordDTO>();
+            CreateMap<UserWithPasswordDTO, User>();
+
+            CreateMap<User, UserWithExperiencesDTO>();
+            CreateMap<UserWithExperiencesDTO, User>();
+
+            CreateMap<User, UserWithMasteringsDTO>();
+            CreateMap<UserWithMasteringsDTO, User>();
+
+            CreateMap<User, UserWithExperiencesWithMasteringsDTO>();
+            CreateMap<UserWithExperiencesWithMasteringsDTO, User>();
+
+            // CreateMap<Consultant, ConsultantDTO>();
+            // CreateMap<ConsultantDTO, Consultant>();
+
+            // CreateMap<Manager, ManagerDTO>();
+            // CreateMap<ManagerDTO, Manager>();
+
+            CreateMap<Manager, ManagerWithConsultantsDTO>();
+            CreateMap<ManagerWithConsultantsDTO, Manager>();
+
+            CreateMap<Manager, ManagerWithExperiencesWithMasteringsWithConsultantsDTO>();
+            CreateMap<ManagerWithExperiencesWithMasteringsWithConsultantsDTO, Manager>();
+
+
+            CreateMap<Mastering, MasteringDTO>();
+            CreateMap<MasteringDTO, Mastering>();
+
+
+            CreateMap<Skill, SkillDTO>();
+            CreateMap<SkillDTO, Skill>();
+
+            CreateMap<Skill, SkillWithMasteringsDTO>();
+            CreateMap<SkillWithMasteringsDTO, Skill>();
+
+
+            CreateMap<Category, CategoryDTO>();
+            CreateMap<CategoryDTO, Category>();
+
+            CreateMap<Category, CategoryWithSkillsDTO>();
+            CreateMap<CategoryWithSkillsDTO, Category>();
+
+
         }
     }
 }
