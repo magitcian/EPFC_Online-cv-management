@@ -210,6 +210,18 @@ namespace prid2122_g03.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
+        [HttpGet("available/{pseudo}")]
+        public async Task<ActionResult<bool>> IsAvailable(string pseudo) {
+            return await _context.Members.FindAsync(pseudo) == null;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("signup")]
+        public async Task<ActionResult<MemberDTO>> SignUp(MemberWithPasswordDTO data) {
+            return await PostMember(data);
+        }
+
 
     }
 }

@@ -11,6 +11,7 @@ import { AuthGuard } from '../services/auth.guard';
 import { Role } from '../models/member';
 import { CounterParentComponent } from '../components/counter-stateless/counter-parent.component';
 import { RelationshipsComponent } from '../components/relationships/relationships.component';
+import { SignUpComponent } from '../components/signup/signup.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+  { path: 'signup', component: SignUpComponent },
   { path: 'restricted', component: RestrictedComponent },
   { path: '**', component: UnknownComponent }
 ];

@@ -23,6 +23,7 @@ import { SharedModule } from './shared.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { RelationshipsComponent } from '../components/relationships/relationships.component';
+import { SignUpComponent } from '../components/signup/signup.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -44,7 +45,8 @@ export function getBaseUrl() {
         RestrictedComponent,
         SetFocusDirective,
         EditMemberComponent,
-        RelationshipsComponent
+        RelationshipsComponent,
+        SignUpComponent
     ],
     entryComponents: [
         EditMemberComponent
