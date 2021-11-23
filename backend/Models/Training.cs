@@ -11,7 +11,7 @@ namespace prid2122_g03.Models
 
         public enum Grade
     {
-        Senior = 0, MidLevel = 1, Junior = 2
+        Senior = 0, Expert = 1, Junior = 2
     }
 
     public class Training : Experience //: IValidatableObject

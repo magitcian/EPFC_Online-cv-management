@@ -11,7 +11,13 @@ namespace prid2122_g03.Models
 
     public class Mission : Experience//: IValidatableObject
     {
-        public virtual Enterprise Client { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Enterprise))]
+        public int ClientId { get; set; } 
+        [Required]
+        public Enterprise Client { get; set; } 
+        
         public Mission(DateTime start, DateTime finish, string title, string description) : base(start, finish, title, description) {
 
         }

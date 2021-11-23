@@ -39,7 +39,7 @@ namespace prid2122_g03.Models
                 new Member { Pseudo = "xavier", Password = "xavier", FullName = "Xavier Pigeolet" },
                 new Member { Pseudo = "boris", Password = "boris", FullName = "Boris Verhaegen" },
                 new Member { Pseudo = "marc", Password = "marc", FullName = "Marc Michel" }
-            );       
+            );
 
             // Attention: add foreign keys in modelBuilders 
 
@@ -51,21 +51,21 @@ namespace prid2122_g03.Models
             //     new Manager { Id = 3, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno"},
             //     new Manager { Id = 4, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben"}        
             // ); 
-               
+
 
             modelBuilder.Entity<Manager>().HasIndex(m => m.Email).IsUnique();
 
             modelBuilder.Entity<Manager>().HasData(
-                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno"},
-                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben"}     
-            );   
+                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno" },
+                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben" }
+            );
 
             modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();
 
             modelBuilder.Entity<Consultant>().HasData(
-                new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev"}, //, Manager = manager3},
-                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines"}     
-            );   
+                new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev" }, //, Manager = manager3},
+                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines" }
+            );
 
             modelBuilder.Entity<Phone>().HasData(
                 new Phone { PhoneId = 1, Type = "aaa", Number = "123", MemberPseudo = "ben" },
@@ -87,19 +87,25 @@ namespace prid2122_g03.Models
             );
 
             modelBuilder.Entity<Experience>().HasData(
-                new Experience { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Analyse", Description = "A"},
-                new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P"}
+                new Experience { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Analyse", Description = "A", EnterpriseId = 1, UserId = 4 },
+                new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P", EnterpriseId = 1, UserId = 3 },
+                new Experience { Id = 3, Start = new DateTime(2017, 1, 2), Finish = new DateTime(2017, 3, 2), Title = "Testing", Description = "T", EnterpriseId = 2, UserId = 4 }
+            );
+
+            modelBuilder.Entity<Mission>().HasData(
+                new Mission { Id = 4, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission1", Description = "M1", EnterpriseId = 1, UserId = 4, ClientId = 2 },
+                new Mission { Id = 5, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission2", Description = "M2", EnterpriseId = 1, UserId = 4, ClientId = 3 }
             );
 
 
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
 
             modelBuilder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "IT languages"},
-                new Category { Id = 2, Name = "Database"},
-                new Category { Id = 3, Name = "Framework"},
-                new Category { Id = 4, Name = "Languages"},
-                new Category { Id = 5, Name = "Hobbies"}
+                new Category { Id = 1, Name = "IT languages" },
+                new Category { Id = 2, Name = "Database" },
+                new Category { Id = 3, Name = "Framework" },
+                new Category { Id = 4, Name = "Languages" },
+                new Category { Id = 5, Name = "Hobbies" }
             );
 
             modelBuilder.Entity<Skill>().HasIndex(c => c.Name).IsUnique();
@@ -114,16 +120,16 @@ namespace prid2122_g03.Models
 
 
             // TODO ask Sev & Bruno to improve
-            
+
             // foreign key constraint 1 for Mastering
             modelBuilder.Entity<Mastering>()
                 .HasOne(m => m.User)
-                .WithMany(u => u.MasteringSkillsLevels);    
-            
+                .WithMany(u => u.MasteringSkillsLevels);
+
             // foreign key constraint 2 for Mastering
             modelBuilder.Entity<Mastering>()
                 .HasOne(m => m.Skill)
-                .WithMany(s => s.MasteringSkillsLevels);  
+                .WithMany(s => s.MasteringSkillsLevels);
 
             // masterings
             modelBuilder.Entity<Mastering>().HasData(
@@ -136,17 +142,17 @@ namespace prid2122_g03.Models
         }
 
         public void SeedData() {
-            Database.BeginTransaction();
-            // etp & exp
-            var ent = new Enterprise("Enterprise4");
-            Enterprises.AddRange(ent);
-            var exp = new Experience(new DateTime(2017, 1, 2), new DateTime(2017, 3, 2), "Testing", "T", ent);
-            //Enterprise ent2 = Enterprises.SingleOrDefaultAsync(e => e.Id == 1); //Pq ne fonctionne pas ?
-            Experiences.AddRange(exp);
+            // Database.BeginTransaction();
+            // // etp & exp
+            // var ent = new Enterprise("Enterprise4");
+            // Enterprises.AddRange(ent);
+            // var exp = new Experience(new DateTime(2017, 1, 2), new DateTime(2017, 3, 2), "Testing", "T", ent);
+            // //Enterprise ent2 = Enterprises.SingleOrDefaultAsync(e => e.Id == 1); //Pq ne fonctionne pas ?
+            // Experiences.AddRange(exp);
 
-            // consultant & manager
-            Consultant consultant3 = new Consultant("test", "test", "test@epfc.eu", "test", Managers.SingleOrDefault(m => m.Id == 1)) ;
-            Consultants.AddRange(consultant3);
+            // // consultant & manager
+            // Consultant consultant3 = new Consultant("test", "test", "test@epfc.eu", "test", Managers.SingleOrDefault(m => m.Id == 1)) ;
+            // Consultants.AddRange(consultant3);
 
             // skills
             // Skill java = new Skill("Java", Categories.SingleOrDefault(c => c.Id == 1));
@@ -161,16 +167,17 @@ namespace prid2122_g03.Models
             // Mastering benPhp = new Mastering(Level.Senior, Users.SingleOrDefault(u => u.Id == 2), Skills.SingleOrDefault(s => s.Id == 2));
             // Mastering sevSqlite = new Mastering(Level.Medior, Users.SingleOrDefault(u => u.Id == 3), Skills.SingleOrDefault(s => s.Id == 3));
             // Mastering inesEntity = new Mastering(Level.Junior, Users.SingleOrDefault(u => u.Id == 4), Skills.SingleOrDefault(s => s.Id == 4));
-            
+
             // Masterings.AddRange(brunoJava, benPhp, sevSqlite, inesEntity);
-            SaveChanges();
-            Database.CommitTransaction();
+            // SaveChanges();
+            // Database.CommitTransaction();
         }
 
         public DbSet<Member> Members { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Mission> Missions { get; set; }
         public DbSet<Enterprise> Enterprises { get; set; }
 
         public DbSet<Consultant> Consultants { get; set; }

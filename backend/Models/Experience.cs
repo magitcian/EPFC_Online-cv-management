@@ -20,10 +20,20 @@ namespace prid2122_g03.Models
         public string Title { get; set; }
 
         public string Description { get; set; }
-        //[ForeignKey(nameof(Enterprise))]
-        public virtual Enterprise Enterprise { get; set; }
-        //public virtual User User { get; set; } //en attentante du user de ines
-        //public virtual ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using //en attentante du skill de ines
+
+        [Required]
+        [ForeignKey(nameof(Enterprise))]
+        public int EnterpriseId { get; set; } 
+        [Required]
+        public Enterprise Enterprise { get; set; } 
+
+        [Required]
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; } 
+        [Required]
+        public User User { get; set; } 
+
+        public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using //en attentante du skill de ines
 
         public Experience(DateTime start, DateTime finish, string title, string description, Enterprise enterprise):this(start, finish, title, description) {
             Enterprise = enterprise;

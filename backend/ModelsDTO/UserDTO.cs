@@ -24,7 +24,7 @@ namespace prid2122_g03.Models
 
     public class UserWithExperiencesDTO : UserDTO
     {
-        public ICollection<Experience> Experiences { get; set; }
+        public ICollection<ExperienceDTO> Experiences { get; set; }
         
     }
 
