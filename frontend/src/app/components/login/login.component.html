@@ -1,9 +1,10 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <h1>Login</h1>
     <mat-form-field>
-        <input #pseudo matInput placeholder="Pseudo" [formControl]="ctlPseudo" required appSetFocus>
-        <mat-error class="field-error" *ngIf="ctlPseudo.hasError('required')">Required</mat-error>
-        <mat-error class="field-error" *ngIf="ctlPseudo.hasError('custom')">{{ctlPseudo.errors?.custom}}</mat-error>
+        <input #pseudo matInput placeholder="Email" [formControl]="ctlEmail" required appSetFocus>
+        <mat-error class="field-error" *ngIf="ctlEmail.hasError('required')">Required</mat-error>
+        <!-- TODO: add validation for email address format if we have time at the end -->
+        <mat-error class="field-error" *ngIf="ctlEmail.hasError('custom')">{{ctlEmail.errors?.custom}}</mat-error>
     </mat-form-field>
     <mat-form-field>
         <input matInput type="password" placeholder="Password" [formControl]="ctlPassword" required>

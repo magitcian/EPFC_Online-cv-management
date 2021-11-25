@@ -5,6 +5,9 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
+// using System.Text;
+// using System.Threading.Tasks;
+// using PRID_Framework;
 
 
 namespace prid2122_g03.Models
@@ -61,10 +64,10 @@ namespace prid2122_g03.Models
         //     BirthDate = birthDate;
         // } 
 
-        // public User(string lastName, string firstName, string email, string password, DateTime birthDate, Title title) 
-        //             : this(lastName, firstName, email, password, birthDate) {
-        //     title = Title;
-        // } 
+        public User(string lastName, string firstName, string email, string password, Title title) 
+                    : this(lastName, firstName, email, password) {
+            title = Title;
+        } 
 
         public int? Age {
             get {
@@ -99,6 +102,10 @@ namespace prid2122_g03.Models
                 yield return new ValidationResult("Can't be born in the future in this reality", new[] { nameof(BirthDate) });
             else if (Age.HasValue && Age < 18)
                 yield return new ValidationResult("Must be 18 years old", new[] { nameof(BirthDate) });
+        }
+
+        public static User GetByEmail(CvContext context, string email) {
+            return context.Users.SingleOrDefault(u => u.Email == email);
         }
 
     }

@@ -56,8 +56,9 @@ namespace prid2122_g03.Models
             modelBuilder.Entity<Manager>().HasIndex(m => m.Email).IsUnique();
 
             modelBuilder.Entity<Manager>().HasData(
-                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno"},
-                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben"}     
+                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno", Title = Title.SeniorManager},
+                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben", Title = Title.SeniorManager},
+                new Manager { Id = 5, LastName = "Sytem", FirstName = "Admin", Email = "as@epfc.eu", Password = "admin", Title = Title.AdminSystem}    
             );   
 
             modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();

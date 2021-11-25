@@ -1,16 +1,15 @@
 import { Routes, RouterModule } from '@angular/router';
-
 import { HomeComponent } from '../components/home/home.component';
 import { CounterComponent } from '../components/counter/counter.component';
 import { FetchDataComponent } from '../components/fetch-data/fetch-data.component';
-import { MemberListComponent } from '../components/memberlist/memberlist.component';
+import { UserListComponent } from '../components/userlist/userlist.component';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
 import { LoginComponent } from '../components/login/login.component';
 import { UnknownComponent } from '../components/unknown/unknown.component';
 import { AuthGuard } from '../services/auth.guard';
-import { Role } from '../models/member';
+import { Title } from '../models/user';
 import { CounterParentComponent } from '../components/counter-stateless/counter-parent.component';
-import { RelationshipsComponent } from '../components/relationships/relationships.component';
+// import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
 
 const appRoutes: Routes = [
@@ -21,16 +20,16 @@ const appRoutes: Routes = [
   // { path: 'members', component: MemberListComponent },
   // { path: '**', redirectTo: '' }
   {
-    path: 'members',
-    component: MemberListComponent,
+    path: 'users',
+    component: UserListComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.Admin] }
+    data: { roles: [Title.AdminSystem] }
   }, 
-  {
-    path: 'friends',
-    component: RelationshipsComponent,
-    canActivate: [AuthGuard]
-  },
+  // {
+  //   path: 'friends',
+  //   component: RelationshipsComponent,
+  //   canActivate: [AuthGuard]
+  // },
   {
     path: 'login',
     component: LoginComponent

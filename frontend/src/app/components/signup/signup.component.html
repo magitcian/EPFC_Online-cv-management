@@ -1,11 +1,21 @@
 <form [formGroup]="frm" novalidate>
     <h1>Sign Up</h1>
     <mat-form-field>
-        <input matInput placeholder="Pseudo" [formControl]="ctlPseudo" required appSetFocus>
-        <mat-error class="float-right" *ngIf="ctlPseudo.hasError('required')">Required</mat-error>
-        <mat-error class="float-right" *ngIf="ctlPseudo.hasError('minlength')">Minimum length is {{ctlPseudo.errors?.minlength?.requiredLength}}
+        <input matInput placeholder="Last name" [formControl]="ctlLastName" >
+        <mat-error class="float-right" *ngIf="ctlLastName.hasError('minlength')">Minimum length is {{ctlLastName.errors?.minlength?.requiredLength}}
         </mat-error>
-        <mat-error class="float-right" *ngIf="ctlPseudo.hasError('pseudoUsed')">This pseudo is not available</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="First name" [formControl]="ctlFirstName" >
+        <mat-error class="float-right" *ngIf="ctlFirstName.hasError('minlength')">Minimum length is {{ctlFirstName.errors?.minlength?.requiredLength}}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Email" [formControl]="ctlEmail" required appSetFocus>
+        <mat-error class="float-right" *ngIf="ctlEmail.hasError('required')">Required</mat-error>
+        <mat-error class="float-right" *ngIf="ctlEmail.hasError('minlength')">Minimum length is {{ctlEmail.errors?.minlength?.requiredLength}}
+        </mat-error>
+        <mat-error class="float-right" *ngIf="ctlEmail.hasError('emailUsed')">This email address is not available</mat-error>
     </mat-form-field>
     <mat-form-field>
         <input type="password" matInput placeholder="Password" [formControl]="ctlPassword" required autocomplete="new-password">

@@ -20,7 +20,7 @@ namespace prid2122_g03.Models
             Manager = manager;
         } 
 
-        // add method to add a manager
+        // add method to add a manager => maybe better to add this in Manager class
 
     }
 
