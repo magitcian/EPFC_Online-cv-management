@@ -33,7 +33,7 @@ namespace prid2122_g03.Models
         [Required]
         public User User { get; set; } 
 
-        public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using //en attentante du skill de ines
+        public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using 
 
         public Experience(DateTime start, DateTime finish, string title, string description, Enterprise enterprise):this(start, finish, title, description) {
             Enterprise = enterprise;

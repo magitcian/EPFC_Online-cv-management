@@ -46,7 +46,6 @@ namespace prid2122_g03.Models
 
         public ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>();
 
-
         public User() {
         } 
  

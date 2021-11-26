@@ -30,13 +30,13 @@ namespace prid2122_g03.Models
 
     public class UserWithMasteringsDTO : UserDTO
     {
-        public ICollection<Mastering> MasteringSkillsLevels { get; set; } // TODO ask Sev
+        public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; } // TODO ask Sev
         
     }
 
     public class UserWithExperiencesWithMasteringsDTO : UserWithExperiencesDTO
     {
-        public ICollection<Mastering> MasteringSkillsLevels { get; set; } // TODO ask Sev
+        public ICollection<MasteringWithSkillDTO> MasteringSkillsLevels { get; set; } // TODO ask Sev
     }
 
 }

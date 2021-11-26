@@ -28,8 +28,13 @@ namespace prid2122_g03.Models
 
 
             //ajout classes du projet prid2121-g03:
+            CreateMap<Mission, MissionDTO>();
+            CreateMap<MissionDTO, Mission>();
+
             CreateMap<Experience, ExperienceDTO>();
             CreateMap<ExperienceDTO, Experience>();
+
+
 
             CreateMap<Enterprise, EnterpriseDTO>();
             CreateMap<EnterpriseDTO, Enterprise>();
@@ -71,6 +76,8 @@ namespace prid2122_g03.Models
             CreateMap<Mastering, MasteringDTO>();
             CreateMap<MasteringDTO, Mastering>();
 
+            CreateMap<Mastering, MasteringWithSkillDTO>();
+            CreateMap<MasteringWithSkillDTO, Mastering>();
 
             CreateMap<Skill, SkillDTO>();
             CreateMap<SkillDTO, Skill>();
@@ -78,6 +85,8 @@ namespace prid2122_g03.Models
             CreateMap<Skill, SkillWithMasteringsDTO>();
             CreateMap<SkillWithMasteringsDTO, Skill>();
 
+            CreateMap<Skill, SkillWithCategoryDTO>();
+            CreateMap<SkillWithCategoryDTO, Skill>();
 
             CreateMap<Category, CategoryDTO>();
             CreateMap<CategoryDTO, Category>();

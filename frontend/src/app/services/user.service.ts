@@ -59,6 +59,14 @@ export class UserService {
         );
     }
 
+    getCV(userID: number) : Observable<User> {
+        // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
+        return this.http.get<User>(`${this.baseUrl}api/users/cv/${userID}`).pipe(
+            map(u => plainToClass(User, u))
+            //,catchError(err => of(null))
+        );
+    }
+
     // public getMembersWithRelationship(pseudo: string): Observable<Friend[]> {
     //     return this.http.get<any[]>(`${this.baseUrl}api/members/rels/${pseudo}`).pipe(
     //         map(res => plainToClass(Friend, res)),

@@ -39,7 +39,7 @@ namespace prid2122_g03.Controllers
 
         //[Authorized(Role.Admin)]
         [HttpGet("cv/{userID}")]
-        public async Task<ActionResult<UserWithExperiencesDTO>> GetCV(int userID) {
+        public async Task<ActionResult<UserWithExperiencesWithMasteringsDTO>> GetCV(int userID) {
             // User user = null;
             // if (Int32.TryParse(userID, out int id)) {
             //     user = await _context.Users
@@ -48,12 +48,27 @@ namespace prid2122_g03.Controllers
             //                     .SingleAsync(u => u.Id == id);
             // }
             var user = await _context.Users
-                            .Include(u => u.Experiences)
+                            .Include(u => u.Experiences )
                             .ThenInclude(exp => exp.Enterprise)
+
+                            .Include(u => u.MasteringSkillsLevels )
+                            .ThenInclude(mast => mast.Skill)
+                            .ThenInclude(Skill => Skill.Category)
+
+                            //questions: 
+                                //comment gérer l'héritage? (voir ci-dessous, ne fonctionne pas)
+                           
+                            // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Experience) || e.GetType().BaseType == typeof(Experience)) )
+                            // .ThenInclude(exp => exp.Enterprise )    
+                            
+                            // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Mission)))
+                            // .ThenInclude(exp => ((Mission)exp).Client )
+                            // .ThenInclude(exp => ((Mission)exp).Enterprise )
+
                             .SingleAsync(u => u.Id == userID);
             if (user == null)
                 return NotFound();
-            return _mapper.Map<UserWithExperiencesDTO>(user);
+            return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
         }
 
 

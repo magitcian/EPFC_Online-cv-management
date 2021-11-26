@@ -14,7 +14,12 @@ namespace prid2122_g03.Models
 
     public class SkillWithMasteringsDTO : SkillDTO
     {
-        public ICollection<Mastering> MasteringSkillsLevels { get; set; } // TODO ask Sev
+        public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; } // TODO ask Sev
+    }
+
+    public class SkillWithCategoryDTO : SkillDTO
+    {
+        public CategoryDTO Category { get; set; }
     }
 
 
