@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap } from 'rxjs/operators';
-import { Member } from '../models/member';
+import { User } from '../models/user';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
 
@@ -9,20 +9,20 @@ import { Observable } from 'rxjs';
 export class AuthenticationService {
 
     // l'utilisateur couramment connecté (undefined sinon)
-    public currentUser?: Member;
+    public currentUser?: User;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         // au départ on récupère un éventuel utilisateur stocké dans le sessionStorage
         let data = sessionStorage.getItem('currentUser');
         if (data)
             data = JSON.parse(data);
-        this.currentUser = plainToClass(Member, data);
+        this.currentUser = plainToClass(User, data);
     }
 
-    login(pseudo: string, password: string) {
-        return this.http.post<any>(`${this.baseUrl}api/members/authenticate`, { pseudo, password })
+    login(email: string, password: string) {
+        return this.http.post<any>(`${this.baseUrl}api/users/authenticate`, { email, password })
             .pipe(map(user => {
-                user = plainToClass(Member, user);
+                user = plainToClass(User, user);
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -40,13 +40,13 @@ export class AuthenticationService {
         this.currentUser = undefined;
     }
 
-    public isPseudoAvailable(pseudo: string): Observable<boolean> {
-        return this.http.get<boolean>(`${this.baseUrl}api/members/available/${pseudo}`);
+    public isEmailAvailable(email: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.baseUrl}api/users/available/${email}`);
     }
 
-    public signup(pseudo: string, password: string): Observable<Member> {
-        return this.http.post<Member>(`${this.baseUrl}api/members/signup`, { pseudo: pseudo, password: password }).pipe(
-            mergeMap(res => this.login(pseudo, password)),
+    public signup(email: string, password: string): Observable<User> {
+        return this.http.post<User>(`${this.baseUrl}api/users/signup`, { email: email, password: password }).pipe(
+            mergeMap(res => this.login(email, password)),
         );
     }
 }

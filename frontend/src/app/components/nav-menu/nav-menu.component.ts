@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Member, Role } from '../../models/member';
+import { User, Title } from '../../models/user';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 
@@ -29,7 +29,7 @@ export class NavMenuComponent {
     }
 
     get isAdmin() {
-        return this.currentUser && this.currentUser.role === Role.Admin;
+        return this.currentUser && this.currentUser.title === Title.AdminSystem;
     }
 
     logout() {

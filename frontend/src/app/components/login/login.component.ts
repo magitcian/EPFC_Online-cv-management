@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
     submitted = false;  // retient si le formulaire a été soumis ; utilisé pour n'afficher les 
     // erreurs que dans ce cas-là (voir template)
     returnUrl!: string;
-    ctlPseudo!: FormControl;
+    ctlEmail!: FormControl;
     ctlPassword!: FormControl;
 
     constructor(
@@ -38,10 +38,10 @@ export class LoginComponent implements OnInit {
          * qui identifie une valeur non valide va enregistrer une erreur dans la propriété
          * 'errors' du FormControl. Ces erreurs sont accessibles par le template grâce au binding.
          */
-        this.ctlPseudo = this.formBuilder.control('', Validators.required);
+        this.ctlEmail = this.formBuilder.control('', Validators.required);
         this.ctlPassword = this.formBuilder.control('', Validators.required);
         this.loginForm = this.formBuilder.group({
-            pseudo: this.ctlPseudo,
+            email: this.ctlEmail,
             password: this.ctlPassword
         });
 
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
         if (this.loginForm.invalid) return;
 
         this.loading = true;
-        this.authenticationService.login(this.f.pseudo.value, this.f.password.value)
+        this.authenticationService.login(this.f.email.value, this.f.password.value)
             .subscribe(
                 // si login est ok, on navigue vers la page demandée
                 data => {

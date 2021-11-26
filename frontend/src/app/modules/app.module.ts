@@ -11,18 +11,18 @@ import { CounterComponent } from '../components/counter/counter.component';
 import { CounterStatelessComponent } from '../components/counter-stateless/counter-stateless.component';
 import { CounterParentComponent } from '../components/counter-stateless/counter-parent.component';
 import { FetchDataComponent } from '../components/fetch-data/fetch-data.component';
-import { MemberListComponent } from '../components/memberlist/memberlist.component';
+import { UserListComponent } from '../components/userlist/userlist.component';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
 import { UnknownComponent } from '../components/unknown/unknown.component';
 import { JwtInterceptor } from '../interceptors/jwt.interceptor';
 import { LoginComponent } from '../components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SetFocusDirective } from '../directives/setfocus.directive';
-import { EditMemberComponent } from '../components/edit-member/edit-member.component';
+import { EditUserComponent } from '../components/edit-user/edit-user.component';
 import { SharedModule } from './shared.module';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { RelationshipsComponent } from '../components/relationships/relationships.component';
+// import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
 
 export function getBaseUrl() {
@@ -39,17 +39,17 @@ export function getBaseUrl() {
         CounterParentComponent,
         FetchDataComponent,
         // add new component
-        MemberListComponent,
+        UserListComponent,
         LoginComponent,
         UnknownComponent,
         RestrictedComponent,
         SetFocusDirective,
-        EditMemberComponent,
-        RelationshipsComponent,
+        EditUserComponent,
+        // RelationshipsComponent,
         SignUpComponent
     ],
     entryComponents: [
-        EditMemberComponent
+        EditUserComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

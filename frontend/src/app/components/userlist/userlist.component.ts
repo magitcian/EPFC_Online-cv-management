@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import * as _ from 'lodash-es';
-import { Member } from '../../models/member';
-import { MemberService } from '../../services/member.service';
-import { EditMemberComponent } from '../edit-member/edit-member.component';
+import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
+import { EditUserComponent } from '../edit-user/edit-user.component';
 import { StateService } from 'src/app/services/state.service';
 import { MatTableState } from 'src/app/helpers/mattable.state';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,14 +13,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { plainToClass } from 'class-transformer';
 
 @Component({
-    selector: 'app-memberlist', // sélecteur utilisé pour un sous-composant
-    templateUrl: './memberlist.component.html',
-    styleUrls: ['./memberlist.component.css']
+    selector: 'app-userlist', // sélecteur utilisé pour un sous-composant
+    templateUrl: './userlist.component.html',
+    styleUrls: ['./userlist.component.css']
 })
 
-export class MemberListComponent implements AfterViewInit, OnDestroy {
-    displayedColumns: string[] = ['pseudo', 'fullName', 'birthDate', 'role', 'actions'];
-    dataSource: MatTableDataSource<Member> = new MatTableDataSource();
+export class UserListComponent implements AfterViewInit, OnDestroy {
+    displayedColumns: string[] = ['lastName', 'firstName', 'email', 'birthDate', 'title', 'actions'];
+    dataSource: MatTableDataSource<User> = new MatTableDataSource();
     filter: string = '';
     state: MatTableState;
 
@@ -28,7 +28,7 @@ export class MemberListComponent implements AfterViewInit, OnDestroy {
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(
-        private memberService: MemberService,
+        private userService: UserService,
         private stateService: StateService,
         public dialog: MatDialog,
         public snackBar: MatSnackBar
@@ -41,8 +41,8 @@ export class MemberListComponent implements AfterViewInit, OnDestroy {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         // définit le predicat qui doit être utilisé pour filtrer les membres
-        this.dataSource.filterPredicate = (data: Member, filter: string) => {
-            const str = data.pseudo + ' ' + data.fullName + ' ' + data.birthDate?.format('DD/MM/YYYY') + ' ' + data.roleAsString;
+        this.dataSource.filterPredicate = (data: User, filter: string) => {
+            const str = data.lastName + ' ' + data.firstName + ' ' + data.email + ' ' + data.birthDate?.format('DD/MM/YYYY') + ' ' + data.titleAsString;
             return str.toLowerCase().includes(filter);
         };
         // établit les liens entre le data source et l'état de telle sorte que chaque fois que 
@@ -53,9 +53,9 @@ export class MemberListComponent implements AfterViewInit, OnDestroy {
     }
 
     refresh() {
-        this.memberService.getAll().subscribe(members => {
+        this.userService.getAll().subscribe(users => {
             // assigne les données récupérées au datasource
-            this.dataSource.data = members;
+            this.dataSource.data = users;
             // restaure l'état du datasource (tri et pagination) à partir du state
             this.state.restoreState(this.dataSource);
             // restaure l'état du filtre à partir du state
@@ -77,13 +77,13 @@ export class MemberListComponent implements AfterViewInit, OnDestroy {
     }
 
     // appelée quand on clique sur le bouton "edit" d'un membre
-    edit(member: Member) {
-        const dlg = this.dialog.open(EditMemberComponent, { data: { member, isNew: false } });
+    edit(user: User) {
+        const dlg = this.dialog.open(EditUserComponent, { data: { user, isNew: false } });
         dlg.beforeClosed().subscribe(res => {
             if (res) {
-                _.assign(member, res);
-                res = plainToClass(Member, res);
-                this.memberService.update(res).subscribe(res => {
+                _.assign(user, res);
+                res = plainToClass(User, res);
+                this.userService.update(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
                         this.refresh();
@@ -94,29 +94,29 @@ export class MemberListComponent implements AfterViewInit, OnDestroy {
     }
 
     // appelée quand on clique sur le bouton "delete" d'un membre
-    delete(member: Member) {
+    delete(user: User) {
         const backup = this.dataSource.data;
-        this.dataSource.data = _.filter(this.dataSource.data, m => m.pseudo !== member.pseudo);
-        const snackBarRef = this.snackBar.open(`Member '${member.pseudo}' will be deleted`, 'Undo', { duration: 10000 });
+        this.dataSource.data = _.filter(this.dataSource.data, u => u.email !== user.email);
+        const snackBarRef = this.snackBar.open(`User '${user.email}' will be deleted`, 'Undo', { duration: 10000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction)
-                this.memberService.delete(member).subscribe();
+                this.userService.delete(user).subscribe();
             else
                 this.dataSource.data = backup;
         });
     }
 
-    // appelée quand on clique sur le bouton "new member"
+    // appelée quand on clique sur le bouton "new user"
     create() {
-        const member = new Member();
-        const dlg = this.dialog.open(EditMemberComponent, { data: { member, isNew: true } });
+        const user = new User();
+        const dlg = this.dialog.open(EditUserComponent, { data: { user, isNew: true } });
         dlg.beforeClosed().subscribe(res => {
             if (res) {
-                res = plainToClass(Member, res);
+                res = plainToClass(User, res);
                 this.dataSource.data = [...this.dataSource.data, res];
-                this.memberService.add(res).subscribe(res => {
+                this.userService.add(res).subscribe(res => {
                     if (!res) {
-                        this.snackBar.open(`There was an error at the server. The member has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
+                        this.snackBar.open(`There was an error at the server. The user has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
                         this.refresh();
                     }
                 });

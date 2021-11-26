@@ -34,6 +34,12 @@ namespace prid2122_g03.Models
             CreateMap<Enterprise, EnterpriseDTO>();
             CreateMap<EnterpriseDTO, Enterprise>();
 
+            CreateMap<Consultant, UserDTO>();
+            CreateMap<UserDTO, Consultant>();
+
+            CreateMap<Consultant, UserWithPasswordDTO>();
+            CreateMap<UserWithPasswordDTO, Consultant>();
+
             CreateMap<User, UserDTO>();
             CreateMap<UserDTO, User>();
 
