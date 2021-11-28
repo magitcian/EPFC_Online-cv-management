@@ -25,6 +25,7 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 // import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
 import { ExperiencesViewComponent } from '../components/experiences-view/experiences-view.component';
+import { CvViewComponent } from '../components/cv-view/cv-view.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -49,6 +50,7 @@ export function getBaseUrl() {
         // RelationshipsComponent,
         SignUpComponent
         ,ExperiencesViewComponent
+        ,CvViewComponent
     ],
     entryComponents: [
         EditUserComponent

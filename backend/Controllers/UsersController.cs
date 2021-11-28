@@ -55,7 +55,7 @@ namespace prid2122_g03.Controllers
                             .ThenInclude(mast => mast.Skill)
                             .ThenInclude(Skill => Skill.Category)
 
-                            //questions: 
+                            //TODO questions: 
                                 //comment gérer l'héritage? (voir ci-dessous, ne fonctionne pas)
                            
                             // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Experience) || e.GetType().BaseType == typeof(Experience)) )

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Input, Output } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UserService } from '../../services/user.service';
 import { StateService } from 'src/app/services/state.service';
@@ -19,6 +19,7 @@ import { User } from 'src/app/models/user';
 })
 
 export class ExperiencesViewComponent implements AfterViewInit, OnDestroy {
+    @Input() experiences!: Experience[];
     displayedColumns: string[] = ['title', 'description', 'enterprise'];
     dataSource: MatTableDataSource<Experience> = new MatTableDataSource();
     filter: string = '';
@@ -34,6 +35,13 @@ export class ExperiencesViewComponent implements AfterViewInit, OnDestroy {
         public snackBar: MatSnackBar
     ) {
         this.state = this.stateService.userListState;
+
+    }
+
+    
+    test() {
+       console.log("test");
+       this.refresh();
     }
 
     ngAfterViewInit(): void {
@@ -53,15 +61,17 @@ export class ExperiencesViewComponent implements AfterViewInit, OnDestroy {
     }
 
     refresh() {
-
-        this.userService.getCV(4).subscribe(user => {
-            // assigne les données récupérées au datasource
-            this.dataSource.data = user?.experiences;
-            // restaure l'état du datasource (tri et pagination) à partir du state
-            this.state.restoreState(this.dataSource);
-            // restaure l'état du filtre à partir du state
-            this.filter = this.state.filter;
-        });
+        this.dataSource.data = this.experiences;
+        this.state.restoreState(this.dataSource);
+        this.filter = this.state.filter;
+        // this.userService.getCV(4).subscribe(user => {
+        //     // assigne les données récupérées au datasource
+        //     this.dataSource.data = user?.experiences;
+        //     // restaure l'état du datasource (tri et pagination) à partir du state
+        //     this.state.restoreState(this.dataSource);
+        //     // restaure l'état du filtre à partir du state
+        //     this.filter = this.state.filter;
+        // });
     }
 
     // appelée chaque fois que le filtre est modifié par l'utilisateur

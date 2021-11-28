@@ -12,6 +12,7 @@ import { CounterParentComponent } from '../components/counter-stateless/counter-
 // import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
 import { ExperiencesViewComponent } from '../components/experiences-view/experiences-view.component';
+import { CvViewComponent } from '../components/cv-view/cv-view.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
   },
   { path: 'signup', component: SignUpComponent },
   { path: 'experiences-view', component: ExperiencesViewComponent },
+  { path: 'cv-view', component: CvViewComponent },
   { path: 'restricted', component: RestrictedComponent },
   { path: '**', component: UnknownComponent }
 ];
