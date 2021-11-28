@@ -17,7 +17,7 @@ using System.Text.Json;
 
 namespace prid2122_g03.Controllers
 {
-    // [Authorize] // to protect the controller
+    [Authorize] // indique qu'il faut être authentifié, mais accepte tous les rôles
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -36,7 +36,7 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
-
+        [AllowAnonymous] // no need to be authentified 
         //[Authorized(Role.Admin)]
         [HttpGet("cv/{userID}")]
         public async Task<ActionResult<UserWithExperiencesWithMasteringsDTO>> GetCV(int userID) {
@@ -71,8 +71,6 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
         }
 
-
-
         // GET /api/users
         [Authorized(Title.AdminSystem)]
         [HttpGet]
@@ -86,20 +84,16 @@ namespace prid2122_g03.Controllers
             */
 
             // Récupère une liste de tous les membres et utilise le mapper pour les transformer en leur DTO
-            // return _mapper.Map<List<UserDTO>>(await _context.Users.ToListAsync()); // before link between Users and phones
             // return _mapper.Map<List<UserDTO>>(await _context.Users.Include(m => m.Phones).ToListAsync());
             return _mapper.Map<List<UserDTO>>(await _context.Users.ToListAsync());
         }
 
-
-        // GET /api/users/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetOne(int id) { // TODO: replace email by id => GetOne(int id)
-            // Récupère en BD le membre dont le email est passé en paramètre dans l'url
-            // var user = await _context.Users.FindAsync(email); // before link between Users and phones
-            // var user = await _context.Users.Include(m => m.Phones).SingleAsync(m => m.Email == email);
-            var user = await _context.Users.FindAsync(id); 
-            //var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        // GET /api/users/{userID}
+        [Authorized(Title.AdminSystem)]
+        [HttpGet("{userID}")]
+        public async Task<ActionResult<UserDTO>> GetOne(int userID) { // TODO: replace email by id => GetOne(int id)
+            // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
+            var user = await _context.Users.FindAsync(userID); 
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (user == null)
                 return NotFound();
@@ -107,8 +101,8 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<UserDTO>(user);
         }
 
-
         // POST /api/users
+        [AllowAnonymous] // no need to be authentified 
         [HttpPost]
         public async Task<ActionResult<UserDTO>> PostUser(UserWithPasswordDTO user) {
             // Utilise le mapper pour convertir le DTO qu'on a reçu en une instance de User
@@ -119,42 +113,39 @@ namespace prid2122_g03.Controllers
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
                 return BadRequest(res);
-
+            // find back the user from the DB to use the actual id
+            //var userDB = await _context.Users.SingleOrDefaultAsync(u => u.Email == newUser.Email);
             // Renvoie une réponse ayant dans son body les données du nouveau membre (3ème paramètre)
             // et ayant dans ses headers une entrée 'Location' qui contient l'url associé à GetOne avec la bonne valeur 
             // pour le paramètre 'email' de cet url.
-            return CreatedAtAction(nameof(GetOne), new { email = user.Email }, _mapper.Map<UserDTO>(newUser));
+            return CreatedAtAction(nameof(GetOne), new { userID = newUser.Id }, _mapper.Map<UserDTO>(newUser));
         }
 
 
-        // PUT /api/users/{email}
+        // PUT /api/users
         // [Authorized(Title.AdminSystem)]
-        [Authorize]
         [HttpPut]
-        public async Task<IActionResult> PutUser(UserWithPasswordDTO dto) {
-            var connectedEmail = User.Identity.Name;
-            var connectedUser = _context.Users.SingleOrDefault(u => u.Email == connectedEmail);
+        public async Task<IActionResult> PutUser(UserWithPasswordDTO dto) { 
+            int connectedID = 0;
+            if (Int32.TryParse(User.Identity.Name, out int ID)) {
+                connectedID = ID;
+            }
+            var connectedUser = _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
             // Récupère en BD le membre à mettre à jour
-            // var User = await _context.Users.FindAsync(dto.Email); // before link between Users and phones
-            // var User = await _context.Users.Include(m => m.Phones).SingleAsync(m => m.Email == dto.Email);
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == dto.Email);
-
-            //var isAdmin = User.IsInRole(Title.AdminSystem.ToString()); // boolean
-
+            var user = await _context.Users.FindAsync(dto.Id); 
+            var isAdmin = User.IsInRole(Title.AdminSystem.ToString()); // boolean
             // Protected method: changes only if admin or user to update is the connected user
-            if (user != null && !User.IsInRole(Title.AdminSystem.ToString())) {
+            if (user != null && !isAdmin) {
                 if (user.Id != connectedUser.Id)
                     return BadRequest("You are not entitled to adjust these data");    
             }   
-            
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (user == null)
                 return NotFound();
             // S'il n'y a pas de mot de passe dans le dto, on garde le mot de passe actuel
             if (string.IsNullOrEmpty(dto.Password))
-                dto.Password = user.Password;
+                dto.Password = user.Password;    
             // Mappe les données reçues sur celles du membre en question
-            // _mapper.Map<UserDTO, User>(dto, User); // before link between Users and phones
             _mapper.Map<UserWithPasswordDTO, User>(dto, user);
             // Sauve les changements
             var res = await _context.SaveChangesAsyncWithValidation();
@@ -162,18 +153,15 @@ namespace prid2122_g03.Controllers
                 return BadRequest(res);
             // Retourne un statut 204 avec une réponse vide
             return NoContent();
-            
         }
 
 
-
-        // DELETE /api/users/{email} => check if on url
+        // DELETE /api/users/{userID} 
         [Authorized(Title.AdminSystem)]
-        [HttpDelete("{email}")]
-        public async Task<IActionResult> DeleteUser(string email) { // TODO: replace email with id
+        [HttpDelete("{userID}")]
+        public async Task<IActionResult> DeleteUser(int userID) { 
             // Récupère en BD le membre à supprimer
-            // var user = await _context.Users.FindAsync(email);
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.FindAsync(userID);
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (user == null)
                 return NotFound();
@@ -201,7 +189,7 @@ namespace prid2122_g03.Controllers
         private async Task<User> Authenticate(string email, string password) {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
 
-            // return null if User not found
+            // return null if user not found
             if (user == null)
                 return null;
 
@@ -211,11 +199,11 @@ namespace prid2122_g03.Controllers
                 var key = Encoding.ASCII.GetBytes("my-super-secret-key");
                 var tokenDescriptor = new SecurityTokenDescriptor {
                     Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.Email),
-                    new Claim(ClaimTypes.Role, user.Title.ToString()) // TODO to check
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, user.Title.ToString()) 
                 }),
                     IssuedAt = DateTime.UtcNow,
-                    Expires = DateTime.UtcNow.AddMinutes(10),
+                    Expires = DateTime.UtcNow.AddMinutes(120), // TODO: to update at the end
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -228,7 +216,6 @@ namespace prid2122_g03.Controllers
         [AllowAnonymous]
         [HttpGet("available/{email}")]
         public async Task<ActionResult<bool>> IsAvailable(string email) {
-            // return await _context.Users.FindAsync(email) == null;
             return await _context.Users.SingleOrDefaultAsync(u => u.Email == email) == null;
         }
 
