@@ -13,8 +13,8 @@ namespace prid2122_g03.Models
         public Title Title { get; set; } = Title.JuniorConsultant;
         public string Token { get; set; }
 
-        // public ICollection<Mastering> MasteringSkillsLevels { get; set; }  // TODO ask Sev
-        // public ICollection<Experience> Experiences { get; set; } 
+        // public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; }  
+        // public ICollection<ExperienceDTO> Experiences { get; set; } 
     }
 
     public class UserWithPasswordDTO : UserDTO
@@ -30,13 +30,13 @@ namespace prid2122_g03.Models
 
     public class UserWithMasteringsDTO : UserDTO
     {
-        public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; } // TODO ask Sev
+        public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; } 
         
     }
 
     public class UserWithExperiencesWithMasteringsDTO : UserWithExperiencesDTO
     {
-        public ICollection<MasteringWithSkillDTO> MasteringSkillsLevels { get; set; } // TODO ask Sev
+        public ICollection<MasteringWithSkillDTO> MasteringSkillsLevels { get; set; } 
     }
 
 }

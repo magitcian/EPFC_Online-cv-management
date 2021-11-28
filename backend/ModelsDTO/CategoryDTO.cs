@@ -7,12 +7,12 @@ namespace prid2122_g03.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        // public ICollection<Skill> Skills { get; set; }
+        // public ICollection<SkillDTO> Skills { get; set; }
     }
 
     public class CategoryWithSkillsDTO : CategoryDTO
     {
-        public ICollection<Skill> Skills { get; set; }
+        public ICollection<SkillDTO> Skills { get; set; }
     }
 
 }

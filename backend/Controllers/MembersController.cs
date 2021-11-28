@@ -68,7 +68,6 @@
 //         }
 
 
-//         // TODO ask Sev: why when we sign out, the role is admin and not member 
 //         // POST /api/members
 //         [HttpPost]
 //         public async Task<ActionResult<MemberDTO>> PostMember(MemberWithPasswordDTO member) {

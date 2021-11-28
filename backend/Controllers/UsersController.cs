@@ -91,7 +91,7 @@ namespace prid2122_g03.Controllers
         // GET /api/users/{userID}
         [Authorized(Title.AdminSystem)]
         [HttpGet("{userID}")]
-        public async Task<ActionResult<UserDTO>> GetOne(int userID) { // TODO: replace email by id => GetOne(int id)
+        public async Task<ActionResult<UserDTO>> GetOne(int userID) { 
             // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
             var user = await _context.Users.FindAsync(userID); 
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found

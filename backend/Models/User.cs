@@ -41,7 +41,6 @@ namespace prid2122_g03.Models
         [NotMapped]
         public string Token { get; set; }
 
-        // TODO ask Sev: shall we keep the name or better to use "Masterings"
         public ICollection<Mastering> MasteringSkillsLevels { get; set; } = new HashSet<Mastering>();
 
         public ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>();

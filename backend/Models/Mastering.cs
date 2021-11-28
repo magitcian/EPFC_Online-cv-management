@@ -23,8 +23,6 @@ namespace prid2122_g03.Models
         [Required]
         public Level Level { get; set; } = Level.Starter;
 
-        // public int Level { get; set; }   // TODO ask Séverine
-
         [Required]
         [ForeignKey(nameof(User))]
         public int UserId { get; set; } 

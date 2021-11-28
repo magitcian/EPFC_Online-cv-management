@@ -5,19 +5,19 @@ namespace prid2122_g03.Models
 {
     public class ManagerDTO : UserDTO
     {
-        // public ICollection<Consultant> Consultants { get; set; }
+        // public ICollection<ConsultantDTO> Consultants { get; set; }
         
     }
 
-    public class ManagerWithConsultantsDTO : ManagerDTO // or directly ManagerDTO : UserDTO // TODO ask Sev
+    public class ManagerWithConsultantsDTO : ManagerDTO // or directly ManagerDTO : UserDTO 
     {
-        public ICollection<Consultant> Consultants { get; set; }
+        public ICollection<ConsultantDTO> Consultants { get; set; }
         
     }
 
     public class ManagerWithExperiencesWithMasteringsWithConsultantsDTO : UserWithExperiencesWithMasteringsDTO 
     {
-        public ICollection<Consultant> Consultants { get; set; }
+        public ICollection<ConsultantDTO> Consultants { get; set; }
         
     }
 
