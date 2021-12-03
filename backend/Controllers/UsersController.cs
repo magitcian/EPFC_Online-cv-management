@@ -48,19 +48,25 @@ namespace prid2122_g03.Controllers
             //                     .SingleAsync(u => u.Id == id);
             // }
             var user = await _context.Users
-                            .Include(u => u.Experiences )
+                            .Include(u => u.Experiences)
                             .ThenInclude(exp => exp.Enterprise)
 
-                            .Include(u => u.MasteringSkillsLevels )
-                            .ThenInclude(mast => mast.Skill)
-                            .ThenInclude(Skill => Skill.Category)
+                            .Include(u => u.Experiences)
+                            .ThenInclude(exp => ((Mission)exp).Client)
+
+                            // .Include(u => (Mission)u.Experiences .Where(e => e.GetType() == typeof(Mission))
+                            // .ThenInclude(m => m.Client)
+
+                            // .Include(u => u.MasteringSkillsLevels )
+                            // .ThenInclude(mast => mast.Skill)
+                            // .ThenInclude(Skill => Skill.Category)
 
                             //TODO questions: 
-                                //comment gérer l'héritage? (voir ci-dessous, ne fonctionne pas)
-                           
+                            //comment gérer l'héritage? (voir ci-dessous, ne fonctionne pas)
+
                             // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Experience) || e.GetType().BaseType == typeof(Experience)) )
                             // .ThenInclude(exp => exp.Enterprise )    
-                            
+
                             // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Mission)))
                             // .ThenInclude(exp => ((Mission)exp).Client )
                             // .ThenInclude(exp => ((Mission)exp).Enterprise )
@@ -69,6 +75,34 @@ namespace prid2122_g03.Controllers
             if (user == null)
                 return NotFound();
             return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
+        }
+
+        private async Task<User> getConnectedUser() {
+            int connectedID = 0;
+            if (Int32.TryParse(User.Identity.Name, out int ID)) {
+                connectedID = ID;
+            }
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
+        }
+
+        private async Task<bool> isConnectedUserOrAdmin(int userID) {
+            var connectedUser = getConnectedUser();
+            var user = await _context.Users.FindAsync(userID);
+            var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
+            return isAdmin || (user != null && user.Id == connectedUser.Id);
+        }
+
+        [HttpGet("user_missions/{userID}")]
+        public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(int userID) {
+            if (isConnectedUserOrAdmin(userID).Result) {
+                var missions = await _context.Missions
+                                    .Where(m => m.UserId == userID)
+                                    .Include(m => m.Client)
+                                    .Include(m => m.Enterprise)
+                                    .ToListAsync();
+                return _mapper.Map<List<MissionDTO>>(missions);
+            }
+            return BadRequest("You are not entitled to obtain those datas");
         }
 
         // GET /api/users
@@ -91,9 +125,9 @@ namespace prid2122_g03.Controllers
         // GET /api/users/{userID}
         [Authorized(Title.AdminSystem)]
         [HttpGet("{userID}")]
-        public async Task<ActionResult<UserDTO>> GetOne(int userID) { 
+        public async Task<ActionResult<UserDTO>> GetOne(int userID) {
             // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
-            var user = await _context.Users.FindAsync(userID); 
+            var user = await _context.Users.FindAsync(userID);
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (user == null)
                 return NotFound();
@@ -125,26 +159,22 @@ namespace prid2122_g03.Controllers
         // PUT /api/users
         // [Authorized(Title.AdminSystem)]
         [HttpPut]
-        public async Task<IActionResult> PutUser(UserWithPasswordDTO dto) { 
-            int connectedID = 0;
-            if (Int32.TryParse(User.Identity.Name, out int ID)) {
-                connectedID = ID;
-            }
-            var connectedUser = _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
+        public async Task<IActionResult> PutUser(UserWithPasswordDTO dto) {
+            var connectedUser = getConnectedUser();
             // Récupère en BD le membre à mettre à jour
-            var user = await _context.Users.FindAsync(dto.Id); 
+            var user = await _context.Users.FindAsync(dto.Id);
             var isAdmin = User.IsInRole(Title.AdminSystem.ToString()); // boolean
             // Protected method: changes only if admin or user to update is the connected user
             if (user != null && !isAdmin) {
                 if (user.Id != connectedUser.Id)
-                    return BadRequest("You are not entitled to adjust these data");    
-            }   
+                    return BadRequest("You are not entitled to adjust these data");
+            }
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (user == null)
                 return NotFound();
             // S'il n'y a pas de mot de passe dans le dto, on garde le mot de passe actuel
             if (string.IsNullOrEmpty(dto.Password))
-                dto.Password = user.Password;    
+                dto.Password = user.Password;
             // Mappe les données reçues sur celles du membre en question
             _mapper.Map<UserWithPasswordDTO, User>(dto, user);
             // Sauve les changements
@@ -159,7 +189,7 @@ namespace prid2122_g03.Controllers
         // DELETE /api/users/{userID} 
         [Authorized(Title.AdminSystem)]
         [HttpDelete("{userID}")]
-        public async Task<IActionResult> DeleteUser(int userID) { 
+        public async Task<IActionResult> DeleteUser(int userID) {
             // Récupère en BD le membre à supprimer
             var user = await _context.Users.FindAsync(userID);
             // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
@@ -200,7 +230,7 @@ namespace prid2122_g03.Controllers
                 var tokenDescriptor = new SecurityTokenDescriptor {
                     Subject = new ClaimsIdentity(new Claim[] {
                     new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Title.ToString()) 
+                    new Claim(ClaimTypes.Role, user.Title.ToString())
                 }),
                     IssuedAt = DateTime.UtcNow,
                     Expires = DateTime.UtcNow.AddMinutes(120), // TODO: to update at the end

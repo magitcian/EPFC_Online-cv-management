@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Input, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Input, Output, OnChanges } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UserService } from '../../services/user.service';
 import { StateService } from 'src/app/services/state.service';
@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { plainToClass } from 'class-transformer';
 import { Experience } from 'src/app/models/experience';
 import { User } from 'src/app/models/user';
+import { __exportStar } from 'tslib';
 
 @Component({
     selector: 'app-experiences-view', 
@@ -18,8 +19,15 @@ import { User } from 'src/app/models/user';
     styleUrls: ['./experiences-view.component.css']
 })
 
-export class ExperiencesViewComponent implements AfterViewInit, OnDestroy {
-    @Input() experiences!: Experience[];
+export class ExperiencesViewComponent implements AfterViewInit, OnDestroy{
+    //@Input() experiences!: Experience[];
+    _exp : Experience[] = [];
+    @Input() set experiences (val : Experience[]){
+        this._exp = val;
+        this.refresh();
+    }
+    get experiences() {return this._exp;}
+
     displayedColumns: string[] = ['title', 'description', 'enterprise'];
     dataSource: MatTableDataSource<Experience> = new MatTableDataSource();
     filter: string = '';
@@ -45,6 +53,7 @@ export class ExperiencesViewComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
+        this.dataSource.data = this.experiences;
         // lie le datasource au sorter et au paginator
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -60,8 +69,15 @@ export class ExperiencesViewComponent implements AfterViewInit, OnDestroy {
         this.refresh();
     }
 
+    // ngOnChanges(): void {
+
+    //     this.refresh();
+    // }
+
     refresh() {
         this.dataSource.data = this.experiences;
+        var test = this.experiences[0];
+        var test2 = test?.display;
         this.state.restoreState(this.dataSource);
         this.filter = this.state.filter;
         // this.userService.getCV(4).subscribe(user => {

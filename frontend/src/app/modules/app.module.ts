@@ -24,7 +24,8 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapte
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 // import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
-import { ExperiencesViewComponent } from '../components/experiences-view/experiences-view.component';
+//import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
+import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
 
 export function getBaseUrl() {
@@ -49,8 +50,9 @@ export function getBaseUrl() {
         EditUserComponent,
         // RelationshipsComponent,
         SignUpComponent
-        ,ExperiencesViewComponent
+        //,ExperiencesViewComponent
         ,CvViewComponent
+        ,MissionsViewComponent
     ],
     entryComponents: [
         EditUserComponent

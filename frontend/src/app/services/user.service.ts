@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
+import { Mission } from '../models/mission';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { plainToClass } from 'class-transformer';
@@ -59,10 +60,19 @@ export class UserService {
         );
     }
 
+    //plus utilisé:
     getCV(userID: number) : Observable<User> {
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
         return this.http.get<User>(`${this.baseUrl}api/users/cv/${userID}`).pipe(
             map(u => plainToClass(User, u))
+            //,catchError(err => of(null))
+        );
+    }
+
+    getMissions(userID: number) : Observable<Mission[]> {
+        // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
+        return this.http.get<any[]>(`${this.baseUrl}api/users/user_missions/${userID}`).pipe(
+            map(m => plainToClass(Mission, m))
             //,catchError(err => of(null))
         );
     }
