@@ -1,0 +1,17 @@
+<div class="titre">
+    <h1>Missions</h1>
+</div>
+
+<ul *ngFor="let mission of missions">
+    <li>
+        {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}}
+        <button mat-icon-button>
+            <mat-icon (click)="edit(mission)">edit</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon (click)="delete(mission)">delete</mat-icon>
+        </button>
+
+    </li>
+    <!-- <p> {{mission.display}}</p> -->
+</ul>

@@ -10,7 +10,7 @@ namespace prid2122_g03.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public EnterpriseDTO Enterprise { get; set; }
-        // public string Discriminator { get; set; }
+        //public string Discriminator { get; set; }
         // public EnterpriseDTO Client { get; set; }
         // public Grade Grade { get; set; }
     }

@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace prid2122_g03.Models
 {
 
-    public class Experience //: IValidatableObject
+    public abstract class Experience //: IValidatableObject
     {
         [Key]
         public int Id { get; set; }

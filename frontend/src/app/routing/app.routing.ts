@@ -11,7 +11,9 @@ import { Title } from '../models/user';
 import { CounterParentComponent } from '../components/counter-stateless/counter-parent.component';
 // import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
-import { ExperiencesViewComponent } from '../components/experiences-view/experiences-view.component';
+//import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
+import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
+import { CvViewComponent } from '../components/cv-view/cv-view.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -36,7 +38,9 @@ const appRoutes: Routes = [
     component: LoginComponent
   },
   { path: 'signup', component: SignUpComponent },
-  { path: 'experiences-view', component: ExperiencesViewComponent },
+  //{ path: 'experiences-view', component: ExperiencesViewComponent },
+ // { path: 'missions-view', component: MissionsViewComponent },
+  { path: 'cv-view', component: CvViewComponent },
   { path: 'restricted', component: RestrictedComponent },
   { path: '**', component: UnknownComponent }
 ];
