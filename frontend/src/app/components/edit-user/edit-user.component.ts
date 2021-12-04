@@ -20,6 +20,7 @@ import { plainToClass } from 'class-transformer';
 export class EditUserComponent {
     public frm!: FormGroup;
     // public frmPhone!: FormGroup; 
+    private ctlId!: FormControl;
     public ctlLastName!: FormControl;
     public ctlFirstName!: FormControl;
     public ctlEmail!: FormControl;
@@ -46,6 +47,7 @@ export class EditUserComponent {
         this.ctlBirthDate = this.fb.control(null, [this.validateBirthDate()]);
         this.ctlTitle = this.fb.control(Title.JuniorConsultant, []);
         this.frm = this.fb.group({
+            id: this.ctlId,
             email: this.ctlEmail,
             password: this.ctlPassword,
             lastName: this.ctlLastName,
@@ -58,15 +60,15 @@ export class EditUserComponent {
         this.frm.patchValue(data.user);
     }
 
-    // Validateur bidon qui vérifie que la valeur est différente
-    forbiddenValue(val: string): any {
-        return (ctl: FormControl) => {
-            if (ctl.value === val) {
-                return { forbiddenValue: { currentValue: ctl.value, forbiddenValue: val } };
-            }
-            return null;
-        };
-    }
+    // // Validateur bidon qui vérifie que la valeur est différente
+    // forbiddenValue(val: string): any {
+    //     return (ctl: FormControl) => {
+    //         if (ctl.value === val) {
+    //             return { forbiddenValue: { currentValue: ctl.value, forbiddenValue: val } };
+    //         }
+    //         return null;
+    //     };
+    // }
 
     validateBirthDate(): any {
         return (ctl: FormControl) => {
@@ -92,7 +94,7 @@ export class EditUserComponent {
                     if (ctl.pristine) {
                         resolve(null);
                     } else {
-                        this.userService.getById(email).subscribe(user => {
+                        this.userService.getById(email).subscribe(user => { // TODO: change email by userID but how ?
                             resolve(user ? { emailUsed: true } : null);
                         });
                     }
