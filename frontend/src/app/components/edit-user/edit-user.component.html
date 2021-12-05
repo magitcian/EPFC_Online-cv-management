@@ -3,6 +3,9 @@
     <mat-tab-group mat-stretch-tabs dynamicHeight>
         <mat-tab label="General Data">
             <div class="form">
+                <!-- <mat-form-field>
+                    <input matInput placeholder="id" [formControl]="ctlId">
+                </mat-form-field> -->
                 <mat-form-field>
                     <input matInput placeholder="Last Name" [formControl]="ctlLastName">
                     <mat-error class="field-error" *ngIf="ctlLastName.hasError('minlength')">Minimum length is {{ctlLastName.errors?.minlength?.requiredLength}}</mat-error>

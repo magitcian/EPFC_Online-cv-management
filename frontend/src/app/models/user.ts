@@ -17,7 +17,7 @@ export enum Title {
  
   
 export class User {
-    id : number = 0;
+    id : number = 0; // TODO: maybe "BigInteger" is more appropriate
     lastName?: string;
     firstName?: string;
     email?: string;

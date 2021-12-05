@@ -22,10 +22,4 @@ namespace prid2122_g03.Models
         public CategoryDTO Category { get; set; }
     }
 
-    // public class SkillWithUsingsDTO : SkillDTO
-    // {
-    //     public ICollection<UsingDTO> Usings { get; set; } 
-    // }
-
-
 }

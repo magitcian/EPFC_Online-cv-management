@@ -20,6 +20,7 @@ import { plainToClass } from 'class-transformer';
 
 export class UserListComponent implements AfterViewInit, OnDestroy {
     displayedColumns: string[] = ['lastName', 'firstName', 'email', 'birthDate', 'title', 'actions'];
+    // displayedColumns: string[] = ['id', 'lastName', 'firstName', 'email', 'birthDate', 'title', 'actions'];
     dataSource: MatTableDataSource<User> = new MatTableDataSource();
     filter: string = '';
     state: MatTableState;
@@ -43,6 +44,8 @@ export class UserListComponent implements AfterViewInit, OnDestroy {
         // définit le predicat qui doit être utilisé pour filtrer les membres
         this.dataSource.filterPredicate = (data: User, filter: string) => {
             const str = data.lastName + ' ' + data.firstName + ' ' + data.email + ' ' + data.birthDate?.format('DD/MM/YYYY') + ' ' + data.titleAsString;
+            // const str = data.id + ' ' + data.lastName + ' ' + data.firstName + ' ' + data.email + ' ' + data.birthDate?.format('DD/MM/YYYY') + ' ' + data.titleAsString;
+            
             return str.toLowerCase().includes(filter);
         };
         // établit les liens entre le data source et l'état de telle sorte que chaque fois que 

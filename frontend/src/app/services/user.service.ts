@@ -22,9 +22,11 @@ export class UserService {
         //     .pipe(map(res => res.map(m => new Member(m))));
     }
     
-    getById(email: string) { //: Observable<Member> or undefined
+    // Attention: keep "userID" as it is the same param than in User class in backend
+    // TODO: maybe "BigInteger" is more appropriate
+    getById(userID: number) { //: Observable<Member> or undefined
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
-        return this.http.get<User>(`${this.baseUrl}api/users/${email}`).pipe(
+        return this.http.get<User>(`${this.baseUrl}api/users/${userID}`).pipe(
             map(u => plainToClass(User, u)),
             catchError(err => of(null))
         );
@@ -41,7 +43,7 @@ export class UserService {
     }
 
     public delete(u: User): Observable<boolean> {
-        return this.http.delete<boolean>(`${this.baseUrl}api/users/${u.email}`).pipe(
+        return this.http.delete<boolean>(`${this.baseUrl}api/users/${u.id}`).pipe(
             map(res => true),
             catchError(err => {
                 console.error(err);
