@@ -11,7 +11,11 @@ import { AuthenticationService } from '../../services/authentication.service';
     templateUrl: './cv-view.component.html'
 })
 export class CvViewComponent implements AfterViewInit {
-    @Input() userCV!: User;
+    @Input() set getUserID(val: number) {
+        this.userID = val;
+        this.getInfoCV();
+    }
+    userID !: number;
 
     missions: Mission[] = [];
 
@@ -24,11 +28,14 @@ export class CvViewComponent implements AfterViewInit {
     }
 
     getInfoCV() {
-        var user = this.authenticationService.currentUser;
-        if (user != null) {
-            this.userService.getMissions(user.id).subscribe(missions => {
-                this.missions = missions;
-            });
+        if (this.userID == null) {
+            this.userID = this.authenticationService.currentUser?.id!;
         }
+        this.userService.getMissions(this.userID).subscribe(missions => {
+            this.missions = missions;
+        });
+
     }
+
+
 }
