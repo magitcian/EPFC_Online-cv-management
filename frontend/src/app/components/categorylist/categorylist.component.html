@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Categories</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>I found the following skills categories :</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul *ngIf="categories.length > 0">
+            <li *ngFor="let category of categories">{{ category.name }}
+                <button mat-icon-button >
+                    <mat-icon>edit</mat-icon>
+                    <!-- <mat-icon (click)="edit(category)">edit</mat-icon> -->
+                </button>
+                <button mat-icon-button >
+                    <!-- <mat-icon>delete</mat-icon> -->
+                    <mat-icon (click)="delete(category)">delete</mat-icon>
+                </button>
+            </li>
+        </ul>
+        <p *ngIf="categories.length == 0">No categories found</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <button mat-raised-button >New Category</button>
+        <!-- <button mat-raised-button (click)="create()">New Category</button> -->
+    </div>
+</div>

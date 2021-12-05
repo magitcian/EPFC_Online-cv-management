@@ -14,6 +14,7 @@ import { SignUpComponent } from '../components/signup/signup.component';
 //import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
+import { CategoryListComponent } from '../components/categorylist/categorylist.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -25,6 +26,12 @@ const appRoutes: Routes = [
   {
     path: 'users',
     component: UserListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Title.AdminSystem] }
+  }, 
+  {
+    path: 'categories',
+    component: CategoryListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Title.AdminSystem] }
   }, 
