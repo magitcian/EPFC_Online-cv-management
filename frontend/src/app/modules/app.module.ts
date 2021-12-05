@@ -27,6 +27,8 @@ import { SignUpComponent } from '../components/signup/signup.component';
 //import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
+import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
+import { UserListComponent2 } from '../components/userlist-cv/userlist.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -53,6 +55,8 @@ export function getBaseUrl() {
         //,ExperiencesViewComponent
         ,CvViewComponent
         ,MissionsViewComponent
+        ,TabGroupDynamicExample2
+        ,UserListComponent2
     ],
     entryComponents: [
         EditUserComponent

@@ -14,12 +14,14 @@ import { SignUpComponent } from '../components/signup/signup.component';
 //import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
+import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'counter-stateless', component: CounterParentComponent },
   { path: 'fetch-data', component: FetchDataComponent },
+  { path: 'tab-group-dynamic-example2', component: TabGroupDynamicExample2 },
   // { path: 'members', component: MemberListComponent },
   // { path: '**', redirectTo: '' }
   {
