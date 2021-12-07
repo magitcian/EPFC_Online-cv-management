@@ -5,6 +5,8 @@ import { UserService } from '../../services/user.service';
 import { User } from 'src/app/models/user';
 import { Mission } from 'src/app/models/mission';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Skill } from 'src/app/models/skill';
+import { Category } from 'src/app/models/category';
 
 @Component({
     selector: 'app-cv-view',
@@ -18,6 +20,8 @@ export class CvViewComponent implements AfterViewInit {
     userID !: number;
 
     missions: Mission[] = [];
+    categories: Category[] = [];
+    skills: Skill[] = [];
 
     constructor(private userService: UserService, public authenticationService: AuthenticationService) {
 
@@ -33,6 +37,9 @@ export class CvViewComponent implements AfterViewInit {
         }
         this.userService.getMissions(this.userID).subscribe(missions => {
             this.missions = missions;
+        });
+        this.userService.getCategoriesWithDetails(this.userID).subscribe(categories => {
+            this.categories = categories;
         });
 
     }

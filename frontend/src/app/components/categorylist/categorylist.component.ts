@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Console } from 'console';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
+import * as _ from 'lodash-es';
 
 @Component({
     selector: 'app-categorylist',
-    templateUrl: './categorylist.component.html'
+    templateUrl: './categorylist.component.html',
+    // styleUrls: // TODO to add
 })
-export class CategoryListComponent {
+
+export class CategoryListComponent { // implements AfterViewInit, OnDestroy {
     categories: Category[] = [];
 
     constructor(private categoryService: CategoryService, public snackBar: MatSnackBar) {
@@ -22,6 +26,13 @@ export class CategoryListComponent {
         });
     }
 
+    spliceSev(index: number, category: Category) {
+        this.categories.splice(index, 0, category); 
+    }
+
+    // ngAfterViewInit(): void {
+    //     this.refresh();
+    // }
 
     // // appelée quand on clique sur le bouton "edit" d'une catégorie
     // edit(category: Category) {
@@ -43,16 +54,36 @@ export class CategoryListComponent {
     
     // appelée quand on clique sur le bouton "delete" d'une catégorie
     delete(category: Category) {
+        // const categoriesBackup = this.categories;
+        // var isUndo = false; // boolean
+        // var categoriesBackup  = _.take(this.categories, this.categories.length);
+        var index = this.categories.indexOf(category);
+        this.categories.splice(index, 1);
+        // categoriesBackup = this.categories;
         //const backup = category; //this.dataSource.data;
         //this.dataSource.data = _.filter(this.dataSource.data, c => c.name !== category.name);
-        const snackBarRef = this.snackBar.open(`Category '${category.name}' will be deleted`, 'Undo', { duration: 10000 });
+        const snackBarRef = this.snackBar.open(`Category '${category.name}' will be deleted`, 'Undo', { duration: 3000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction)
                 this.categoryService.delete(category).subscribe();
+            else {
+                // isUndo = true;
+                console.log("index : " + index);
+                console.log("cat : " + category.name);
+                // this.categories = categoriesBackup;
+                // this.categories.splice(index, 0, category); //ne refresh pas automatiquement (faut cliquer sur edit)
+                // this.spliceSev(index, category);
+                // this.categories = categoriesBackup;
+                this.refresh();
+                console.log(this.categories);
             // else
+            }
+                
             //     this.dataSource.data = backup;
         });
-        this.refresh(); // TODO: ça ne fonctionne pas !
+        // if (isUndo)
+        //     this.categories.splice(index, 0, category); //ne refresh pas automatiquement (faut cliquer sur edit)
+        // this.refresh(); // TODO: ça ne fonctionne pas !
     }
 
     // // appelée quand on clique sur le bouton "new user"
@@ -71,6 +102,10 @@ export class CategoryListComponent {
     //             });
     //         }
     //     });
+    // }
+
+    // ngOnDestroy(): void {
+    //     this.snackBar.dismiss();
     // }
 
 }

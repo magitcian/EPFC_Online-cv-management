@@ -15,5 +15,10 @@ namespace prid2122_g03.Models
         public SkillWithCategoryDTO Skill { get; set; }
     }
 
+    public class MasteringWithUserDTO : MasteringDTO
+    {
+        public UserDTO User { get; set; }
+    }
+
 
 }

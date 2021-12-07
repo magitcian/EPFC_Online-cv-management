@@ -77,6 +77,9 @@ namespace prid2122_g03.Models
             CreateMap<Mastering, MasteringWithSkillDTO>();
             CreateMap<MasteringWithSkillDTO, Mastering>();
 
+            CreateMap<Mastering, MasteringWithUserDTO>();
+            CreateMap<MasteringWithUserDTO, Mastering>();
+
             CreateMap<Skill, SkillDTO>();
             CreateMap<SkillDTO, Skill>();
 
@@ -91,6 +94,9 @@ namespace prid2122_g03.Models
 
             CreateMap<Category, CategoryWithSkillsDTO>();
             CreateMap<CategoryWithSkillsDTO, Category>();
+
+            CreateMap<Category, CategoryWithSkillsAndMasteringsDTO>();
+            CreateMap<CategoryWithSkillsAndMasteringsDTO, Category>();
 
 
         }

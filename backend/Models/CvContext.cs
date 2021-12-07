@@ -95,7 +95,8 @@ namespace prid2122_g03.Models
 
             modelBuilder.Entity<Mission>().HasData(
                 new Mission { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission1", Description = "M1", EnterpriseId = 1, UserId = 4, ClientId = 2 },
-                new Mission { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission2", Description = "M2", EnterpriseId = 1, UserId = 4, ClientId = 3 }
+                new Mission { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission2", Description = "M2", EnterpriseId = 1, UserId = 4, ClientId = 3 },
+                new Mission { Id = 3, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission3", Description = "M3", EnterpriseId = 1, UserId = 1, ClientId = 3 }
             );
 
                         // modelBuilder.Entity<Training>().HasData(
@@ -143,7 +144,9 @@ namespace prid2122_g03.Models
                 new Mastering { Id = 1, Level = Level.Expert, UserId = 1, SkillId = 1 },
                 new Mastering { Id = 2, Level = Level.Senior, UserId = 2, SkillId = 2 },
                 new Mastering { Id = 3, Level = Level.Medior, UserId = 3, SkillId = 3 },
-                new Mastering { Id = 4, Level = Level.Junior, UserId = 4, SkillId = 4 }
+                new Mastering { Id = 4, Level = Level.Junior, UserId = 4, SkillId = 4 },
+                new Mastering { Id = 5, Level = Level.Senior, UserId = 1, SkillId = 2 },
+                new Mastering { Id = 6, Level = Level.Medior, UserId = 1, SkillId = 3 }
             );
 
         }

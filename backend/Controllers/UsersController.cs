@@ -102,7 +102,48 @@ namespace prid2122_g03.Controllers
                                     .ToListAsync();
                 return _mapper.Map<List<MissionDTO>>(missions);
             }
-            return BadRequest("You are not entitled to obtain those datas");
+            return BadRequest("You are not entitled to obtain those data");
+        }
+
+        [HttpGet("user_masteringSkills/{userID}")]
+        public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetSkills(int userID) {
+            if (isConnectedUserOrAdmin(userID).Result) {
+                var skills = await _context.Masterings
+                                    .Where(m => m.UserId == userID)
+                                    .Include(m => m.Skill)
+                                    .ThenInclude(s => s.Category)
+                                    .ToListAsync();
+                return _mapper.Map<List<MasteringWithSkillDTO>>(skills);
+            }
+            return BadRequest("You are not entitled to obtain those data");
+        }
+
+        [HttpGet("user_categoriesWithDetails/{userID}")]
+        public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndMasteringsDTO>>> GetCategoriesWithDetails(int userID) {
+            if (isConnectedUserOrAdmin(userID).Result) {
+                var categories = await _context.Categories
+                                    .Where(c => c.Skills.Any(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
+                                    .Include(c => c.Skills .Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
+                                    .ThenInclude(s => s.MasteringSkillsLevels .Where(m => m.UserId == userID))
+                                    // .ThenInclude(m => m.User .Where(u => u.Id == userID))
+                                    // .ThenInclude(m => m.User .Single(u => u.Id == userID)) 
+                                    // .Where(c => c.Skills .Where(s => s.Mastering.UserId == userID))
+                                    //.Where(u => u.Id == userID))
+                                    //.Where(u => u.Id == userID))
+                                    //.ThenInclude(s => s.MasteringSkillsLevels .Where(m => m.UserId == userID))
+                                    //.ThenInclude(m => m.Level)
+                                    // .Include(m => m.Skill)
+                                    // .ThenInclude(s => s.Category)
+                                    .ToListAsync();
+                return _mapper.Map<List<CategoryWithSkillsAndMasteringsDTO>>(categories);
+
+                // var skills = await _context.Categories
+                //                     .Include(c => c.Skills)
+                //                     .ThenInclude(s => s.MasteringSkillsLevels .Where(m => m.UserId == userID))
+                //                     .ToListAsync();
+                // return _mapper.Map<List<CategoryWithSkillsAndMasteringsDTO>>(skills);
+            }
+            return BadRequest("You are not entitled to obtain those data");
         }
 
         // GET /api/users

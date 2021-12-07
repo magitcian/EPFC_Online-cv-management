@@ -1,0 +1,30 @@
+<div class="titre">
+    <h1>Skills</h1>
+</div>
+
+<div *ngIf="categories.length > 0">
+    <ul *ngFor="let category of categories">
+        <li>
+            <b>{{category?.name}}:</b> {{category?.displaySkills}}
+        </li> 
+    </ul>
+</div>
+
+<!-- <ul *ngIf="skills.length > 0">
+    <li *ngFor="let skill of skills">
+        <ul>
+            <li *ngFor="let skill.category of categories"> </li> {{ skill.category?.name }}
+        </ul>found</p>
+    </li>
+</ul> -->
+
+
+<button mat-icon-button>
+    <mat-icon >edit</mat-icon>
+    <!-- <mat-icon (click)="edit(skill)">edit</mat-icon> -->
+</button>
+<button mat-icon-button>
+    <mat-icon >delete</mat-icon>
+    <!-- <mat-icon (click)="delete(skill)">delete</mat-icon> -->
+</button>
+

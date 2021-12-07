@@ -12,7 +12,8 @@
 <div class="row">
     <div class="col-sm-12">
         <ul *ngIf="categories.length > 0">
-            <li *ngFor="let category of categories">{{ category.name }}
+            <li *ngFor="let category of categories">{{ category.display }}  
+                <!-- {{ category.name }} -->
                 <button mat-icon-button >
                     <mat-icon>edit</mat-icon>
                     <!-- <mat-icon (click)="edit(category)">edit</mat-icon> -->

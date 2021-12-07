@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { Mission } from '../models/mission';
+import { Skill } from '../models/skill';
+import { Category } from '../models/category';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { plainToClass } from 'class-transformer';
@@ -75,6 +77,22 @@ export class UserService {
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
         return this.http.get<any[]>(`${this.baseUrl}api/users/user_missions/${userID}`).pipe(
             map(m => plainToClass(Mission, m))
+            //,catchError(err => of(null))
+        );
+    }
+
+    getSkills(userID: number) : Observable<Skill[]> {
+        // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
+        return this.http.get<any[]>(`${this.baseUrl}api/users/user_masteringSkills/${userID}`).pipe(
+            map(s => plainToClass(Skill, s))
+            //,catchError(err => of(null))
+        );
+    }
+
+    getCategoriesWithDetails(userID: number) : Observable<Category[]> {
+        // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
+        return this.http.get<any[]>(`${this.baseUrl}api/users/user_categoriesWithDetails/${userID}`).pipe(
+            map(c => plainToClass(Category, c))
             //,catchError(err => of(null))
         );
     }

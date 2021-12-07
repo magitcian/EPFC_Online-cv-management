@@ -12,7 +12,7 @@ namespace prid2122_g03.Models
 
     public enum Level 
     {
-        Starter = 0, Junior = 1, Medior = 2, Senior = 4, Expert = 5
+        Starter = 1, Junior = 2, Medior = 3, Senior = 4, Expert = 5
     }
 
     public class Mastering //: IValidatableObject

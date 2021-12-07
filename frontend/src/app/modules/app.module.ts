@@ -30,6 +30,7 @@ import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CategoryListComponent } from '../components/categorylist/categorylist.component';
 import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
 import { UserListComponent2 } from '../components/userlist-cv/userlist.component';
+import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 
 
 export function getBaseUrl() {
@@ -60,6 +61,7 @@ export function getBaseUrl() {
         CategoryListComponent
         ,TabGroupDynamicExample2
         ,UserListComponent2
+        ,CategoriesViewComponent
     ],
     entryComponents: [
         EditUserComponent

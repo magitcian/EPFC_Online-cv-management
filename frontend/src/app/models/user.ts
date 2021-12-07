@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { Moment } from "moment";
 import 'reflect-metadata';
 import { Experience } from "./experience";
+import { Mastering } from "./mastering";
 
 export enum Title {
     AdminSystem = 0,
@@ -27,6 +28,7 @@ export class User {
     @Transform(({ value }) => value ? moment(value) : value, { toClassOnly: true })
     birthDate?: Moment;
     experiences: Experience[] = [];
+    masterings: Mastering[] = [];
     title: Title = Title.JuniorConsultant;
     token?: string;
 
