@@ -1,17 +1,30 @@
 <div class="titre">
-    <h1>Missions</h1>
+    <h1>Missions
+        <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </h1>
 </div>
 
-<ul *ngFor="let mission of missions">
-    <li>
-        {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}}
-        <button mat-icon-button>
-            <mat-icon (click)="edit(mission)">edit</mat-icon>
-        </button>
-        <button mat-icon-button>
-            <mat-icon (click)="delete(mission)">delete</mat-icon>
-        </button>
+<div class="cv-view" *ngIf="!isEditMode">
+    <ul *ngFor="let mission of missions">
+        <li>
+            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}}
+        </li>
+    </ul>
+</div>
 
-    </li>
-    <!-- <p> {{mission.display}}</p> -->
-</ul>
+<div class="cv-edit" *ngIf="isEditMode">
+    <ul *ngFor="let mission of missions">
+        <li>
+            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}}
+            <!-- <button mat-icon-button>
+                <mat-icon (click)="edit(mission)">edit</mat-icon>
+            </button> -->
+            <button mat-icon-button>
+                <mat-icon (click)="delete(mission)">delete</mat-icon>
+            </button>
+
+        </li>
+    </ul>
+</div>

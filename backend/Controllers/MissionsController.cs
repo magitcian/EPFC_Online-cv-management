@@ -56,7 +56,7 @@ namespace prid2122_g03.Controllers
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
-            return BadRequest("You are not entitled to remove those datas");
+            return BadRequest("You are not entitled to remove those data");
         }
 
     }

@@ -18,10 +18,10 @@ export class CvViewComponent implements AfterViewInit {
         this.getInfoCV();
     }
     userID !: number;
-
     missions: Mission[] = [];
     categories: Category[] = [];
     skills: Skill[] = [];
+    isEditable: boolean = false;
 
     constructor(private userService: UserService, public authenticationService: AuthenticationService) {
 
@@ -34,6 +34,7 @@ export class CvViewComponent implements AfterViewInit {
     getInfoCV() {
         if (this.userID == null) {
             this.userID = this.authenticationService.currentUser?.id!;
+            this.isEditable = true;
         }
         this.userService.getMissions(this.userID).subscribe(missions => {
             this.missions = missions;
