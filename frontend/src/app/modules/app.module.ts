@@ -31,7 +31,7 @@ import { CategoryListComponent } from '../components/categorylist/categorylist.c
 import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
 import { UserListComponent2 } from '../components/userlist-cv/userlist.component';
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
-
+import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -62,6 +62,7 @@ export function getBaseUrl() {
         ,TabGroupDynamicExample2
         ,UserListComponent2
         ,CategoriesViewComponent
+        ,MissionEditComponent
     ],
     entryComponents: [
         EditUserComponent

@@ -21,16 +21,15 @@ export class MissionService {
         );
     }
 
-    // public delete(c: Category): Observable<boolean> {
-    //     return this.http.delete<boolean>(`${this.baseUrl}api/categories/${c.id}`).pipe(
-    //         map(res => true),
-    //         catchError(err => {
-    //             console.error(err);
-    //             return of(false);
-    //         })
-    //     );
-    // }
-
+    public update(m: Mission): Observable<boolean> {
+        return this.http.put<Mission>(`${this.baseUrl}api/missions`, m).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
 
     
 }

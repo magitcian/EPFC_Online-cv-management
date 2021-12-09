@@ -42,7 +42,13 @@ namespace prid2122_g03.Controllers
             var connectedUser = getConnectedUser();
             var user = await _context.Users.FindAsync(userID);
             var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
-            return isAdmin || (user != null && user.Id == connectedUser.Id);
+            return isAdmin || (user != null && user.Id == connectedUser.Result.Id);
+        }
+
+        private async Task<bool> isConnectedUser(int userID) {
+            var connectedUser = getConnectedUser();
+            var user = await _context.Users.FindAsync(userID);
+            return user != null && user.Id == connectedUser.Result.Id;
         }
 
 
@@ -57,6 +63,27 @@ namespace prid2122_g03.Controllers
                 return NoContent();
             }
             return BadRequest("You are not entitled to remove those data");
+        }
+
+
+        // PUT /api/users
+        // [Authorized(Title.AdminSystem)]
+        [HttpPut]
+        public async Task<IActionResult> PutMission(MissionDTO dto) {
+            var mission = await _context.Missions.FindAsync(dto.Id);
+            if (mission == null)
+                return NotFound();
+            if (isConnectedUser(mission.UserId).Result) {
+                _mapper.Map<MissionDTO, Mission>(dto, mission);
+                //ajouter le user relié à la mission
+                mission.User = getConnectedUser().Result;
+                //TODO severine : à changer:
+                mission.ClientId = 1;
+                mission.EnterpriseId = 1;
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            return BadRequest("You are not entitled to adjust these data");
         }
 
     }

@@ -14,11 +14,11 @@ import { Category } from 'src/app/models/category';
 })
 export class CvViewComponent implements AfterViewInit {
     @Input() set getUserID(val: number) {
-        this.userID = val;
+        this.userCvId = val;
         this.getInfoCV();
     }
-    userID !: number;
-    missions: Mission[] = [];
+    userCvId !: number;
+    // missions: Mission[] = [];
     categories: Category[] = [];
     skills: Skill[] = [];
     isEditable: boolean = false;
@@ -32,14 +32,14 @@ export class CvViewComponent implements AfterViewInit {
     }
 
     getInfoCV() {
-        if (this.userID == null) {
-            this.userID = this.authenticationService.currentUser?.id!;
+        if (this.userCvId == null) {
+            this.userCvId = this.authenticationService.currentUser?.id!;
             this.isEditable = true;
         }
-        this.userService.getMissions(this.userID).subscribe(missions => {
-            this.missions = missions;
-        });
-        this.userService.getCategoriesWithDetails(this.userID).subscribe(categories => {
+        // this.userService.getMissions(this.userCvId).subscribe(missions => {
+        //     this.missions = missions;
+        // });
+        this.userService.getCategoriesWithDetails(this.userCvId).subscribe(categories => {
             this.categories = categories;
         });
 
