@@ -10,7 +10,7 @@ namespace prid2122_g03.Models
         public string FirstName { get; set; }
         public string Email { get; set; }
         public DateTime? BirthDate { get; set; }
-        public Title Title { get; set; } = Title.JuniorConsultant;
+        public Title Title { get; set; } = Title.Consultant;
         public string Token { get; set; }
 
         // public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; }  

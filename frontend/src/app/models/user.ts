@@ -8,12 +8,8 @@ import { Mastering } from "./mastering";
 
 export enum Title {
     AdminSystem = 0,
-    SeniorManager = 1,
-    MediorManager = 2,
-    JuniorManager = 3, 
-    SeniorConsultant = 4, 
-    MediorConsultant = 5, 
-    JuniorConsultant = 6
+    Manager = 1,
+    Consultant = 2
   }
  
   
@@ -29,7 +25,7 @@ export class User {
     birthDate?: Moment;
     experiences: Experience[] = [];
     masterings: Mastering[] = [];
-    title: Title = Title.JuniorConsultant;
+    title: Title = Title.Consultant;
     token?: string;
 
     public get titleAsString(): string {

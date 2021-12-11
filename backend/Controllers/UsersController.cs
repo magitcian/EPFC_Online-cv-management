@@ -293,7 +293,7 @@ namespace prid2122_g03.Controllers
         [AllowAnonymous]
         [HttpPost("signup")]
         public async Task<ActionResult<UserDTO>> SignUp(UserWithPasswordDTO data) {
-            data.Title = Title.JuniorConsultant;
+            data.Title = Title.Consultant;
             return await PostUser(data);
         }
 

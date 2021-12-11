@@ -45,7 +45,7 @@ export class EditUserComponent {
         this.ctlLastName = this.fb.control(null, [Validators.minLength(3)]);
         this.ctlFirstName = this.fb.control(null, [Validators.minLength(3)]);
         this.ctlBirthDate = this.fb.control(null, [this.validateBirthDate()]);
-        this.ctlTitle = this.fb.control(Title.JuniorConsultant, []);
+        this.ctlTitle = this.fb.control(Title.Consultant, []);
         this.frm = this.fb.group({
             id: this.ctlId,
             email: this.ctlEmail,
