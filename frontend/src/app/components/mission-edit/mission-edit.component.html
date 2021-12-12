@@ -17,31 +17,31 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Start date</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControl]="ctlStart">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                    <input matInput [matDatepicker]="picker1" [formControl]="ctlStart">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Finish date</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControl]="ctlFinish">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+                    <input matInput [matDatepicker]="picker2" [formControl]="ctlFinish">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error class="field-error" *ngIf="ctlFinish.hasError('finishBiggerThanStartDate')">Must be at least bigger than start date</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <input matInput placeholder="Description" [formControl]="ctlDescription">
                 </mat-form-field>
-                <!-- Choix entreprise: -->
-                <!-- <mat-form-field>
-                    <mat-select placeholder="Title" [formControl]="ctlTitle">
-                        <mat-option [value]="6">JuniorConsultant</mat-option>
-                        <mat-option [value]="5">MediorConsultant</mat-option>
-                        <mat-option [value]="4">SeniorConsultant</mat-option>
-                        <mat-option [value]="3">JuniorManager</mat-option>
-                        <mat-option [value]="2">MediorManager</mat-option>
-                        <mat-option [value]="1">SeniorManager</mat-option>
-                        <mat-option [value]="0">AdminSystem</mat-option>
+                <mat-form-field>
+                    <mat-select placeholder="Enterprise" [formControl]="ctlEnterpriseId">
+                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
                     </mat-select>
-                </mat-form-field> -->
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-select placeholder="Client" [formControl]="ctlClientId">
+                        <!-- <mat-option [value]="0">Pas de client</mat-option> -->
+                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </mat-tab>
 

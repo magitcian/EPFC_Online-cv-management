@@ -17,14 +17,14 @@ export class CvViewComponent implements AfterViewInit {
         this.userCvId = val;
         this.getInfoCV();
     }
-    userCvId !: number;
+    userCvId : number = 0;
     // missions: Mission[] = [];
     categories: Category[] = [];
     skills: Skill[] = [];
     isEditable: boolean = false;
 
     constructor(private userService: UserService, public authenticationService: AuthenticationService) {
-
+        
     }
 
     ngAfterViewInit(): void {
@@ -32,7 +32,8 @@ export class CvViewComponent implements AfterViewInit {
     }
 
     getInfoCV() {
-        if (this.userCvId == null) {
+        //TODO question : crée une erreur: comment faire autrement?
+        if (this.userCvId == 0) {
             this.userCvId = this.authenticationService.currentUser?.id!;
             this.isEditable = true;
         }

@@ -31,5 +31,15 @@ export class MissionService {
         );
     }
 
+    public add(m: Mission): Observable<boolean> {
+        return this.http.post<Mission>(`${this.baseUrl}api/missions`, m).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+
     
 }

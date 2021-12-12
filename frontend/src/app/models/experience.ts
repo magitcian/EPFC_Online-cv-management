@@ -29,11 +29,11 @@ export class Experience {
     } 
 
     get startDate(): any{
-        return this.start?.format('DD/MM/YYYY');
+        return this.start ; //?.format('DD/MM/YYYY');
     }
 
     get finishDate(): any{
-        return this.finish?.format('DD/MM/YYYY');
+        return this.finish ; //?.format('DD/MM/YYYY');
     }
 
 

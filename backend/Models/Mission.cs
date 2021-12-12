@@ -14,7 +14,7 @@ namespace prid2122_g03.Models
 
         //[Required]
         [ForeignKey(nameof(Enterprise))]
-        public int ClientId { get; set; } 
+        public int? ClientId { get; set; } //le int? : rend la foreign key nullable
         //[Required]
         public Enterprise Client { get; set; } 
         

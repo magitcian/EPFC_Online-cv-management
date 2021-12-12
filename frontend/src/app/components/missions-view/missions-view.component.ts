@@ -52,7 +52,7 @@ export class MissionsViewComponent {
         });
     }
 
-    //TODO severine: demander si ok avec popup (vérifier ce que veut dire "directement éditable")
+    //TODO question: demander si ok avec popup (vérifier ce que veut dire "directement éditable")
     edit(mission: Mission) {
         const dlg = this.dialog.open(MissionEditComponent, { data: { mission, isNew: false } });
         dlg.beforeClosed().subscribe(res => {
@@ -70,7 +70,20 @@ export class MissionsViewComponent {
     }
 
     create() {
-
+        const mission = new Mission();
+        const dlg = this.dialog.open(MissionEditComponent, { data: { mission, isNew: true } });
+        dlg.beforeClosed().subscribe(res => {
+            if (res) {
+                res = plainToClass(Mission, res);
+                this.missions = [...this.missions, res];
+                this.missionService.add(res).subscribe(res => {
+                    if (!res) {
+                        this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
+                        this.refresh();
+                    }
+                });
+            }
+        });
     }
 
     delete(mission: Mission) {

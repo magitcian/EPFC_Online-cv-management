@@ -66,24 +66,48 @@ namespace prid2122_g03.Controllers
         }
 
 
-        // PUT /api/users
-        // [Authorized(Title.AdminSystem)]
         [HttpPut]
-        public async Task<IActionResult> PutMission(MissionDTO dto) {
+        public async Task<IActionResult> PutMission(MissionWithUserDTO dto) {
             var mission = await _context.Missions.FindAsync(dto.Id);
             if (mission == null)
                 return NotFound();
             if (isConnectedUser(mission.UserId).Result) {
+                if (string.IsNullOrEmpty(dto.Enterprise?.Id.ToString())) {
+                    dto.Enterprise = new EnterpriseDTO();
+                    dto.Enterprise.Id = new int();
+                    dto.Enterprise.Id = mission.EnterpriseId;
+                }
+                if (string.IsNullOrEmpty(dto.User?.Id.ToString())) {
+                    dto.User = new UserDTO();
+                    _mapper.Map<User, UserDTO>(mission.User, dto.User);
+                }
                 _mapper.Map<MissionDTO, Mission>(dto, mission);
-                //ajouter le user relié à la mission
-                mission.User = getConnectedUser().Result;
-                //TODO severine : à changer:
-                mission.ClientId = 1;
-                mission.EnterpriseId = 1;
+                //mission.User = getConnectedUser().Result;
+                mission.Enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id); //Pour éviter de modifier le nom de l'entreprise
+                if (mission.ClientId == 0) {
+                    mission.ClientId = null;
+                }else if(dto.Client != null){
+                    mission.Client = await _context.Enterprises.FindAsync(dto.Client.Id);
+                }
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
             return BadRequest("You are not entitled to adjust these data");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<MissionDTO>> PostMission(MissionDTO dto) {
+            var newMission = _mapper.Map<Mission>(dto);
+            newMission.User = getConnectedUser().Result;
+           // Enterprise enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id);
+            _context.Missions.AddRange(newMission);
+            newMission.Enterprise = null;
+            newMission.EnterpriseId = 1;
+            //TODO question : fonctionne pas...
+            //newMission.EnterpriseId = dto.Enterprise.Id;
+            // newMission.Enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
     }

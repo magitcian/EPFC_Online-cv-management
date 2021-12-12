@@ -17,7 +17,7 @@ using System.Text.Json;
 
 namespace prid2122_g03.Controllers
 {
-    //[Authorize] 
+    [Authorize] 
     [Route("api/[controller]")]
     [ApiController]
     public class EnterprisesController : ControllerBase
@@ -30,6 +30,10 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<EnterpriseDTO>>> GetAll() {
+            return _mapper.Map<List<EnterpriseDTO>>(await _context.Enterprises.ToListAsync());
+        }
 
     }
 }
