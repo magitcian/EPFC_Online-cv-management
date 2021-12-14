@@ -105,15 +105,15 @@ namespace prid2122_g03.Controllers
             return BadRequest("You are not entitled to obtain those data");
         }
 
-        [HttpGet("user_masteringSkills/{userID}")]
-        public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetSkills(int userID) {
+        [HttpGet("user_masterings/{userID}")]
+        public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetMasterings(int userID) { // MasteringWithSkillAndUserDTO
             if (isConnectedUserOrAdmin(userID).Result) {
-                var skills = await _context.Masterings
+                var masterings = await _context.Masterings
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Skill)
                                     .ThenInclude(s => s.Category)
                                     .ToListAsync();
-                return _mapper.Map<List<MasteringWithSkillDTO>>(skills);
+                return _mapper.Map<List<MasteringWithSkillDTO>>(masterings); // MasteringWithSkillAndUserDTO
             }
             return BadRequest("You are not entitled to obtain those data");
         }

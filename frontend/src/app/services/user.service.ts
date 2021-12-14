@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { Mission } from '../models/mission';
-import { Skill } from '../models/skill';
+import { Mastering } from '../models/mastering';
 import { Category } from '../models/category';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -81,10 +81,10 @@ export class UserService {
         );
     }
 
-    getSkills(userID: number) : Observable<Skill[]> {
+    getMasterings(userID: number) : Observable<Mastering[]> {
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
-        return this.http.get<any[]>(`${this.baseUrl}api/users/user_masteringSkills/${userID}`).pipe(
-            map(s => plainToClass(Skill, s))
+        return this.http.get<any[]>(`${this.baseUrl}api/users/user_masterings/${userID}`).pipe(
+            map(m => plainToClass(Mastering, m))
             //,catchError(err => of(null))
         );
     }

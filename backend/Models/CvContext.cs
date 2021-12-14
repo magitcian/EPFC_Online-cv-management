@@ -126,8 +126,12 @@ namespace prid2122_g03.Models
                 new Skill { Id = 1, Name = "Java", CategoryId = 1 },
                 new Skill { Id = 2, Name = "PHP", CategoryId = 1 },
                 new Skill { Id = 3, Name = "Sqlite", CategoryId = 2 },
-                new Skill { Id = 4, Name = "Entity", CategoryId = 3 },
-                new Skill { Id = 5, Name = "English", CategoryId = 4 }
+                new Skill { Id = 4, Name = "Entity Framework", CategoryId = 3 },
+                new Skill { Id = 5, Name = "English", CategoryId = 4 },
+                new Skill { Id = 6, Name = "C#", CategoryId = 1 },
+                new Skill { Id = 7, Name = "JavaScript", CategoryId = 1 },
+                new Skill { Id = 8, Name = "MySQL", CategoryId = 2 },
+                new Skill { Id = 9, Name = "Angular", CategoryId = 3 }
             );
 
 
