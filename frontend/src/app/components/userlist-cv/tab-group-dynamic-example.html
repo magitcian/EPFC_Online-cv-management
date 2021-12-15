@@ -22,6 +22,6 @@
             {{tab.tabName}}
         </ng-template>
         <!-- <ng-container *ngComponentOutlet="tab.selector"></ng-container> -->
-        <app-cv-view [getUserID]="tab.userID"></app-cv-view>
+        <app-cv-view [getUserID]="tab.userID" [isEditable]="false"></app-cv-view>
     </mat-tab>
 </mat-tab-group>

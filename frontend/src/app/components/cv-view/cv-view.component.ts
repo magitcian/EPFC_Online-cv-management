@@ -19,27 +19,28 @@ export class CvViewComponent implements AfterViewInit {
         this.userCvId = val;
         this.getInfoCV();
     }
-    userCvId : number = 0;
+    userCvId !: number;
+    @Input() isEditable!: boolean;
     // missions: Mission[] = [];
     categories: Category[] = [];
     skills: Skill[] = [];
     masterings: Mastering[] = [];
-    isEditable: boolean = false;
+    
 
     constructor(private userService: UserService, public authenticationService: AuthenticationService) {
         
     }
 
     ngAfterViewInit(): void {
-        this.getInfoCV();
+        //this.getInfoCV();
     }
 
     getInfoCV() {
         //TODO question : crée une erreur: comment faire autrement?
-        if (this.userCvId == 0) {
-            this.userCvId = this.authenticationService.currentUser?.id!;
-            this.isEditable = true;
-        }
+        // if (this.userCvId == 0) {
+        //     this.userCvId = this.authenticationService.currentUser?.id!;
+        //     this.isEditable = true;
+        // }
         // this.userService.getMissions(this.userCvId).subscribe(missions => {
         //     this.missions = missions;
         // });

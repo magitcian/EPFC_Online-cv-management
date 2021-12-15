@@ -13,7 +13,8 @@ import { CounterParentComponent } from '../components/counter-stateless/counter-
 import { SignUpComponent } from '../components/signup/signup.component';
 //import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
-import { CvViewComponent } from '../components/cv-view/cv-view.component';
+//import { CvViewComponent } from '../components/cv-view/cv-view.component';
+import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/categorylist/categorylist.component';
 import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
 
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignUpComponent },
   //{ path: 'experiences-view', component: ExperiencesViewComponent },
  // { path: 'missions-view', component: MissionsViewComponent },
-  { path: 'cv-view', component: CvViewComponent },
+  //{ path: 'cv-view', component: CvViewComponent },
+  { path: 'cv-connected-user', component: CvConnectedUserComponent },
   { path: 'restricted', component: RestrictedComponent },
   { path: '**', component: UnknownComponent }
 ];
