@@ -14,7 +14,7 @@ namespace prid2122_g03.Models
 {
     public enum Title
     {
-        AdminSystem = 0, SeniorManager = 1, MediorManager = 2, JuniorManager = 3, SeniorConsultant = 4, MediorConsultant = 5, JuniorConsultant = 6
+        AdminSystem = 0, Manager = 1, Consultant = 2
     }
 
     public abstract class User : IValidatableObject
@@ -36,7 +36,7 @@ namespace prid2122_g03.Models
         
         public DateTime? BirthDate { get; set; }
 
-        public Title Title { get; set; } = Title.JuniorConsultant;
+        public Title Title { get; set; } = Title.Consultant;
 
         [NotMapped]
         public string Token { get; set; }

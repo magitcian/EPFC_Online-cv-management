@@ -32,14 +32,17 @@
                     <input matInput placeholder="Description" [formControl]="ctlDescription">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-select placeholder="Enterprise" [formControl]="ctlEnterpriseId">
-                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
-                    </mat-select>
+                    <mat-form-field>
+                        <mat-select placeholder="Enterprise" [formControl]="ctlEnterpriseId">
+                            <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
                 </mat-form-field>
                 <mat-form-field>
                     <mat-select placeholder="Client" [formControl]="ctlClientId">
                         <!-- <mat-option [value]="0">Pas de client</mat-option> -->
-                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
+                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

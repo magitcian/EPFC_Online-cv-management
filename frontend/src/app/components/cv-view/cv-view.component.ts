@@ -7,10 +7,12 @@ import { Mission } from 'src/app/models/mission';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Skill } from 'src/app/models/skill';
 import { Category } from 'src/app/models/category';
+import { Mastering } from 'src/app/models/mastering';
 
 @Component({
     selector: 'app-cv-view',
-    templateUrl: './cv-view.component.html'
+    templateUrl: './cv-view.component.html',
+    styleUrls: ['./cv-view.component.css']
 })
 export class CvViewComponent implements AfterViewInit {
     @Input() set getUserID(val: number) {
@@ -21,6 +23,7 @@ export class CvViewComponent implements AfterViewInit {
     // missions: Mission[] = [];
     categories: Category[] = [];
     skills: Skill[] = [];
+    masterings: Mastering[] = [];
     isEditable: boolean = false;
 
     constructor(private userService: UserService, public authenticationService: AuthenticationService) {
@@ -43,6 +46,9 @@ export class CvViewComponent implements AfterViewInit {
         this.userService.getCategoriesWithDetails(this.userCvId).subscribe(categories => {
             this.categories = categories;
         });
+        // this.userService.getMasterings(this.userCvId).subscribe(masterings => {
+        //     this.masterings = masterings;
+        // });
 
     }
 
