@@ -30,25 +30,25 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
-        private async Task<User> getConnectedUser() {
+        private User getConnectedUser() {
             int connectedID = 0;
             if (Int32.TryParse(User.Identity.Name, out int ID)) {
                 connectedID = ID;
             }
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
+            return _context.Users.FirstOrDefault(u => u.Id == connectedID);
         }
 
-        private async Task<bool> isConnectedUserOrAdmin(int userID) {
+        private bool isConnectedUserOrAdmin(int userID) {
             var connectedUser = getConnectedUser();
-            var user = await _context.Users.FindAsync(userID);
+            var user = _context.Users.Find(userID);
             var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
-            return isAdmin || (user != null && user.Id == connectedUser.Result.Id);
+            return isAdmin || (user != null && user.Id == connectedUser.Id);
         }
 
-        private async Task<bool> isConnectedUser(int userID) {
+        private bool isConnectedUser(int userID) {
             var connectedUser = getConnectedUser();
-            var user = await _context.Users.FindAsync(userID);
-            return user != null && user.Id == connectedUser.Result.Id;
+            var user = _context.Users.Find(userID);
+            return user != null && user.Id == connectedUser.Id;
         }
 
 
@@ -57,7 +57,7 @@ namespace prid2122_g03.Controllers
             var mission = await _context.Missions.FindAsync(missionID);
             if (mission == null)
                 return NotFound();
-            if (isConnectedUserOrAdmin(mission.UserId).Result) {
+            if (isConnectedUserOrAdmin(mission.UserId)) {
                 _context.Missions.Remove(mission);
                 await _context.SaveChangesAsync();
                 return NoContent();
@@ -71,7 +71,7 @@ namespace prid2122_g03.Controllers
             var mission = await _context.Missions.FindAsync(dto.Id);
             if (mission == null)
                 return NotFound();
-            if (isConnectedUser(mission.UserId).Result) {
+            if (isConnectedUser(mission.UserId)) {
                 if (string.IsNullOrEmpty(dto.Enterprise?.Id.ToString())) {
                     dto.Enterprise = new EnterpriseDTO();
                     dto.Enterprise.Id = new int();
@@ -98,7 +98,7 @@ namespace prid2122_g03.Controllers
         [HttpPost]
         public async Task<ActionResult<MissionDTO>> PostMission(MissionDTO dto) {
             var newMission = _mapper.Map<Mission>(dto);
-            newMission.User = getConnectedUser().Result;
+            newMission.User = getConnectedUser();
            // Enterprise enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id);
             _context.Missions.AddRange(newMission);
             newMission.Enterprise = null;

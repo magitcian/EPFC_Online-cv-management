@@ -77,24 +77,39 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
         }
 
-        private async Task<User> getConnectedUser() {
+        // private async Task<User> getConnectedUser2() {
+        //     int connectedID = 0;
+        //     if (Int32.TryParse(User.Identity.Name, out int ID)) {
+        //         connectedID = ID;
+        //     }
+        //     return await _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
+        // }
+
+        // private async Task<bool> isConnectedUserOrAdmin2(int userID) {
+        //     var connectedUser = getConnectedUser();
+        //     var user = await _context.Users.FindAsync(userID);
+        //     var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
+        //     return isAdmin || (user != null && user.Id == connectedUser.Id);
+        // }
+
+        private User getConnectedUser() {
             int connectedID = 0;
             if (Int32.TryParse(User.Identity.Name, out int ID)) {
                 connectedID = ID;
             }
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
+            return _context.Users.FirstOrDefault(u => u.Id == connectedID);
         }
 
-        private async Task<bool> isConnectedUserOrAdmin(int userID) {
+        private bool isConnectedUserOrAdmin(int userID) {
             var connectedUser = getConnectedUser();
-            var user = await _context.Users.FindAsync(userID);
+            var user = _context.Users.Find(userID);
             var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
             return isAdmin || (user != null && user.Id == connectedUser.Id);
         }
 
         [HttpGet("user_missions/{userID}")]
         public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(int userID) {
-            if (isConnectedUserOrAdmin(userID).Result) {
+            if (isConnectedUserOrAdmin(userID)) {
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Client)
@@ -107,7 +122,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_masterings/{userID}")]
         public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetMasterings(int userID) { // MasteringWithSkillAndUserDTO
-            if (isConnectedUserOrAdmin(userID).Result) {
+            if (isConnectedUserOrAdmin(userID)) {
                 var masterings = await _context.Masterings
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Skill)
@@ -120,11 +135,11 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_categoriesWithDetails/{userID}")]
         public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndMasteringsDTO>>> GetCategoriesWithDetails(int userID) {
-            if (isConnectedUserOrAdmin(userID).Result) {
+            if (isConnectedUserOrAdmin(userID)) {
                 var categories = await _context.Categories
                                     .Where(c => c.Skills.Any(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
-                                    .Include(c => c.Skills .Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
-                                    .ThenInclude(s => s.MasteringSkillsLevels .Where(m => m.UserId == userID))
+                                    .Include(c => c.Skills.Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
+                                    .ThenInclude(s => s.MasteringSkillsLevels.Where(m => m.UserId == userID))
                                     // .ThenInclude(m => m.User .Where(u => u.Id == userID))
                                     // .ThenInclude(m => m.User .Single(u => u.Id == userID)) 
                                     // .Where(c => c.Skills .Where(s => s.Mastering.UserId == userID))
@@ -197,34 +212,34 @@ namespace prid2122_g03.Controllers
         }
 
 
-        // PUT /api/users
-        // [Authorized(Title.AdminSystem)]
-        [HttpPut]
-        public async Task<IActionResult> PutUser(UserWithPasswordDTO dto) {
-            var connectedUser = getConnectedUser();
-            // Récupère en BD le membre à mettre à jour
-            var user = await _context.Users.FindAsync(dto.Id);
-            var isAdmin = User.IsInRole(Title.AdminSystem.ToString()); // boolean
-            // Protected method: changes only if admin or user to update is the connected user
-            if (user != null && !isAdmin) {
-                if (user.Id != connectedUser.Id)
-                    return BadRequest("You are not entitled to adjust these data");
-            }
-            // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
-            if (user == null)
-                return NotFound();
-            // S'il n'y a pas de mot de passe dans le dto, on garde le mot de passe actuel
-            if (string.IsNullOrEmpty(dto.Password))
-                dto.Password = user.Password;
-            // Mappe les données reçues sur celles du membre en question
-            _mapper.Map<UserWithPasswordDTO, User>(dto, user);
-            // Sauve les changements
-            var res = await _context.SaveChangesAsyncWithValidation();
-            if (!res.IsEmpty)
-                return BadRequest(res);
-            // Retourne un statut 204 avec une réponse vide
-            return NoContent();
-        }
+        // // PUT /api/users
+        // // [Authorized(Title.AdminSystem)]
+        // [HttpPut]
+        // public async Task<IActionResult> PutUser(UserWithPasswordDTO dto) {
+        //     var connectedUser = getConnectedUser();
+        //     // Récupère en BD le membre à mettre à jour
+        //     var user = await _context.Users.FindAsync(dto.Id);
+        //     var isAdmin = User.IsInRole(Title.AdminSystem.ToString()); // boolean
+        //     // Protected method: changes only if admin or user to update is the connected user
+        //     if (user != null && !isAdmin) {
+        //         if (user.Id != connectedUser.Id)
+        //             return BadRequest("You are not entitled to adjust these data");
+        //     }
+        //     // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
+        //     if (user == null)
+        //         return NotFound();
+        //     // S'il n'y a pas de mot de passe dans le dto, on garde le mot de passe actuel
+        //     if (string.IsNullOrEmpty(dto.Password))
+        //         dto.Password = user.Password;
+        //     // Mappe les données reçues sur celles du membre en question
+        //     _mapper.Map<UserWithPasswordDTO, User>(dto, user);
+        //     // Sauve les changements
+        //     var res = await _context.SaveChangesAsyncWithValidation();
+        //     if (!res.IsEmpty)
+        //         return BadRequest(res);
+        //     // Retourne un statut 204 avec une réponse vide
+        //     return NoContent();
+        // }
 
 
         // DELETE /api/users/{userID} 
