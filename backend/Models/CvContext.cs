@@ -56,16 +56,20 @@ namespace prid2122_g03.Models
             modelBuilder.Entity<Manager>().HasIndex(m => m.Email).IsUnique();
 
             modelBuilder.Entity<Manager>().HasData(
-                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno", Title = Title.Manager},
-                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben", Title = Title.Manager},
-                new Manager { Id = 5, LastName = "Sytem", FirstName = "Admin", Email = "as@epfc.eu", Password = "admin", Title = Title.AdminSystem}    
-            );   
+                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno", Title = Title.Manager },
+                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben", Title = Title.Manager },
+                new Manager { Id = 5, LastName = "Sytem", FirstName = "Admin", Email = "as@epfc.eu", Password = "admin", Title = Title.AdminSystem },
+                new Manager { Id = 6, LastName = "Manager6", FirstName = "M6", Email = "m6@epfc.eu", Password = "manager", Title = Title.Manager }
+            );
 
             modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();
 
             modelBuilder.Entity<Consultant>().HasData(
-                new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev" }, //, Manager = manager3},
-                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines"}
+                new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev", ManagerId = 1, BirthDate = new DateTime(1990,01,16) },
+                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines", ManagerId = 1 },
+                new Consultant { Id = 7, LastName = "Consultant7", FirstName = "C7", Email = "c7@epfc.eu", Password = "consul" },
+                new Consultant { Id = 8, LastName = "Consultant8", FirstName = "C8", Email = "c8@epfc.eu", Password = "consul2", ManagerId = 2 }
+
             );
 
             modelBuilder.Entity<Phone>().HasData(
@@ -105,7 +109,7 @@ namespace prid2122_g03.Models
                 new Mission { Id = 7, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission7", Description = "M7", EnterpriseId = 1, UserId = 4, ClientId = 3 }
             );
 
-                        // modelBuilder.Entity<Training>().HasData(
+            // modelBuilder.Entity<Training>().HasData(
             //     new Experience { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Analyse", Description = "A", EnterpriseId = 1, UserId = 4 },
             //     new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P", EnterpriseId = 1, UserId = 4 },
             //     new Experience { Id = 3, Start = new DateTime(2017, 1, 2), Finish = new DateTime(2017, 3, 2), Title = "Testing", Description = "T", EnterpriseId = 2, UserId = 4 }

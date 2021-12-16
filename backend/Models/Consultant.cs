@@ -11,6 +11,7 @@ namespace prid2122_g03.Models
 {
     public class Consultant : User //: IValidatableObject
     {
+        public int? ManagerId { get; set; }
         public Manager Manager { get; set; } // public virtual Manager Manager { get; set; }    // check if virtual is needed as inheritance
 
         public Consultant() { 

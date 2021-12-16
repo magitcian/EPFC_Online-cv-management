@@ -64,11 +64,11 @@ namespace prid2122_g03.Models
             CreateMap<User, UserWithExperiencesWithMasteringsDTO>();
             CreateMap<UserWithExperiencesWithMasteringsDTO, User>();
 
-            // CreateMap<Consultant, ConsultantDTO>();
-            // CreateMap<ConsultantDTO, Consultant>();
+            CreateMap<Consultant, ConsultantDTO>();
+            CreateMap<ConsultantDTO, Consultant>();
 
-            // CreateMap<Manager, ManagerDTO>();
-            // CreateMap<ManagerDTO, Manager>();
+            CreateMap<Manager, ManagerDTO>();
+            CreateMap<ManagerDTO, Manager>();
 
             CreateMap<Manager, ManagerWithConsultantsDTO>();
             CreateMap<ManagerWithConsultantsDTO, Manager>();

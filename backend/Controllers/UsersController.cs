@@ -36,18 +36,18 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("cv/{userID}")]
-        public async Task<ActionResult<UserWithExperiencesWithMasteringsDTO>> GetCV(int userID) {
-            var user = await _context.Users
-                            .Include(u => u.Experiences)
-                            .ThenInclude(exp => exp.Enterprise)
-                            .Include(u => u.Experiences)
-                            .ThenInclude(exp => ((Mission)exp).Client)
-                            .SingleAsync(u => u.Id == userID);
-            if (user == null)
-                return NotFound();
-            return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
-        }
+        // [HttpGet("cv/{userID}")]
+        // public async Task<ActionResult<UserWithExperiencesWithMasteringsDTO>> GetCV(int userID) {
+        //     var user = await _context.Users
+        //                     .Include(u => u.Experiences)
+        //                     .ThenInclude(exp => exp.Enterprise)
+        //                     .Include(u => u.Experiences)
+        //                     .ThenInclude(exp => ((Mission)exp).Client)
+        //                     .SingleAsync(u => u.Id == userID);
+        //     if (user == null)
+        //         return NotFound();
+        //     return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
+        // }
 
         private int getConnectedUserId() {
             int connectedID = 0;
@@ -279,6 +279,16 @@ namespace prid2122_g03.Controllers
             data.Title = Title.Consultant;
             return await PostUser(data);
         }
+
+        [Authorized(Title.AdminSystem, Title.Manager)]
+        [HttpGet("my-consultant")]
+        public async Task<ActionResult<IEnumerable<ConsultantDTO>>> GetMyConsultants() {
+            var consultants = await _context.Consultants
+                                .Where(c => c.ManagerId == getConnectedUserId() || c.ManagerId == null)
+                                .ToListAsync();
+            return _mapper.Map<List<ConsultantDTO>>(consultants);
+        }
+
 
     }
 }

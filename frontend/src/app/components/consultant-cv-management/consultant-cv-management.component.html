@@ -1,5 +1,5 @@
 <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
-    <mat-tab label="UserList">
+    <mat-tab label="Consultants list">
         <app-consultantlist (addTabCVUser)="addTabCVUser($event)"></app-consultantlist>
     </mat-tab>
     <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab.tabName">

@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { plainToClass } from 'class-transformer';
+import { Consultant } from 'src/app/models/consultant';
 
 @Component({
     selector: 'app-consultantlist', // sélecteur utilisé pour un sous-composant
@@ -42,7 +43,7 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         // définit le predicat qui doit être utilisé pour filtrer les membres
-        this.dataSource.filterPredicate = (data: User, filter: string) => {
+        this.dataSource.filterPredicate = (data: Consultant, filter: string) => {
             const str = data.lastName + ' ' + data.firstName + ' ' + data.email + ' ' + data.birthDate?.format('DD/MM/YYYY') + ' ' + data.titleAsString;
             return str.toLowerCase().includes(filter);
         };
@@ -54,17 +55,18 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
     }
 
     refresh() {
-        this.userService.getAll().subscribe(users => {
+        this.userService.getMyConsultants().subscribe(consultants => {
             // assigne les données récupérées au datasource
-            this.dataSource.data = users;
+            this.dataSource.data = consultants;
             // restaure l'état du datasource (tri et pagination) à partir du state
             this.state.restoreState(this.dataSource);
             // restaure l'état du filtre à partir du state
             this.filter = this.state.filter;
+            //console.log(consultants);
         });
     }
 
-    // appelée chaque fois que le filtre est modifié par l'utilisateur
+
     filterChanged(e: KeyboardEvent) {
         const filterValue = (e.target as HTMLInputElement).value;
         // applique le filtre au datasource (et provoque l'utilisation du filterPredicate)
@@ -77,24 +79,8 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
             this.dataSource.paginator.firstPage();
     }
 
-    // appelée quand on clique sur le bouton "edit" d'un membre
-    edit(user: User) {
-        const dlg = this.dialog.open(EditUserComponent, { data: { user, isNew: false } });
-        dlg.beforeClosed().subscribe(res => {
-            if (res) {
-                _.assign(user, res);
-                res = plainToClass(User, res);
-                this.userService.update(res).subscribe(res => {
-                    if (!res) {
-                        this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
-                        this.refresh();
-                    }
-                });
-            }
-        });
-    }
 
-    // appelée quand on clique sur le bouton "delete" d'un membre
+
     delete(user: User) {
         const backup = this.dataSource.data;
         this.dataSource.data = _.filter(this.dataSource.data, u => u.email !== user.email);
@@ -107,30 +93,21 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    // appelée quand on clique sur le bouton "new user"
-    create() {
-        const user = new User();
-        const dlg = this.dialog.open(EditUserComponent, { data: { user, isNew: true } });
-        dlg.beforeClosed().subscribe(res => {
-            if (res) {
-                res = plainToClass(User, res);
-                this.dataSource.data = [...this.dataSource.data, res];
-                this.userService.add(res).subscribe(res => {
-                    if (!res) {
-                        this.snackBar.open(`There was an error at the server. The user has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
-                        this.refresh();
-                    }
-                });
-            }
-        });
-    }
 
     ngOnDestroy(): void {
         this.snackBar.dismiss();
     }
 
-    cvDisplay(user: User) {
+    cv_display(user: User) {
         this.addTabCVUser.emit(user);
+    }
+
+    remove_link(user: User){
+
+    }
+
+    add_link(user: User){
+
     }
 
 }

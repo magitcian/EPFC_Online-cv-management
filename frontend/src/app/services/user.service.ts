@@ -7,6 +7,7 @@ import { Category } from '../models/category';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { plainToClass } from 'class-transformer';
+import { Consultant } from '../models/consultant';
 // import { Friend } from '../models/friend';
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +24,7 @@ export class UserService {
         // return this.http.get<Member[]>(`${this.baseUrl}api/members`)
         //     .pipe(map(res => res.map(m => new Member(m))));
     }
-    
+
     // Attention: keep "userID" as it is the same param than in User class in backend
     // TODO: maybe "BigInteger" is more appropriate
     getById(userID: number) { //: Observable<Member> or undefined
@@ -65,15 +66,15 @@ export class UserService {
     }
 
     //plus utilisé:
-    getCV(userID: number) : Observable<User> {
-        // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
-        return this.http.get<User>(`${this.baseUrl}api/users/cv/${userID}`).pipe(
-            map(u => plainToClass(User, u))
-            //,catchError(err => of(null))
-        );
-    }
+    // getCV(userID: number) : Observable<User> {
+    //     // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
+    //     return this.http.get<User>(`${this.baseUrl}api/users/cv/${userID}`).pipe(
+    //         map(u => plainToClass(User, u))
+    //         //,catchError(err => of(null))
+    //     );
+    // }
 
-    getMissions(userID: number) : Observable<Mission[]> {
+    getMissions(userID: number): Observable<Mission[]> {
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
         return this.http.get<any[]>(`${this.baseUrl}api/users/user_missions/${userID}`).pipe(
             map(m => plainToClass(Mission, m))
@@ -81,7 +82,7 @@ export class UserService {
         );
     }
 
-    getMasterings(userID: number) : Observable<Mastering[]> {
+    getMasterings(userID: number): Observable<Mastering[]> {
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
         return this.http.get<any[]>(`${this.baseUrl}api/users/user_masterings/${userID}`).pipe(
             map(m => plainToClass(Mastering, m))
@@ -89,12 +90,18 @@ export class UserService {
         );
     }
 
-    getCategoriesWithDetails(userID: number) : Observable<Category[]> {
+    getCategoriesWithDetails(userID: number): Observable<Category[]> {
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
         return this.http.get<any[]>(`${this.baseUrl}api/users/user_categoriesWithDetails/${userID}`).pipe(
             map(c => plainToClass(Category, c))
             //,catchError(err => of(null))
         );
+    }
+
+    getMyConsultants(): Observable<Consultant[]> {
+        return this.http.get<any[]>(`${this.baseUrl}api/users/my-consultant`)
+            .pipe(map(res => plainToClass(Consultant, res))
+            );
     }
 
     // public getMembersWithRelationship(pseudo: string): Observable<Friend[]> {
@@ -106,7 +113,7 @@ export class UserService {
     //         })
     //     );
     // }
-    
+
     // public follow(follower: string, followee: string): Observable<boolean> {
     //     return this.http.post(`${this.baseUrl}api/members/follow`, { follower, followee }).pipe(
     //         map(res => true),
@@ -116,7 +123,7 @@ export class UserService {
     //         })
     //     );
     // }
-    
+
     // public unfollow(follower: string, followee: string) {
     //     return this.http.post(`${this.baseUrl}api/members/unfollow`, { follower, followee }).pipe(
     //         map(res => true),
@@ -126,5 +133,5 @@ export class UserService {
     //         })
     //     );
     // }
-    
+
 }
