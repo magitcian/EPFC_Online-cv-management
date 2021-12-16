@@ -16,14 +16,13 @@ import { MissionsViewComponent } from '../components/missions-view/missions-view
 //import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/categorylist/categorylist.component';
-import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
+import { ConsultantCvManagementComponent } from '../components/consultant-cv-management/consultant-cv-management.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'counter-stateless', component: CounterParentComponent },
   { path: 'fetch-data', component: FetchDataComponent },
-  { path: 'tab-group-dynamic-example2', component: TabGroupDynamicExample2 },
   // { path: 'members', component: MemberListComponent },
   // { path: '**', redirectTo: '' }
   {
@@ -37,6 +36,12 @@ const appRoutes: Routes = [
     component: CategoryListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Title.AdminSystem] }
+  }, 
+  {
+    path: 'consultant-cv-management',
+    component: ConsultantCvManagementComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Title.AdminSystem, Title.Manager] }
   }, 
   // {
   //   path: 'friends',

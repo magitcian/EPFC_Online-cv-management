@@ -39,18 +39,7 @@ namespace prid2122_g03.Controllers
         }
 
         private User getConnectedUser() {
-            int connectedID = 0;
-            if (Int32.TryParse(User.Identity.Name, out int ID)) {
-                connectedID = ID;
-            }
-            return _context.Users.FirstOrDefault(u => u.Id == connectedID);
-        }
-
-        private bool isConnectedUserOrAdmin(int userID) {
-            var connectedUser = getConnectedUser();
-            var user = _context.Users.Find(userID);
-            var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
-            return isAdmin || (user != null && user.Id == connectedUser.Id);
+            return _context.Users.FirstOrDefault(u => u.Id == getConnectedUserId());
         }
 
         private bool isConnectedUser(int userID) {
@@ -59,13 +48,21 @@ namespace prid2122_g03.Controllers
             return user != null && user.Id == connectedUser.Id;
         }
 
+        private bool isAdmin() {
+            return User.IsInRole(Title.AdminSystem.ToString());
+        }
+
+        private bool isManager() {
+            return User.IsInRole(Title.Manager.ToString());
+        }
+
 
         [HttpDelete("{missionID}")]
         public async Task<IActionResult> DeleteMission(int missionID) {
             var mission = await _context.Missions.FindAsync(missionID);
             if (mission == null)
                 return NotFound();
-            if (isConnectedUserOrAdmin(mission.UserId)) {
+            if (isConnectedUser(mission.UserId)) {
                 _context.Missions.Remove(mission);
                 await _context.SaveChangesAsync();
                 return NoContent();

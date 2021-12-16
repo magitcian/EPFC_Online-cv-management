@@ -29,8 +29,8 @@ import { MissionsViewComponent } from '../components/missions-view/missions-view
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/categorylist/categorylist.component';
-import { TabGroupDynamicExample2 } from '../components/userlist-cv/tab-group-dynamic-example';
-import { UserListComponent2 } from '../components/userlist-cv/userlist.component';
+import { ConsultantListComponent } from '../components/consultantlist/consultantlist.component';
+import { ConsultantCvManagementComponent } from '../components/consultant-cv-management/consultant-cv-management.component';
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 import { MasteringListComponent } from '../components/masteringlist/masteringlist.component';
@@ -62,8 +62,8 @@ export function getBaseUrl() {
         CvConnectedUserComponent,
         MissionsViewComponent,
         CategoryListComponent
-        ,TabGroupDynamicExample2
-        ,UserListComponent2
+        ,ConsultantListComponent
+        ,ConsultantCvManagementComponent
         ,CategoriesViewComponent
         ,MissionEditComponent
         ,MasteringListComponent

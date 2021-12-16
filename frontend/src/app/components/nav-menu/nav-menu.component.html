@@ -28,14 +28,14 @@
                     <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && isAdmin">
                         <a class="nav-link text-dark" [routerLink]='["/categories"]'>Categories</a>
                     </li>
-                    <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && isAdmin">
-                        <a class="nav-link text-dark" [routerLink]='["/tab-group-dynamic-example2"]'>UsersListCV</a>
+                    <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && (isAdmin || isManager)">
+                        <a class="nav-link text-dark" [routerLink]='["/consultant-cv-management"]'>ConsultantListCV</a>
                     </li>
                     <!-- <li class="nav-item" [routerLinkActive]='["link-active"]'>
                         <a class="nav-link text-dark" [routerLink]='["/experiences-view"]'>Experiences</a>
                     </li> -->
                     <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser">
-                        <a class="nav-link text-dark" [routerLink]='["/cv-connected-user"]'>CV current user</a>
+                        <a class="nav-link text-dark" [routerLink]='["/cv-connected-user"]'>My CV</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">

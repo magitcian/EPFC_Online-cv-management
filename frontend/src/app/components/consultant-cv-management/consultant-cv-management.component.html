@@ -1,20 +1,6 @@
-<!-- <div>
-    <span class="example-input-label"> Selected tab index: </span>
-    <mat-form-field>
-        <input matInput type="number" [formControl]="selected">
-    </mat-form-field>
-</div>
-
-<div>
-    <button mat-raised-button class="example-add-tab-button" (click)="addTab(selectAfterAdding.checked, 'First Tab', '')">
-      Add new tab
-    </button>
-    <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox>
-</div> -->
-
 <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
     <mat-tab label="UserList">
-        <app-userlist2 (addTabCVUser)="addTabCVUser($event)"></app-userlist2>
+        <app-consultantlist (addTabCVUser)="addTabCVUser($event)"></app-consultantlist>
     </mat-tab>
     <mat-tab *ngFor="let tab of tabs; let index = index" [label]="tab.tabName">
         <ng-template mat-tab-label>

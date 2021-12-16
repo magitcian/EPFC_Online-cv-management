@@ -49,24 +49,35 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
         }
 
-        private User getConnectedUser() {
+        private int getConnectedUserId() {
             int connectedID = 0;
             if (Int32.TryParse(User.Identity.Name, out int ID)) {
                 connectedID = ID;
             }
-            return _context.Users.FirstOrDefault(u => u.Id == connectedID);
+            return connectedID;
         }
 
-        private bool isConnectedUserOrAdmin(int userID) {
+        private User getConnectedUser() {
+            return _context.Users.FirstOrDefault(u => u.Id == getConnectedUserId());
+        }
+
+        private bool isConnectedUser(int userID) {
             var connectedUser = getConnectedUser();
             var user = _context.Users.Find(userID);
-            var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
-            return isAdmin || (user != null && user.Id == connectedUser.Id);
+            return user != null && user.Id == connectedUser.Id;
+        }
+
+        private bool isAdmin() {
+            return User.IsInRole(Title.AdminSystem.ToString());
+        }
+
+        private bool isManager() {
+            return User.IsInRole(Title.Manager.ToString());
         }
 
         [HttpGet("user_missions/{userID}")]
         public async Task<ActionResult<IEnumerable<MissionWithEnterprisesDTO>>> GetMissions(int userID) {
-            if (isConnectedUserOrAdmin(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || isManager()) {
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Client)
@@ -79,7 +90,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_masterings/{userID}")]
         public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetMasterings(int userID) { // MasteringWithSkillAndUserDTO
-            if (isConnectedUserOrAdmin(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || isManager()) {
                 var masterings = await _context.Masterings
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Skill)
@@ -92,7 +103,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_categoriesWithDetails/{userID}")]
         public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndMasteringsDTO>>> GetCategoriesWithDetails(int userID) {
-            if (isConnectedUserOrAdmin(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || isManager()) {
                 var categories = await _context.Categories
                                     .Where(c => c.Skills.Any(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
                                     .Include(c => c.Skills.Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
@@ -119,7 +130,7 @@ namespace prid2122_g03.Controllers
         }
 
         // GET /api/users
-        [Authorized(Title.AdminSystem)]
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll() {
             /*

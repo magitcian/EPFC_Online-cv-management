@@ -65,7 +65,7 @@ namespace prid2122_g03.Models
 
             modelBuilder.Entity<Consultant>().HasData(
                 new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev" }, //, Manager = manager3},
-                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines", Title =  Title.AdminSystem}
+                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines"}
             );
 
             modelBuilder.Entity<Phone>().HasData(

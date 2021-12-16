@@ -32,6 +32,10 @@ export class NavMenuComponent {
         return this.currentUser && this.currentUser.title === Title.AdminSystem;
     }
 
+    get isManager() {
+        return this.currentUser && this.currentUser.title === Title.Manager;
+    }
+
     logout() {
         this.authenticationService.logout();
         this.router.navigate(['/login']);

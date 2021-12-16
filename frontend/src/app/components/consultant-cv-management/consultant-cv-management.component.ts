@@ -7,11 +7,11 @@ import { User } from '../../models/user';
  * @title Tab group with dynamically changing tabs
  */
 @Component({
-  selector: 'tab-group-dynamic-example2',
-  templateUrl: 'tab-group-dynamic-example.html',
-  styleUrls: ['tab-group-dynamic-example.css'],
+  selector: 'app-consultant-cv-management',
+  templateUrl: 'consultant-cv-management.component.html',
+  styleUrls: ['consultant-cv-management.component.css'],
 })
-export class TabGroupDynamicExample2 {
+export class ConsultantCvManagementComponent {
   tabs :any[] = []
   selected = new FormControl(0);
   CvViewComponent = CvViewComponent;
@@ -19,7 +19,6 @@ export class TabGroupDynamicExample2 {
   addTabCVUser(user : User) {
     let tab = { tabName: `CV ${user.firstName} ${user.lastName}`, selector: CvViewComponent, userID : user.id}; 
     this.tabs.push(tab);
-
   }
 
   removeTab(index: number) {
