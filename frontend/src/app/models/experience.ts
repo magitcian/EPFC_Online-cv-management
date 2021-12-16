@@ -20,7 +20,9 @@ export class Experience {
     finish?: Moment;
     title?: string;
     description?:string;
+    enterpriseId?: number;
     enterprise?: Enterprise;
+    userId?:number;
     user?:User;
     //skills: Skill[] = []; //plus tard
  

@@ -13,8 +13,7 @@ import * as _ from 'lodash-es';
   
 export class Mission extends Experience {
 
-   
+    clientId?: number;
     client?: Enterprise;
-
 
 }

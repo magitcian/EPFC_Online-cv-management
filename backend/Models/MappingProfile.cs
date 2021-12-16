@@ -34,6 +34,9 @@ namespace prid2122_g03.Models
             CreateMap<Mission, MissionWithUserDTO>();
             CreateMap<MissionWithUserDTO, Mission>();
 
+            CreateMap<Mission, MissionWithEnterprisesDTO>();
+            CreateMap<MissionWithEnterprisesDTO, Mission>();
+
             // CreateMap<Experience, ExperienceDTO>();
             // CreateMap<ExperienceDTO, Experience>();
 

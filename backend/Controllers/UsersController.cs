@@ -36,61 +36,18 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous] // no need to be authentified 
-        //[Authorized(Role.Admin)]
         [HttpGet("cv/{userID}")]
         public async Task<ActionResult<UserWithExperiencesWithMasteringsDTO>> GetCV(int userID) {
-            // User user = null;
-            // if (Int32.TryParse(userID, out int id)) {
-            //     user = await _context.Users
-            //                     .Include(u => u.Experiences)
-            //                     .ThenInclude(exp => exp.Enterprise)
-            //                     .SingleAsync(u => u.Id == id);
-            // }
             var user = await _context.Users
                             .Include(u => u.Experiences)
                             .ThenInclude(exp => exp.Enterprise)
-
                             .Include(u => u.Experiences)
                             .ThenInclude(exp => ((Mission)exp).Client)
-
-                            // .Include(u => (Mission)u.Experiences .Where(e => e.GetType() == typeof(Mission))
-                            // .ThenInclude(m => m.Client)
-
-                            // .Include(u => u.MasteringSkillsLevels )
-                            // .ThenInclude(mast => mast.Skill)
-                            // .ThenInclude(Skill => Skill.Category)
-
-                            //TODO questions: 
-                            //comment gérer l'héritage? (voir ci-dessous, ne fonctionne pas)
-
-                            // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Experience) || e.GetType().BaseType == typeof(Experience)) )
-                            // .ThenInclude(exp => exp.Enterprise )    
-
-                            // .Include(u => u.Experiences .Where(e => e.GetType() == typeof(Mission)))
-                            // .ThenInclude(exp => ((Mission)exp).Client )
-                            // .ThenInclude(exp => ((Mission)exp).Enterprise )
-
                             .SingleAsync(u => u.Id == userID);
             if (user == null)
                 return NotFound();
             return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
         }
-
-        // private async Task<User> getConnectedUser2() {
-        //     int connectedID = 0;
-        //     if (Int32.TryParse(User.Identity.Name, out int ID)) {
-        //         connectedID = ID;
-        //     }
-        //     return await _context.Users.FirstOrDefaultAsync(u => u.Id == connectedID);
-        // }
-
-        // private async Task<bool> isConnectedUserOrAdmin2(int userID) {
-        //     var connectedUser = getConnectedUser();
-        //     var user = await _context.Users.FindAsync(userID);
-        //     var isAdmin = User.IsInRole(Title.AdminSystem.ToString());
-        //     return isAdmin || (user != null && user.Id == connectedUser.Id);
-        // }
 
         private User getConnectedUser() {
             int connectedID = 0;
@@ -108,14 +65,14 @@ namespace prid2122_g03.Controllers
         }
 
         [HttpGet("user_missions/{userID}")]
-        public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions(int userID) {
+        public async Task<ActionResult<IEnumerable<MissionWithEnterprisesDTO>>> GetMissions(int userID) {
             if (isConnectedUserOrAdmin(userID)) {
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Client)
                                     .Include(m => m.Enterprise)
                                     .ToListAsync();
-                return _mapper.Map<List<MissionDTO>>(missions);
+                return _mapper.Map<List<MissionWithEnterprisesDTO>>(missions);
             }
             return BadRequest("You are not entitled to obtain those data");
         }

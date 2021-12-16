@@ -9,12 +9,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace prid2122_g03.Models
 {
 
-    public abstract class Experience //: IValidatableObject
+    public abstract class Experience : IValidatableObject
     {
         [Key]
         public int Id { get; set; }
-
+        [Required]
         public DateTime? Start { get; set; }
+        [Required]
         public DateTime? Finish { get; set; }
         [MinLength(3, ErrorMessage = "Minimum 3 characters")]
         public string Title { get; set; }
@@ -23,19 +24,19 @@ namespace prid2122_g03.Models
 
         [Required]
         [ForeignKey(nameof(Enterprise))]
-        public int EnterpriseId { get; set; } 
-        [Required]
-        public Enterprise Enterprise { get; set; } 
+        public int EnterpriseId { get; set; }
+        //[Required]
+        public Enterprise Enterprise { get; set; }
 
         [Required]
         [ForeignKey(nameof(User))]
-        public int UserId { get; set; } 
-        [Required]
-        public User User { get; set; } 
+        public int UserId { get; set; }
+        //[Required]
+        public User User { get; set; }
 
         public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using 
 
-        public Experience(DateTime start, DateTime finish, string title, string description, Enterprise enterprise):this(start, finish, title, description) {
+        public Experience(DateTime start, DateTime finish, string title, string description, Enterprise enterprise) : this(start, finish, title, description) {
             Enterprise = enterprise;
         }
 
@@ -48,6 +49,19 @@ namespace prid2122_g03.Models
 
         public Experience() {
 
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
+            var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
+            Debug.Assert(currContext != null);
+            if (this.Title == null)
+                yield return new ValidationResult("Title muste be completed", new[] { nameof(this.Title) });
+            if (this.Start > this.Finish)
+                yield return new ValidationResult("Start date must be lower than finish date!", new[] { nameof(this.Start) });
+            if (this.Start.Value.Year <= 1990)
+                yield return new ValidationResult("Start date must be realistic!", new[] { nameof(this.Start) });
+            if (this.Finish.Value.Year <= 1990)
+                yield return new ValidationResult("Finish date must be realistic!", new[] { nameof(this.Finish) });
         }
     }
 }

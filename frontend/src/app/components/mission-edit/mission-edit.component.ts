@@ -31,7 +31,6 @@ export class MissionEditComponent {
     public ctlEnterpriseName!: FormControl;
     public ctlClientId!: FormControl;
     public ctlClientName!: FormControl;
-    //public frmEnterprise!: FormGroup;
     public isNew: boolean;
     public enterprises !: Enterprise[];
 
@@ -41,9 +40,10 @@ export class MissionEditComponent {
         private missionService: MissionService,
         private enterpriseService: EnterpriseService
     ) {
-        this.ctlTitle = this.fb.control(null, null);
-        this.ctlStart = this.fb.control('', []);
-        this.ctlFinish = this.fb.control(null, [this.validateFinishDate()]);
+        this.ctlTitle = this.fb.control('', [Validators.required]);
+        //this.ctlFinish = this.fb.control(null, null);
+        this.ctlStart = this.fb.control('', [Validators.required]); //, this.validateStartDate()]);
+        this.ctlFinish = this.fb.control('',[Validators.required, this.validateFinishDate()]);
         this.ctlDescription = this.fb.control('', []);
         this.ctlEnterpriseId = this.fb.control('', []);
         this.ctlEnterpriseName = this.fb.control('', []);
@@ -56,7 +56,9 @@ export class MissionEditComponent {
             finish: this.ctlFinish,
             title: this.ctlTitle,
             description: this.ctlDescription,
-            enterprise: this.fb.group({
+            enterpriseId: this.ctlEnterpriseId,
+            clientId: this.ctlClientId
+            ,enterprise: this.fb.group({
                 id: this.ctlEnterpriseId,
                 name: this.ctlEnterpriseName
             }),
@@ -107,10 +109,20 @@ export class MissionEditComponent {
             const finishDate: Moment = ctl.value;
             const startDate: Moment = this.ctlStart.value;
             if (finishDate < startDate)
-                return { finishBiggerThanStartDate: true }
+                return { startBiggerThanFinishDate: true }
             return null;
         };
     }
+
+    // validateStartDate(): any {
+    //     return (ctl: FormControl) => {
+    //         const startDate : Moment = ctl.value;
+    //         const finishDate: Moment = this.ctlFinish.value;
+    //         if (finishDate < startDate)
+    //             return { finishLowerThanStartDate: true }
+    //         return null;
+    //     };
+    // }
 
     cancel() {
         this.dialogRef.close();

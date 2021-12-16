@@ -14,29 +14,31 @@
 
                 <mat-form-field>
                     <input matInput placeholder="Title" [formControl]="ctlTitle">
+                    <mat-error class="field-error" *ngIf="ctlTitle.hasError('required')">Required</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Start date</mat-label>
                     <input matInput [matDatepicker]="picker1" [formControl]="ctlStart">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error class="field-error" *ngIf="ctlStart.hasError('required')">Required</mat-error>
+                    <!-- <mat-error class="field-error" *ngIf="ctlStart.hasError('startBiggerThanFinishDate')">Must be at least lower than finish date</mat-error> -->
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Finish date</mat-label>
                     <input matInput [matDatepicker]="picker2" [formControl]="ctlFinish">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
-                    <mat-error class="field-error" *ngIf="ctlFinish.hasError('finishBiggerThanStartDate')">Must be at least bigger than start date</mat-error>
+                    <mat-error class="field-error" *ngIf="ctlFinish.hasError('required')">Required</mat-error>
+                    <mat-error class="field-error" *ngIf="ctlFinish.hasError('finishLowerThanStartDate')">Must be at least bigger than start date</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <input matInput placeholder="Description" [formControl]="ctlDescription">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-form-field>
-                        <mat-select placeholder="Enterprise" [formControl]="ctlEnterpriseId">
-                            <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
-                        </mat-select>
-                    </mat-form-field> -->
+                    <mat-select placeholder="Enterprise" [formControl]="ctlEnterpriseId" required>
+                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-select placeholder="Client" [formControl]="ctlClientId">

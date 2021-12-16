@@ -14,14 +14,13 @@ import { Mastering } from 'src/app/models/mastering';
     templateUrl: './cv-view.component.html',
     styleUrls: ['./cv-view.component.css']
 })
-export class CvViewComponent implements AfterViewInit {
+export class CvViewComponent {
     @Input() set getUserID(val: number) {
         this.userCvId = val;
         this.getInfoCV();
     }
     userCvId !: number;
     @Input() isEditable!: boolean;
-    // missions: Mission[] = [];
     categories: Category[] = [];
     skills: Skill[] = [];
     masterings: Mastering[] = [];
@@ -31,25 +30,10 @@ export class CvViewComponent implements AfterViewInit {
         
     }
 
-    ngAfterViewInit(): void {
-        //this.getInfoCV();
-    }
-
     getInfoCV() {
-        //TODO question : crée une erreur: comment faire autrement?
-        // if (this.userCvId == 0) {
-        //     this.userCvId = this.authenticationService.currentUser?.id!;
-        //     this.isEditable = true;
-        // }
-        // this.userService.getMissions(this.userCvId).subscribe(missions => {
-        //     this.missions = missions;
-        // });
         this.userService.getCategoriesWithDetails(this.userCvId).subscribe(categories => {
             this.categories = categories;
         });
-        // this.userService.getMasterings(this.userCvId).subscribe(masterings => {
-        //     this.masterings = masterings;
-        // });
 
     }
 

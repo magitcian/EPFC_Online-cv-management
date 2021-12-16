@@ -75,12 +75,16 @@ export class MissionsViewComponent {
         dlg.beforeClosed().subscribe(res => {
             if (res) {
                 res = plainToClass(Mission, res);
-                this.missions = [...this.missions, res];
+                res.id = 0;
+                if(res.clientId == null || res.clientId == ''){
+                    res.clientId = 0;
+                }
+                //this.missions = [...this.missions, res];
                 this.missionService.add(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
-                        this.refresh();
                     }
+                    this.refresh();
                 });
             }
         });
@@ -93,14 +97,8 @@ export class MissionsViewComponent {
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
                 this.missionService.delete(mission).subscribe();
-            }
-            else {
-                let backup!: Mission[];
-                this.missions.splice(index, 0, mission);
-                this.missions.forEach(m =>
-                    backup.push(m)
-                );
-                this.missions = backup; //Force une nouvelle référence et met à jour le composant à l'écran
+            }else{
+                this.refresh();
             }
         });
     }

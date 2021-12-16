@@ -30,6 +30,14 @@ namespace prid2122_g03.Controllers
             _mapper = mapper;
         }
 
+        private int getConnectedUserId() {
+            int connectedID = 0;
+            if (Int32.TryParse(User.Identity.Name, out int ID)) {
+                connectedID = ID;
+            }
+            return connectedID;
+        }
+
         private User getConnectedUser() {
             int connectedID = 0;
             if (Int32.TryParse(User.Identity.Name, out int ID)) {
@@ -65,48 +73,35 @@ namespace prid2122_g03.Controllers
             return BadRequest("You are not entitled to remove those data");
         }
 
-
         [HttpPut]
-        public async Task<IActionResult> PutMission(MissionWithUserDTO dto) {
+        public async Task<IActionResult> PutMission(MissionDTO dto) {
             var mission = await _context.Missions.FindAsync(dto.Id);
             if (mission == null)
                 return NotFound();
             if (isConnectedUser(mission.UserId)) {
-                if (string.IsNullOrEmpty(dto.Enterprise?.Id.ToString())) {
-                    dto.Enterprise = new EnterpriseDTO();
-                    dto.Enterprise.Id = new int();
-                    dto.Enterprise.Id = mission.EnterpriseId;
-                }
-                if (string.IsNullOrEmpty(dto.User?.Id.ToString())) {
-                    dto.User = new UserDTO();
-                    _mapper.Map<User, UserDTO>(mission.User, dto.User);
-                }
+                dto.UserId = mission.UserId;
                 _mapper.Map<MissionDTO, Mission>(dto, mission);
-                //mission.User = getConnectedUser().Result;
-                mission.Enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id); //Pour éviter de modifier le nom de l'entreprise
-                if (mission.ClientId == 0) {
-                    mission.ClientId = null;
-                }else if(dto.Client != null){
-                    mission.Client = await _context.Enterprises.FindAsync(dto.Client.Id);
-                }
-                await _context.SaveChangesAsync();
+                var res = await _context.SaveChangesAsyncWithValidation();
+                if (!res.IsEmpty)
+                    return BadRequest(res);
                 return NoContent();
             }
             return BadRequest("You are not entitled to adjust these data");
         }
 
         [HttpPost]
-        public async Task<ActionResult<MissionDTO>> PostMission(MissionDTO dto) {
+        public async Task<IActionResult> PostMission(MissionDTO dto) {
             var newMission = _mapper.Map<Mission>(dto);
-            newMission.User = getConnectedUser();
-           // Enterprise enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id);
+            newMission.UserId = getConnectedUserId();
+            if (newMission.ClientId == 0) {
+                newMission.ClientId = null;
+            }
+            // if (newMission.Title == null || newMission.Title == "")
+            //     return BadRequest(new ValidationErrors().Add("Title must be completed", "Title"));
             _context.Missions.AddRange(newMission);
-            newMission.Enterprise = null;
-            newMission.EnterpriseId = 1;
-            //TODO question : fonctionne pas...
-            //newMission.EnterpriseId = dto.Enterprise.Id;
-            // newMission.Enterprise = await _context.Enterprises.FindAsync(dto.Enterprise.Id);
-            await _context.SaveChangesAsync();
+            var res = await _context.SaveChangesAsyncWithValidation();
+            if (!res.IsEmpty)
+                return BadRequest(res);
             return NoContent();
         }
 
