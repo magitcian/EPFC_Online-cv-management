@@ -80,6 +80,7 @@ namespace prid2122_g03.Controllers
             if (isConnectedUser(userID) || isAdmin() || isManager()) {
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
+                                    .OrderByDescending(m => m.Start) //inverse : OrderBy
                                     .Include(m => m.Client)
                                     .Include(m => m.Enterprise)
                                     .ToListAsync();

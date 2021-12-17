@@ -10,3 +10,8 @@ table {
 th.mat-column-actions {
     width: 150px;
 }
+
+.no-consultant {
+    color: brown;
+    font-weight: bold;
+}

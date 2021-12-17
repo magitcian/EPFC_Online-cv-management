@@ -9,7 +9,7 @@
     </div>
 </div> -->
 
-<div class="row" (click)="refresh()">
+<div class="row">
     <div class="col-sm-12">
         <!-- <ul *ngIf="members.length > 0">
             <li *ngFor="let member of members">{{ member.display }}</li>
@@ -24,7 +24,9 @@
         <div class="col-sm-12" *ngIf="!areMyConsultants">
             <h1>Consultants without manager:</h1>
         </div>
-
+        <div class="no-consultant" *ngIf="dataSource.data.length == 0">
+            <p>No consultant found!</p>
+        </div>
         <mat-form-field>
             <input matInput (keyup)="filterChanged($event)" [value]="filter" placeholder="Filter" appSetFocus>
         </mat-form-field>
