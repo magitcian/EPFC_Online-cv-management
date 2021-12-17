@@ -104,6 +104,32 @@ export class UserService {
             );
     }
 
+    getConsultantsWithoutManager(): Observable<Consultant[]> {
+        return this.http.get<any[]>(`${this.baseUrl}api/users/consultant-without-manager`)
+            .pipe(map(res => plainToClass(Consultant, res))
+            );
+    }
+
+    public addLinkWithConsultant(consultantID: number): Observable<boolean> {
+        return this.http.get<Consultant>(`${this.baseUrl}api/users/add-link-with-consultant/${consultantID}`).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+
+    public removeLinkWithConsultant(consultantID: number): Observable<boolean> {
+        return this.http.get<Consultant>(`${this.baseUrl}api/users/remove-link-with-consultant/${consultantID}`).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+
     // public getMembersWithRelationship(pseudo: string): Observable<Friend[]> {
     //     return this.http.get<any[]>(`${this.baseUrl}api/members/rels/${pseudo}`).pipe(
     //         map(res => plainToClass(Friend, res)),

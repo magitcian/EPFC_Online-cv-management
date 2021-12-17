@@ -7,11 +7,12 @@ import { User } from '../../models/user';
  * @title Tab group with dynamically changing tabs
  */
 @Component({
-  selector: 'app-consultant-cv-management',
-  templateUrl: 'consultant-cv-management.component.html',
-  styleUrls: ['consultant-cv-management.component.css'],
+  selector: 'app-consultants-cv-management',
+  templateUrl: 'consultants-cv-management.component.html',
+  styleUrls: ['consultants-cv-management.component.css'],
 })
-export class ConsultantCvManagementComponent {
+export class ConsultantsCvManagementComponent {
+  @Input() areMyConsultants!: boolean;
   tabs :any[] = []
   selected = new FormControl(0);
   CvViewComponent = CvViewComponent;

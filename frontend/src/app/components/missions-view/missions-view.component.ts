@@ -25,7 +25,7 @@ import { MissionEditComponent } from '../mission-edit/mission-edit.component';
     templateUrl: './missions-view.component.html',
     styleUrls: ['./missions-view.component.css']
 })
-
+//TODO questions : comprendre ce qu'ils veulent dire par imprimable? Est-ce ok comme mnt?
 export class MissionsViewComponent {
     @Input() set getUserID(val: number) {
         this.userCvId = val;

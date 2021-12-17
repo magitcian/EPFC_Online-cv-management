@@ -29,8 +29,9 @@ import { MissionsViewComponent } from '../components/missions-view/missions-view
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/categorylist/categorylist.component';
-import { ConsultantListComponent } from '../components/consultantlist/consultantlist.component';
-import { ConsultantCvManagementComponent } from '../components/consultant-cv-management/consultant-cv-management.component';
+import { ConsultantsListComponent } from '../components/consultants-list/consultants-list.component';
+import { ConsultantsCvManagementComponent } from '../components/consultants-cv-management/consultants-cv-management.component';
+import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent } from '../components/consultants-management/consultants-management.component';
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 import { MasteringListComponent } from '../components/masteringlist/masteringlist.component';
@@ -62,8 +63,10 @@ export function getBaseUrl() {
         CvConnectedUserComponent,
         MissionsViewComponent,
         CategoryListComponent
-        ,ConsultantListComponent
-        ,ConsultantCvManagementComponent
+        ,ConsultantsListComponent
+        ,ConsultantsCvManagementComponent
+        ,MyConsultantsManagementComponent
+        ,OtherConsultantsManagementComponent
         ,CategoriesViewComponent
         ,MissionEditComponent
         ,MasteringListComponent

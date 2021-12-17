@@ -211,7 +211,7 @@ namespace prid2122_g03.Controllers
 
 
         // DELETE /api/users/{userID} 
-        [Authorized(Title.AdminSystem)]
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpDelete("{userID}")]
         public async Task<IActionResult> DeleteUser(int userID) {
             // Récupère en BD le membre à supprimer
@@ -284,9 +284,52 @@ namespace prid2122_g03.Controllers
         [HttpGet("my-consultant")]
         public async Task<ActionResult<IEnumerable<ConsultantDTO>>> GetMyConsultants() {
             var consultants = await _context.Consultants
-                                .Where(c => c.ManagerId == getConnectedUserId() || c.ManagerId == null)
+                                .Where(c => c.ManagerId == getConnectedUserId())
                                 .ToListAsync();
             return _mapper.Map<List<ConsultantDTO>>(consultants);
+        }
+
+        [Authorized(Title.AdminSystem, Title.Manager)]
+        [HttpGet("consultant-without-manager")]
+        public async Task<ActionResult<IEnumerable<ConsultantDTO>>> GetConsultantsWithoutManager() {
+            var consultants = await _context.Consultants
+                                .Where(c => c.ManagerId == null)
+                                .ToListAsync();
+            return _mapper.Map<List<ConsultantDTO>>(consultants);
+        }
+
+        [Authorized(Title.AdminSystem, Title.Manager)]
+        [HttpGet("add-link-with-consultant/{consultantID}")]
+        public async Task<IActionResult> AddLinkWithConsultant(int consultantID) {
+            var consultant = await _context.Consultants.FindAsync(consultantID);
+            if (consultant == null)
+                return NotFound();
+            if (consultant.ManagerId == null) {
+                consultant.ManagerId = getConnectedUserId();
+            } else {
+                 return BadRequest(new ValidationErrors().Add("You are not allowed to change this link!", "Add link"));
+            }
+            var res = await _context.SaveChangesAsyncWithValidation();
+            if (!res.IsEmpty)
+                return BadRequest(res);
+            return NoContent();
+        }
+
+        [Authorized(Title.AdminSystem, Title.Manager)]
+        [HttpGet("remove-link-with-consultant/{consultantID}")]
+        public async Task<IActionResult> RemoveLinkWithConsultant(int consultantID) {
+            var consultant = await _context.Consultants.FindAsync(consultantID);
+            if (consultant == null)
+                return NotFound();
+            if (consultant.ManagerId == getConnectedUserId()) {
+                consultant.ManagerId = null;
+            } else {
+                 return BadRequest(new ValidationErrors().Add("You are not allowed to change this link!", "Remove link"));
+            }
+            var res = await _context.SaveChangesAsyncWithValidation();
+            if (!res.IsEmpty)
+                return BadRequest(res);
+            return NoContent();
         }
 
 

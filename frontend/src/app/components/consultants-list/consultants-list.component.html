@@ -9,13 +9,21 @@
     </div>
 </div> -->
 
-<div class="row">
+<div class="row" (click)="refresh()">
     <div class="col-sm-12">
         <!-- <ul *ngIf="members.length > 0">
             <li *ngFor="let member of members">{{ member.display }}</li>
             
         </ul>
         <p *ngIf="members.length == 0">No members found</p> -->
+        <p></p>
+        <div class="col-sm-12" *ngIf="areMyConsultants">
+            <h1>My consultants:</h1>
+        </div>
+
+        <div class="col-sm-12" *ngIf="!areMyConsultants">
+            <h1>Consultants without manager:</h1>
+        </div>
 
         <mat-form-field>
             <input matInput (keyup)="filterChanged($event)" [value]="filter" placeholder="Filter" appSetFocus>
@@ -50,16 +58,16 @@
                             <mat-icon (click)="edit(row)">edit</mat-icon>
                         </button> -->
                         <!-- https://jossef.github.io/material-design-icons-iconfont/ -->
-                        <button mat-icon-button tabindex="-1" *ngIf="row.managerId != 0">
-                            <mat-icon (click)="remove_link(row)">person_remove</mat-icon>
-                        </button>
-                        <button mat-icon-button tabindex="-1" *ngIf="row.managerId == 0">
-                            <mat-icon (click)="add_link(row)">person_add</mat-icon>
-                        </button>
                         <button mat-icon-button tabindex="-1">
                             <mat-icon (click)="cv_display(row)">content_paste_search</mat-icon>
                         </button>
-                        <button mat-icon-button tabindex="-1">
+                        <button mat-icon-button tabindex="-1" *ngIf="areMyConsultants">
+                            <mat-icon (click)="remove_link(row)">person_remove</mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex="-1" *ngIf="!areMyConsultants">
+                            <mat-icon (click)="add_link(row)">person_add</mat-icon>
+                        </button>
+                        <button mat-icon-button tabindex="-1" *ngIf="!areMyConsultants">
                             <mat-icon (click)="delete(row)">delete</mat-icon>
                         </button>
                     </td>

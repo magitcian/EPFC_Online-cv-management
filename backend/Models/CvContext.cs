@@ -67,8 +67,8 @@ namespace prid2122_g03.Models
             modelBuilder.Entity<Consultant>().HasData(
                 new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev", ManagerId = 1, BirthDate = new DateTime(1990,01,16) },
                 new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines", ManagerId = 1 },
-                new Consultant { Id = 7, LastName = "Consultant7", FirstName = "C7", Email = "c7@epfc.eu", Password = "consul" },
-                new Consultant { Id = 8, LastName = "Consultant8", FirstName = "C8", Email = "c8@epfc.eu", Password = "consul2", ManagerId = 2 }
+                new Consultant { Id = 7, LastName = "Consultant7", FirstName = "Consul7", Email = "c7@epfc.eu", Password = "consul" },
+                new Consultant { Id = 8, LastName = "Consultant8", FirstName = "Consul8", Email = "c8@epfc.eu", Password = "consul2", ManagerId = 2 }
 
             );
 
@@ -106,7 +106,8 @@ namespace prid2122_g03.Models
                 new Mission { Id = 4, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission4", Description = "M4", EnterpriseId = 1, UserId = 4, ClientId = 2 },
                 new Mission { Id = 5, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission5", Description = "M5", EnterpriseId = 1, UserId = 4, ClientId = 3 },
                 new Mission { Id = 6, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission6", Description = "M6", EnterpriseId = 1, UserId = 4, ClientId = 2 },
-                new Mission { Id = 7, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission7", Description = "M7", EnterpriseId = 1, UserId = 4, ClientId = 3 }
+                new Mission { Id = 7, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission7", Description = "M7", EnterpriseId = 1, UserId = 4, ClientId = 3 },
+                new Mission { Id = 8, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission8", Description = "M8", EnterpriseId = 1, UserId = 7, ClientId = 3 }
             );
 
             // modelBuilder.Entity<Training>().HasData(

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Output,EventEmitter, Input } from '@angular/core';
 import * as _ from 'lodash-es';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -12,20 +12,21 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { plainToClass } from 'class-transformer';
 import { Consultant } from 'src/app/models/consultant';
+import { ConfirmDeleteUserComponent } from 'src/app/components/confirm-delete-user/confirm-delete-user.component';
 
 @Component({
-    selector: 'app-consultantlist', // sélecteur utilisé pour un sous-composant
-    templateUrl: './consultantlist.component.html',
-    styleUrls: ['./consultantlist.component.css']
+    selector: 'app-consultants-list', // sélecteur utilisé pour un sous-composant
+    templateUrl: './consultants-list.component.html',
+    styleUrls: ['./consultants-list.component.css']
 })
 
-export class ConsultantListComponent implements AfterViewInit, OnDestroy {
+export class ConsultantsListComponent implements AfterViewInit, OnDestroy {
     displayedColumns: string[] = ['lastName', 'firstName', 'email', 'birthDate', 'title', 'actions'];
     dataSource: MatTableDataSource<User> = new MatTableDataSource();
     filter: string = '';
     state: MatTableState;
     @Output() addTabCVUser: EventEmitter<User> = new EventEmitter<User>();
-
+    @Input() areMyConsultants!: boolean;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
@@ -55,15 +56,27 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
     }
 
     refresh() {
-        this.userService.getMyConsultants().subscribe(consultants => {
-            // assigne les données récupérées au datasource
-            this.dataSource.data = consultants;
-            // restaure l'état du datasource (tri et pagination) à partir du state
-            this.state.restoreState(this.dataSource);
-            // restaure l'état du filtre à partir du state
-            this.filter = this.state.filter;
-            //console.log(consultants);
-        });
+        if(this.areMyConsultants){
+            this.userService.getMyConsultants().subscribe(consultants => {
+                // assigne les données récupérées au datasource
+                this.dataSource.data = consultants;
+                // restaure l'état du datasource (tri et pagination) à partir du state
+                this.state.restoreState(this.dataSource);
+                // restaure l'état du filtre à partir du state
+                this.filter = this.state.filter;
+                //console.log(consultants);
+            });
+        }else{
+            this.userService.getConsultantsWithoutManager().subscribe(consultants => {
+                // assigne les données récupérées au datasource
+                this.dataSource.data = consultants;
+                // restaure l'état du datasource (tri et pagination) à partir du state
+                this.state.restoreState(this.dataSource);
+                // restaure l'état du filtre à partir du state
+                this.filter = this.state.filter;
+                //console.log(consultants);
+            });
+        }
     }
 
 
@@ -82,15 +95,25 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
 
 
     delete(user: User) {
-        const backup = this.dataSource.data;
-        this.dataSource.data = _.filter(this.dataSource.data, u => u.email !== user.email);
-        const snackBarRef = this.snackBar.open(`User '${user.email}' will be deleted`, 'Undo', { duration: 10000 });
-        snackBarRef.afterDismissed().subscribe(res => {
-            if (!res.dismissedByAction)
-                this.userService.delete(user).subscribe();
-            else
-                this.dataSource.data = backup;
+
+        const dlg = this.dialog.open(ConfirmDeleteUserComponent);
+        dlg.beforeClosed().subscribe(res => {
+            if (res) {
+                this.userService.delete(user).subscribe(res => {this.refresh();});
+                
+                // const backup = this.dataSource.data;
+                // this.dataSource.data = _.filter(this.dataSource.data, u => u.id !== user.id);
+                // const snackBarRef = this.snackBar.open(`User '${user.email}' will be deleted`, 'Undo', { duration: 10000 });
+                // snackBarRef.afterDismissed().subscribe(res => {
+                //     if (!res.dismissedByAction)
+                //         this.userService.delete(user).subscribe();
+                //     else
+                //         this.dataSource.data = backup;
+                // });
+            }
         });
+
+
     }
 
 
@@ -103,11 +126,11 @@ export class ConsultantListComponent implements AfterViewInit, OnDestroy {
     }
 
     remove_link(user: User){
-
+        this.userService.removeLinkWithConsultant(user.id).subscribe(res => {this.refresh()});
     }
 
     add_link(user: User){
-
+        this.userService.addLinkWithConsultant(user.id).subscribe(res => {this.refresh()});
     }
 
 }

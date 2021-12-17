@@ -29,7 +29,10 @@
                         <a class="nav-link text-dark" [routerLink]='["/categories"]'>Categories</a>
                     </li>
                     <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && (isAdmin || isManager)">
-                        <a class="nav-link text-dark" [routerLink]='["/consultant-cv-management"]'>ConsultantListCV</a>
+                        <a class="nav-link text-dark" [routerLink]='["/my-consultants-cv-management"]'>My consultants</a>
+                    </li>
+                    <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && (isAdmin || isManager)">
+                        <a class="nav-link text-dark" [routerLink]='["/other-consultants-cv-management"]'>Other consultants</a>
                     </li>
                     <!-- <li class="nav-item" [routerLinkActive]='["link-active"]'>
                         <a class="nav-link text-dark" [routerLink]='["/experiences-view"]'>Experiences</a>
