@@ -6,9 +6,9 @@ import { CategoryService } from '../../services/category.service';
 import * as _ from 'lodash-es';
 
 @Component({
-    selector: 'app-categorylist',
-    templateUrl: './categorylist.component.html',
-    // styleUrls: // TODO to add
+    selector: 'app-category-list',
+    templateUrl: './category-list.component.html',
+    styleUrls: ['./category-list.component.css']
 })
 
 export class CategoryListComponent { // implements AfterViewInit, OnDestroy {

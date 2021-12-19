@@ -15,7 +15,7 @@ import { SignUpComponent } from '../components/signup/signup.component';
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 //import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
-import { CategoryListComponent } from '../components/categorylist/categorylist.component';
+import { CategoryListComponent } from '../components/category-list/category-list.component';
 import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent } from '../components/consultants-management/consultants-management.component';
 
 const appRoutes: Routes = [

@@ -17,9 +17,9 @@ import { plainToClass } from 'class-transformer';
 
 
 @Component({
-    selector: 'app-masteringlist', // sélecteur utilisé pour un sous-composant
-    templateUrl: './masteringlist.component.html',
-    styleUrls: ['./masteringlist.component.css']
+    selector: 'app-mastering-list', // sélecteur utilisé pour un sous-composant
+    templateUrl: './mastering-list.component.html',
+    styleUrls: ['./mastering-list.component.css']
 })
 
 export class MasteringListComponent implements AfterViewInit, OnDestroy {
