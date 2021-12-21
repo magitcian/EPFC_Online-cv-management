@@ -9,7 +9,8 @@
 <div class="cv-view" *ngIf="!isEditMode">
     <ul *ngFor="let mission of missions">
         <li>
-            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}}
+            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}} ( Skills:
+            <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)
         </li>
     </ul>
 </div>
@@ -17,7 +18,8 @@
 <div class="cv-edit" *ngIf="isEditMode">
     <ul *ngFor="let mission of missions">
         <li>
-            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}}
+            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}} ( Skills:
+            <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)
             <button mat-icon-button>
                 <mat-icon (click)="edit(mission)">edit</mat-icon>
             </button>

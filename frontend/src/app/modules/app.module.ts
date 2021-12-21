@@ -35,6 +35,11 @@ import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent }
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 import { MasteringListComponent } from '../components/masteringlist/masteringlist.component';
+// import { MdChipsModule } from '@angular/material';
+import {MatChipsModule} from '@angular/material/chips';
+//import {MatNativeDateModule} from '@angular/material/core';
+//import { MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
+//import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -70,6 +75,7 @@ export function getBaseUrl() {
         ,CategoriesViewComponent
         ,MissionEditComponent
         ,MasteringListComponent
+        
     ],
     entryComponents: [
         EditUserComponent
@@ -82,6 +88,9 @@ export function getBaseUrl() {
         AppRoutes,
         BrowserAnimationsModule,
         SharedModule
+        ,MatChipsModule
+        //,MatNativeDateModule
+        //,MatAutocompleteSelectedEvent
     ],
     providers: [
         { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },

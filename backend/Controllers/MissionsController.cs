@@ -71,8 +71,11 @@ namespace prid2122_g03.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutMission(MissionDTO dto) {
-            var mission = await _context.Missions.FindAsync(dto.Id);
+        public async Task<IActionResult> PutMission(MissionWithUsingsDTO dto) {
+            //var mission = await _context.Missions.FindAsync(dto.Id); 
+            var mission = await _context.Missions
+                    .Include(m => m.Usings)
+                    .FirstAsync(m => m.Id == dto.Id);
             if (mission == null)
                 return NotFound();
             if (isConnectedUser(mission.UserId)) {
@@ -87,15 +90,13 @@ namespace prid2122_g03.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostMission(MissionDTO dto) {
+        public async Task<IActionResult> PostMission(MissionWithUsingsDTO dto) {
             var newMission = _mapper.Map<Mission>(dto);
             newMission.UserId = getConnectedUserId();
             if (newMission.ClientId == 0) {
                 newMission.ClientId = null;
             }
-            // if (newMission.Title == null || newMission.Title == "")
-            //     return BadRequest(new ValidationErrors().Add("Title must be completed", "Title"));
-            _context.Missions.AddRange(newMission);
+            _context.Missions.Add(newMission);
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
                 return BadRequest(res);

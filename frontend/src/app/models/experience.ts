@@ -8,7 +8,9 @@ import 'reflect-metadata';
 import { Enterprise } from "./enterprise";
 import { User } from "./user";
 import * as _ from 'lodash-es';
-  
+import { Skill } from './skill';
+import { Using } from './using';
+
 export class Experience {
 
     id?: number;
@@ -24,7 +26,7 @@ export class Experience {
     enterprise?: Enterprise;
     userId?:number;
     user?:User;
-    //skills: Skill[] = []; //plus tard
+    usings?: Using[] = [];
  
     get display(): string {
         return `${this.title} - ${this.description} - ${this.enterprise?.name}`;
