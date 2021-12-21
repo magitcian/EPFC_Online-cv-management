@@ -17,6 +17,8 @@ import { MissionsViewComponent } from '../components/missions-view/missions-view
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/category-list/category-list.component';
 import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent } from '../components/consultants-management/consultants-management.component';
+import { MasteringEditComponent } from '../components/mastering-edit/mastering-edit.component';
+import { MasteringEditDaddyComponent } from '../components/mastering-edit/mastering-edit-daddy.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -36,7 +38,18 @@ const appRoutes: Routes = [
     component: CategoryListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Title.AdminSystem] }
-  }, 
+  },
+  {
+    path: 'masterings',
+    // canActivate: [AuthGuard],
+    component: MasteringEditComponent
+  },  
+
+  {
+    path: 'masteringsDaddy',
+    // canActivate: [AuthGuard],
+    component: MasteringEditDaddyComponent
+  },
   {
     path: 'my-consultants-cv-management',
     component: MyConsultantsManagementComponent,

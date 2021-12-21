@@ -1,0 +1,29 @@
+<div class="titre">
+    <h1>Masterings
+        <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </h1>
+</div>
+
+<div class="cv-edit" *ngFor="let mastering of masterings">
+    <!-- <div class="cv-edit" *ngIf="isEditMode" *ngFor="let mastering of masterings"></div> -->
+    <app-mastering-edit [getMastering]="mastering" [isNew]="false" (deleteMasteringInDaddy)="delete(mastering)" >
+
+    </app-mastering-edit>   
+    
+    <!-- <button mat-icon-button (click)="delete(mastering)"> 
+        <mat-icon >delete</mat-icon>
+    </button>    -->
+</div>
+
+<app-mastering-edit [getMastering]="undefined" [isNew]="true">
+
+</app-mastering-edit> 
+
+<!-- <div class="footer">
+    <button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" >Save</button>
+    <<button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">Save</button> 
+    <button type="reset" mat-button >Cancel</button>
+    <button type="reset" mat-button (click)="cancel()">Cancel</button> 
+</div> -->
