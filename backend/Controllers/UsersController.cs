@@ -83,6 +83,9 @@ namespace prid2122_g03.Controllers
                                     .OrderByDescending(m => m.Start) //inverse : OrderBy
                                     .Include(m => m.Client)
                                     .Include(m => m.Enterprise)
+                                    .Include(m => m.Usings)
+                                    .ThenInclude(u => u.Skill)
+                                    .ThenInclude(s => s.Category)
                                     .ToListAsync();
                 return _mapper.Map<List<MissionWithEnterprisesDTO>>(missions);
             }

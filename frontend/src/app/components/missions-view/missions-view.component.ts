@@ -25,7 +25,7 @@ import { MissionEditComponent } from '../mission-edit/mission-edit.component';
     templateUrl: './missions-view.component.html',
     styleUrls: ['./missions-view.component.css']
 })
-//TODO questions : comprendre ce qu'ils veulent dire par imprimable? Est-ce ok comme mnt?
+
 export class MissionsViewComponent {
     @Input() set getUserID(val: number) {
         this.userCvId = val;
@@ -49,10 +49,10 @@ export class MissionsViewComponent {
     refresh() {
         this.userService.getMissions(this.userCvId).subscribe(missions => {
             this.missions = missions;
+            console.log(this.missions);
         });
     }
 
-    //TODO question: demander si ok avec popup (vérifier ce que veut dire "directement éditable")
     edit(mission: Mission) {
         const dlg = this.dialog.open(MissionEditComponent, { data: { mission, isNew: false } });
         dlg.beforeClosed().subscribe(res => {

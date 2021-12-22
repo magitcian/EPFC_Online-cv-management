@@ -37,6 +37,9 @@ namespace prid2122_g03.Models
             CreateMap<Mission, MissionWithEnterprisesDTO>();
             CreateMap<MissionWithEnterprisesDTO, Mission>();
 
+            CreateMap<Mission, MissionWithUsingsDTO>();
+            CreateMap<MissionWithUsingsDTO, Mission>();
+
             // CreateMap<Experience, ExperienceDTO>();
             // CreateMap<ExperienceDTO, Experience>();
 
@@ -88,6 +91,12 @@ namespace prid2122_g03.Models
 
             CreateMap<Mastering, MasteringWithSkillAndUserDTO>();
             CreateMap<MasteringWithSkillAndUserDTO, Mastering>();
+
+            CreateMap<Using, UsingDTO>();
+            CreateMap<UsingDTO, Using>();
+
+            CreateMap<Using, UsingWithSkillDTO>();
+            CreateMap<UsingWithSkillDTO, Using>();
 
             CreateMap<Skill, SkillDTO>();
             CreateMap<SkillDTO, Skill>();

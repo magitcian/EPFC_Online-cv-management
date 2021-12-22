@@ -37,7 +37,8 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-select placeholder="Enterprise" [formControl]="ctlEnterpriseId" required>
-                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
+                        <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field>
@@ -49,7 +50,25 @@
                 </mat-form-field>
             </div>
         </mat-tab>
-
+        <mat-tab label="Skills management">
+            <!-- https://material.angular.io/components/chips/overview -->
+            <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-label>Skills (click to remove):</mat-label>
+                <mat-chip-list #chipList aria-label="Skill selection" [formControl]="ctlUsings">
+                    <mat-chip *ngFor="let using of usingsOfMission" (click)="removeSkill(using)">
+                        {{using.skill!.name}}
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-form-field>
+            <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-label>List of available skills :</mat-label>
+                <mat-chip-list #chipList aria-label="Skill selection">
+                    <mat-chip *ngFor="let skill of skillsTotal" (click)="addSkill(skill)">
+                        {{skill.name}}
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-form-field>
+        </mat-tab>
     </mat-tab-group>
     <div class="footer">
         <button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">{{!isNew ? 'Update' : 'Add'}}</button>

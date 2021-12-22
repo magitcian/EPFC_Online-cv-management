@@ -7,6 +7,7 @@ namespace prid2122_g03.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int CategoryId { get; set; }
 
         // public CategoryDTO Category { get; set; } // not sure bc it is a foreign key so we may end up with a loop
         // public ICollection<MasteringDTO> MasteringSkillsLevels { get; set; } 

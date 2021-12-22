@@ -65,7 +65,7 @@ namespace prid2122_g03.Models
             modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();
 
             modelBuilder.Entity<Consultant>().HasData(
-                new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev", ManagerId = 1, BirthDate = new DateTime(1990,01,16) },
+                new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev", ManagerId = 1, BirthDate = new DateTime(1990, 01, 16) },
                 new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines", ManagerId = 1 },
                 new Consultant { Id = 7, LastName = "Consultant7", FirstName = "Consul7", Email = "c7@epfc.eu", Password = "consul" },
                 new Consultant { Id = 8, LastName = "Consultant8", FirstName = "Consul8", Email = "c8@epfc.eu", Password = "consul2", ManagerId = 2 }
@@ -166,6 +166,11 @@ namespace prid2122_g03.Models
                 new Mastering { Id = 6, Level = Level.Medior, UserId = 1, SkillId = 3 }
             );
 
+            modelBuilder.Entity<Using>().HasData(
+                new Using { Id = 1, ExperienceId = 3, SkillId = 1 },
+                new Using { Id = 2, ExperienceId = 3, SkillId = 3 }
+            );
+
         }
 
         public void SeedData() {
@@ -196,6 +201,12 @@ namespace prid2122_g03.Models
             // Mastering inesEntity = new Mastering(Level.Junior, Users.SingleOrDefault(u => u.Id == 4), Skills.SingleOrDefault(s => s.Id == 4));
 
             // Masterings.AddRange(brunoJava, benPhp, sevSqlite, inesEntity);
+
+            // Skill s1 = Skills.SingleOrDefault(s => s.Id == 1);
+            // Skill s3 = Skills.SingleOrDefault(s => s.Id == 3);
+            // Mission m = Missions.SingleOrDefault(s => s.Id == 3);
+            // m.addSkill(s1);
+            // m.addSkill(s3);
             // SaveChanges();
             // Database.CommitTransaction();
         }
@@ -217,5 +228,6 @@ namespace prid2122_g03.Models
         public DbSet<Skill> Skills { get; set; }
 
         public DbSet<Mastering> Masterings { get; set; }
+        public DbSet<Using> Usings { get; set; }
     }
 }

@@ -34,7 +34,8 @@ namespace prid2122_g03.Models
         //[Required]
         public User User { get; set; }
 
-        public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using 
+        //public ICollection<Skill> Skills { get; set; } = new HashSet<Skill>(); //lien Using 
+        public ICollection<Using> Usings { get; set; } = new HashSet<Using>();
 
         public Experience(DateTime start, DateTime finish, string title, string description, Enterprise enterprise) : this(start, finish, title, description) {
             Enterprise = enterprise;
@@ -50,6 +51,12 @@ namespace prid2122_g03.Models
         public Experience() {
 
         }
+
+        // public void addSkill(Using u) {
+        //     this.Skills.Add(s);
+        //     s.Experiences.Add(this);
+
+        // }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;

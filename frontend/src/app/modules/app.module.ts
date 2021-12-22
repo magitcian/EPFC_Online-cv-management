@@ -37,6 +37,11 @@ import { MissionEditComponent } from '../components/mission-edit/mission-edit.co
 import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
 import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
 import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
+// import { MdChipsModule } from '@angular/material';
+import {MatChipsModule} from '@angular/material/chips';
+//import {MatNativeDateModule} from '@angular/material/core';
+//import { MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
+//import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -86,6 +91,9 @@ export function getBaseUrl() {
         AppRoutes,
         BrowserAnimationsModule,
         SharedModule
+        ,MatChipsModule
+        //,MatNativeDateModule
+        //,MatAutocompleteSelectedEvent
     ],
     providers: [
         { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },

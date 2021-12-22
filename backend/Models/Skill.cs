@@ -22,12 +22,13 @@ namespace prid2122_g03.Models
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; } 
 
-        [Required]
+        //[Required]
         public Category Category { get; set; } 
 
         public ICollection<Mastering> MasteringSkillsLevels { get; set; } = new HashSet<Mastering>();
-        public ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>(); 
-
+        //public ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>(); 
+        public ICollection<Using> Usings { get; set; } = new HashSet<Using>();
+        
         public Skill() {
         } 
 
