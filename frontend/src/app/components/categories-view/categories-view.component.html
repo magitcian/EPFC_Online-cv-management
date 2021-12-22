@@ -1,8 +1,13 @@
 <div class="titre">
-    <h1>Skills</h1>
+    <h1>Skills
+        <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">  
+            <mat-icon >edit</mat-icon> 
+        </button>
+    </h1>
 </div>
 
-<div *ngIf="categories.length > 0">
+<div class="cv-view" *ngIf="!isEditMode">
+    <!-- <div class="cv-view" *ngIf="categories.length > 0"></div> -->
     <ul *ngFor="let category of categories">
         <li>
             <b>{{category?.name}}:</b> {{category?.displaySkills}}
@@ -10,20 +15,11 @@
     </ul>
 </div>
 
-<!-- <ul *ngIf="skills.length > 0">
-    <li *ngFor="let skill of skills">
-        <ul>
-            <li *ngFor="let skill.category of categories"> </li> {{ skill.category?.name }}
-        </ul>found</p>
-    </li>
-</ul> -->
 
+<div class="cv-edit" *ngIf="isEditMode">
+    <app-mastering-edit-form [getUserID]="userCvId" ></app-mastering-edit-form>
+    <button mat-icon-button (click)="changeEditMode()">  
+        <mat-icon >save</mat-icon> 
+    </button>
+</div>
 
-<button mat-icon-button>
-    <mat-icon >edit</mat-icon>
-    <!-- <mat-icon (click)="edit(skill)">edit</mat-icon> -->
-</button>
-<button mat-icon-button>
-    <mat-icon >delete</mat-icon>
-    <!-- <mat-icon (click)="delete(skill)">delete</mat-icon> -->
-</button>

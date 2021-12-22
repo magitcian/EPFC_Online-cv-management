@@ -35,8 +35,8 @@ import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent }
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
-import { MasteringEditComponent } from '../components/mastering-edit/mastering-edit.component';
-import { MasteringEditDaddyComponent } from '../components/mastering-edit/mastering-edit-daddy.component';
+import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
+import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -72,8 +72,8 @@ export function getBaseUrl() {
         ,CategoriesViewComponent
         ,MissionEditComponent
         ,MasteringListComponent
-        ,MasteringEditComponent
-        ,MasteringEditDaddyComponent
+        ,MasteringEditRowComponent
+        ,MasteringEditFormComponent
     ],
     entryComponents: [
         EditUserComponent

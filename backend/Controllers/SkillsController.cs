@@ -61,7 +61,6 @@ namespace prid2122_g03.Controllers
         // }
 
         // GET /api/skills
-        [AllowAnonymous] // to unprotect this method 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SkillWithCategoryDTO>>> GetAll() {
             return _mapper.Map<List<SkillWithCategoryDTO>>(await _context.Skills.Include(s => s.Category).ToListAsync());
@@ -69,59 +68,14 @@ namespace prid2122_g03.Controllers
         }
 
 
-        // GET /api/skills
-        // // GET /api/categories/{categoryID}
-        // [Authorized(Title.AdminSystem)]
-        // [HttpGet("{categoryID}")]
-        // public async Task<ActionResult<CategoryDTO>> GetOne(int categoryID) {
-        //     // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
-        //     var category = await _context.Categories.FindAsync(categoryID);
-        //     // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
-        //     if (category == null)
-        //         return NotFound();
-        //     // Transforme le membre en son DTO et retourne ce dernier
-        //     return _mapper.Map<CategoryDTO>(category);
-        // }
-
-        // // POST /api/categories
-        // [Authorized(Title.AdminSystem)]
-        // [HttpPost]
-        // public async Task<ActionResult<CategoryDTO>> PostCategory(CategoryDTO category) {
-        //     // Utilise le mapper pour convertir le DTO qu'on a reçu en une instance de User
-        //     var newCategory = _mapper.Map<Category>(category);
-        //     // Ajoute ce nouveau membre au contexte EF
-        //     _context.Categories.Add(newCategory);
-        //     // Sauve les changements
-        //     var res = await _context.SaveChangesAsyncWithValidation();
-        //     if (!res.IsEmpty)
-        //         return BadRequest(res);
-        //     // find back the user from the DB to use the actual id
-        //     //var userDB = await _context.Users.SingleOrDefaultAsync(u => u.Email == newUser.Email);
-        //     // Renvoie une réponse ayant dans son body les données du nouveau membre (3ème paramètre)
-        //     // et ayant dans ses headers une entrée 'Location' qui contient l'url associé à GetOne avec la bonne valeur 
-        //     // pour le paramètre 'email' de cet url.
-        //     return CreatedAtAction(nameof(GetOne), new { categoryID = newCategory.Id }, _mapper.Map<CategoryDTO>(newCategory));
-        // }
-
-
-        // // PUT /api/categories
-        // [Authorized(Title.AdminSystem)]
-        // [HttpPut]
-        // public async Task<IActionResult> PutCategory(CategoryDTO dto) {
-        //     var category = await _context.Categories.FindAsync(dto.Id);
-        //     var isAdmin = User.IsInRole(Title.AdminSystem.ToString()); // boolean
-        //     // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
-        //     if (category == null)
-        //         return NotFound();
-        //     // Mappe les données reçues sur celles du membre en question
-        //     _mapper.Map<CategoryDTO, Category>(dto, category);
-        //     // Sauve les changements
-        //     var res = await _context.SaveChangesAsyncWithValidation();
-        //     if (!res.IsEmpty)
-        //         return BadRequest(res);
-        //     // Retourne un statut 204 avec une réponse vide
-        //     return NoContent();
-        // }
+        // GET /api/skills/{skillID}
+        [HttpGet("{skillID}")]
+        public async Task<ActionResult<SkillWithCategoryDTO>> GetOne(int skillID) {
+            var skill = await _context.Skills
+                                .Include(s => s.Category)
+                                .SingleAsync(s => s.Id == skillID);
+            return _mapper.Map<SkillWithCategoryDTO>(skill);          
+        }
 
 
         // DELETE /api/skills/{skillID} 

@@ -71,7 +71,7 @@ namespace prid2122_g03.Controllers
 
 
         // GET /api/masterings/{masteringID}
-        [Authorized(Title.AdminSystem, Title.Manager)]
+        [Authorized(Title.AdminSystem, Title.Manager, Title.Consultant)] // TODO Title.Consultant: to check with Sev
         [HttpGet("{masteringID}")]
         public async Task<ActionResult<MasteringDTO>> GetOne(int masteringID) { // TODO: check with PostMastering
             // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
@@ -102,7 +102,7 @@ namespace prid2122_g03.Controllers
             // Renvoie une réponse ayant dans son body les données du nouveau mastering (3ème paramètre)
             // et ayant dans ses headers une entrée 'Location' qui contient l'url associé à GetOne avec la bonne valeur 
             // pour le paramètre 'id' de cet url.  
-            // TODO: check the return after adding frontend  
+            // TODO: check the return after adding frontend - ask Sev
             return CreatedAtAction(nameof(GetOne), new { masteringID = newMastering.Id }, _mapper.Map<MasteringDTO>(newMastering));
         }
 

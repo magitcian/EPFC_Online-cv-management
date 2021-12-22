@@ -17,24 +17,18 @@ import { Mastering } from 'src/app/models/mastering';
 export class CvViewComponent {
     @Input() set getUserID(val: number) {
         this.userCvId = val;
-        this.getInfoCV();
     }
     userCvId !: number;
     @Input() isEditable!: boolean;
-    categories: Category[] = [];
-    skills: Skill[] = [];
-    masterings: Mastering[] = [];
+    // categories: Category[] = [];
+    // skills: Skill[] = [];
+    // masterings: Mastering[] = [];
     
 
-    constructor(private userService: UserService, public authenticationService: AuthenticationService) {
+    constructor(
+        // private userService: UserService, 
+        public authenticationService: AuthenticationService) {
         
-    }
-
-    getInfoCV() {
-        this.userService.getCategoriesWithDetails(this.userCvId).subscribe(categories => {
-            this.categories = categories;
-        });
-
     }
 
 

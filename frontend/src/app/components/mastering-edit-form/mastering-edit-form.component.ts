@@ -12,22 +12,25 @@ import { Category } from 'src/app/models/category';
 import { UserService } from '../../services/user.service';
 import { MasteringService } from '../../services/mastering.service';
 import { SkillService } from 'src/app/services/skill.service';
-import { MasteringEditComponent } from '../mastering-edit/mastering-edit.component';
+import { MasteringEditRowComponent } from '../mastering-edit-row/mastering-edit-row.component';
+import { __assign } from 'tslib';
+import { plainToClass } from 'class-transformer';
 
 @Component({
-    selector: 'app-mastering-edit-daddy',
-    templateUrl: './mastering-edit-daddy.component.html' 
-    // ,styleUrls: ['./mastering-edit-daddy.component.css']
+    selector: 'app-mastering-edit-form',
+    templateUrl: './mastering-edit-form.component.html' 
+    ,styleUrls: ['./mastering-edit-form.component.css']
 })
 
-export class MasteringEditDaddyComponent  {
+export class MasteringEditFormComponent  {
 
-    // @Input() set getUserID(val: number) {
-    //     this.userCvId = val;
-    //     this.refresh();
-    // }
+    @Input() set getUserID(val: number) {
+        this.userCvId = val;
+        this.refresh();
+    }
     // @Input() userCvId !: number;
-    public userCvId = 1;
+    userCvId !: number;
+    // public userCvId = 1;
     public masterings : Mastering[] = [];
     // @Input() masterings!: Mastering[];
     // @Input() isEditable!: boolean;
@@ -57,11 +60,30 @@ export class MasteringEditDaddyComponent  {
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
                 this.masteringService.delete(mastering).subscribe();
-            }else{
+            } else {
                 this.refresh();
             }
         });
     }
+
+    update(mastering: Mastering) {
+        const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' level will be updated`, 'Undo', { duration: 5000 });
+        snackBarRef.afterDismissed().subscribe(res => {
+            if (!res.dismissedByAction) {
+                // _.assign(mastering, res);
+                // res = plainToClass(Mastering, res);
+                this.masteringService.update(mastering).subscribe();
+            } else {
+                this.refresh();
+            }
+        });
+    }
+
+    // add() {
+    //     const mastering = new Mastering();
+    //     this.masteringService.add(mastering).subscribe();
+    //     this.refresh();
+    // }
 
     // update() {
     //     const data = this.frm.value;
@@ -72,6 +94,5 @@ export class MasteringEditDaddyComponent  {
             this.isEditMode = !this.isEditMode;
         }
     }
-
 
 }

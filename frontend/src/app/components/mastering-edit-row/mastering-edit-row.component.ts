@@ -14,30 +14,38 @@ import { UserService } from '../../services/user.service';
 import { SkillService } from 'src/app/services/skill.service';
 
 @Component({
-    selector: 'app-mastering-edit',
-    templateUrl: './mastering-edit.component.html',
-    styleUrls: ['./mastering-edit.component.css']
+    selector: 'app-mastering-edit-row',
+    templateUrl: './mastering-edit-row.component.html',
+    styleUrls: ['./mastering-edit-row.component.css']
 })
 
-export class MasteringEditComponent  {
+export class MasteringEditRowComponent {
 
-    @Input() userCvId!: number;
+    // @Input() userCvId!: number;
     @Input() set getMastering(val: Mastering | undefined) {
-        console.log(val);
+        // console.log(val);
         if (val == undefined) {
             this.mastering = new Mastering();
-        }
-        else {
+        } else {
             this.mastering = val;
         }
-        this.controlAlim();
+        this.controlInput();
     }
     mastering!: Mastering;
     @Input() isNew!: boolean;
+    
     @Output() deleteMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); // () car daddy connait déjà le mastering
+    @Output() updateMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
+    @Output() addMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
 
     delete() {
         this.deleteMasteringInDaddy.emit(); // ask daddy to execute the delete mastering
+    }
+    update() {
+        this.updateMasteringInDaddy.emit();
+    }
+    add() {
+        this.addMasteringInDaddy.emit(); 
     }
 
     public frm!: FormGroup;
@@ -47,50 +55,23 @@ export class MasteringEditComponent  {
     public ctlCategoryId!: FormControl;
     public ctlCategoryName!: FormControl;
     public ctlLevel!: FormControl;
-    // // public isNew: boolean;
 
-    // public mastering!: Mastering;
+    // public skill!: Skill; 
+    // public category!: Category; 
+    public skills!: Skill[];
 
-    public skill!: Skill; 
-    public category!: Category; 
+    constructor( // nthg in constructor bc input content overrides so content in controlInput() in @Input getMastering
+        private fb: FormBuilder,
+        private skillService: SkillService)  { }   
 
-    constructor(
-        private fb: FormBuilder)  { }
-        // {
-        // this.ctlId = this.fb.control('', []);
-        // this.ctlSkillId = this.fb.control('', []);
-        // this.ctlSkillName = this.fb.control('', [Validators.required]);     // this.fb.control('', []); // form element potentially "controlled"
-        // this.ctlCategoryName = this.fb.control('', []);
-        // this.ctlCategoryId = this.fb.control('', []);
-        // this.ctlLevel = this.fb.control('', [Validators.required]);
-
-        // this.frm = this.fb.group({ // building the form using FormBuilder
-        //     id: this.ctlId,
-        //     skillId: this.ctlSkillId,
-        //     skillName: this.ctlSkillName,
-        //     categoryId: this.ctlCategoryId,
-        //     categoryName: this.ctlCategoryName,
-        //     level: this.ctlLevel
-        //     // masteringItems: this.fb.array([])
-        // });
-
-        // this.frm.patchValue(this.mastering);
-
-        // console.log(this.mastering);
-        // console.log(this.masteringId);
-
-        // }
-
-    controlAlim() {
+    controlInput() {
         this.ctlId = this.fb.control('', []);
         this.ctlSkillId = this.fb.control('', []);
         this.ctlSkillName = this.fb.control('', []);     // this.fb.control('', []); // form element potentially "controlled"
         this.ctlCategoryName = this.fb.control('', []);
         this.ctlCategoryId = this.fb.control('', []);
         this.ctlLevel = this.fb.control('', [Validators.required]);
-
-        // this.ctlSkillName.disable();
-
+        // fb.group content needs to respect the JSON we get from backend !
         this.frm = this.fb.group({ // building the form using FormBuilder
             id: this.ctlId,
             skillId: this.ctlSkillId,
@@ -103,29 +84,37 @@ export class MasteringEditComponent  {
                     name: this.ctlCategoryName
                 })
             }),
-            // skillName: this.ctlSkillName,
-            // categoryId: this.ctlCategoryId,
-            // categoryName: this.ctlCategoryName,
             level: this.ctlLevel
         })
-        
+        this.addSkillsInDropDown();
         this.frm.patchValue(this.mastering);
-        console.log(this.mastering);
+        // console.log(this.mastering);
         // console.log(this.masteringId);
     }
 
     skillChange() {
+        // var addedSkillId = this.ctlSkillId;
+        console.log(this.ctlSkillId);
+        // var correspondingCategory = findCategoryBySkill(addedSkillId);
+        // this.ctlCategoryName.patchValue(correspondingCategory.name);
         this.ctlCategoryName.patchValue("test"); // TODO: avec id du skill, aller chercher la catégorie correspondante
     }
 
     // ! chercher skill avec catégorie associée => SkillWithCategoryDTO in backend 
 
-    methodToAddSkills() {
-        // to test in constructor to check but also in controlAlim
+    addSkillsInDropDown() { // to test in constructor to check but also in controlAlim
+        this.skillService.getAll().subscribe(skills => {
+            this.skills = skills;
+            // console.log(this.skills);
+        });
     }
 
-    // get masteringItems() {
-    //     return this.frm.controls["masteringItems"] as FormArray;
+    // findCategoryBySkill(skillID: number) { // to test in constructor to check but also in controlAlim
+    //     this.skill = new Skill();
+    //     this.skillService.getById(skillID).subscribe(skill => {
+    //         this.skill = skill;
+    //     });
+    //     return this.skill.category;
     // }
 
     // addMastering() {
@@ -134,19 +123,8 @@ export class MasteringEditComponent  {
     //         categoryName: ['', ''],
     //         level: ['', Validators.required]
     //     });
-    //     this.masteringItems.push(masteringForm);
+    //     this.masterings.push(masteringForm);
     // }
-
-    // deleteMastering(masteringIndex: number) {
-    //     this.masteringItems.removeAt(masteringIndex);
-    // }
-
-    // listCategories() {
-    //     this.categoryService.getAll.subscribe(categories => {
-    //         this.categories = categories;
-    //     });
-    // }
-
 
 
 }
