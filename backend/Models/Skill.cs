@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
 
 namespace prid2122_g03.Models
 {
-    public class Skill //: IValidatableObject
+    public class Skill : IValidatableObject 
     {
         [Key]
         public int Id { get; set; }
@@ -53,7 +53,6 @@ namespace prid2122_g03.Models
             if (!CheckNameUnicity(currContext))
                 yield return new ValidationResult("The name of a skill must be unique", new[] { nameof(Name) });
         }
-
 
     }
 

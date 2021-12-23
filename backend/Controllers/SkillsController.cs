@@ -44,16 +44,15 @@ namespace prid2122_g03.Controllers
         [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpPost]
         public async Task<ActionResult<SkillDTO>> PostSkill(SkillDTO skill) {
-            // TODO fix issue when we try to add an existing skill => issue
             var newSkill = _mapper.Map<Skill>(skill);
             _context.Skills.Add(newSkill);
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
                 return BadRequest(res);
-            return CreatedAtAction(nameof(GetOne), new { skillID = newSkill.Id }, _mapper.Map<SkillDTO>(newSkill));
-            // return NoContent();
+            // return CreatedAtAction(nameof(GetOne), new { skillID = newSkill.Id }, _mapper.Map<SkillDTO>(newSkill));
+            // TODO ask confirmation
+            return NoContent();
         }
-
 
         // PUT /api/skills/{skillID}
         [Authorized(Title.AdminSystem, Title.Manager)]
