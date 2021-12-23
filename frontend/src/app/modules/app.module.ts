@@ -28,14 +28,17 @@ import { SignUpComponent } from '../components/signup/signup.component';
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
-import { CategoryListComponent } from '../components/categorylist/categorylist.component';
+import { CategoryListComponent } from '../components/category-list/category-list.component';
 import { ConsultantsListComponent } from '../components/consultants-list/consultants-list.component';
 import { ConsultantsCvManagementComponent } from '../components/consultants-cv-management/consultants-cv-management.component';
 import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent } from '../components/consultants-management/consultants-management.component';
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
-import { MasteringListComponent } from '../components/masteringlist/masteringlist.component';
 import { PersonalDataViewComponent } from '../components/personal-data-view/personal-data-view.component';
+import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
+import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
+import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
+
 // import { MdChipsModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
 //import {MatNativeDateModule} from '@angular/material/core';
@@ -77,6 +80,8 @@ export function getBaseUrl() {
         ,MissionEditComponent
         ,MasteringListComponent
         ,PersonalDataViewComponent
+        ,MasteringEditRowComponent
+        ,MasteringEditFormComponent
     ],
     entryComponents: [
         EditUserComponent

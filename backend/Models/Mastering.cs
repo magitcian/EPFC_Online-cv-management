@@ -27,14 +27,14 @@ namespace prid2122_g03.Models
         [ForeignKey(nameof(User))]
         public int UserId { get; set; } 
 
-        [Required]
+        // [Required]
         public User User { get; set; } 
 
         [Required]
         [ForeignKey(nameof(Skill))]
         public int SkillId { get; set; } 
 
-        [Required]
+        // [Required]
         public Skill Skill { get; set; } 
 
         public Mastering() {
@@ -45,6 +45,10 @@ namespace prid2122_g03.Models
             User = user;
             Skill = skill;
         } 
+
+        // public Mastering(Level level) { // , int id = 0) {
+        //     Level = level;
+        // }
 
     }
 

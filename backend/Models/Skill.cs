@@ -42,6 +42,8 @@ namespace prid2122_g03.Models
         }
 
         public bool CheckNameUnicity(CvContext context) {
+            // if (string.IsNullOrEmpty(Name))
+            //     return true;
             return context.Skills.Count(s => s.Id != Id && s.Name == Name) == 0; 
         }
 

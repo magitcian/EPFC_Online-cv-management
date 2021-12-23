@@ -1,9 +1,9 @@
 <h1>CV</h1>
 
 <app-personal-data-view [getUserID]="userCvId" [isEditable]="isEditable"></app-personal-data-view>
+
 <app-missions-view [getUserID]="userCvId" [isEditable]="isEditable"></app-missions-view>
 
-<app-categories-view [categories]="categories"></app-categories-view>
+<app-categories-view [getUserID]="userCvId" [isEditable]="isEditable"></app-categories-view>
 
-<!-- <app-masteringlist [masterings]="masterings"></app-masteringlist> -->
-<app-masteringlist [getUserID]="userCvId"></app-masteringlist>
+<app-mastering-list [getUserID]="userCvId"></app-mastering-list>

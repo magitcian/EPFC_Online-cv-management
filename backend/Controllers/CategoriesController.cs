@@ -34,14 +34,12 @@ namespace prid2122_g03.Controllers
         }
 
         // GET /api/categories
-        [Authorized(Title.AdminSystem)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAll() {
             return _mapper.Map<List<CategoryDTO>>(await _context.Categories.ToListAsync());
         }
 
         // GET /api/categories/{categoryID}
-        [Authorized(Title.AdminSystem)]
         [HttpGet("{categoryID}")]
         public async Task<ActionResult<CategoryDTO>> GetOne(int categoryID) {
             // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
@@ -54,7 +52,6 @@ namespace prid2122_g03.Controllers
         }
 
         // POST /api/categories
-        [Authorized(Title.AdminSystem)]
         [HttpPost]
         public async Task<ActionResult<CategoryDTO>> PostCategory(CategoryDTO category) {
             // Utilise le mapper pour convertir le DTO qu'on a reçu en une instance de User
@@ -75,7 +72,6 @@ namespace prid2122_g03.Controllers
 
 
         // PUT /api/categories
-        [Authorized(Title.AdminSystem)]
         [HttpPut]
         public async Task<IActionResult> PutCategory(CategoryDTO dto) {
             var category = await _context.Categories.FindAsync(dto.Id);
@@ -95,7 +91,6 @@ namespace prid2122_g03.Controllers
 
 
         // DELETE /api/categories/{categoryID} 
-        [Authorized(Title.AdminSystem)]
         [HttpDelete("{categoryID}")]
         public async Task<IActionResult> DeleteUser(int categoryID) {
             // Récupère en BD le membre à supprimer

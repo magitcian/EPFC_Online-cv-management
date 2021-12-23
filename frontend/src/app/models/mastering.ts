@@ -3,7 +3,7 @@ import { Skill } from "./skill";
 
 export class Mastering {
     id?: number; // TODO: maybe "BigInteger" is more appropriate
-    level?: Level = Level.Starter;
+    level?: Level; // = Level.Starter;
     user?: User;
     skill?: Skill;
     userId?: number;

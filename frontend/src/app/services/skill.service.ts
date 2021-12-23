@@ -15,6 +15,13 @@ export class SkillService {
             );
     }
 
+    getById(skillID: number) {
+        return this.http.get<Skill>(`${this.baseUrl}api/skills/${skillID}`).pipe(
+            map(s => plainToClass(Skill, s)),
+            catchError(err => of(null))
+        );
+    }
+
     // public update(s: Skill): Observable<boolean> {
     //     return this.http.put<Skill>(`${this.baseUrl}api/skills`, s).pipe(
     //         map(res => true),
