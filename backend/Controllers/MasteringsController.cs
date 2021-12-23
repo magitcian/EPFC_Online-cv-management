@@ -20,71 +20,54 @@ namespace prid2122_g03.Controllers
     [Authorize] // indique qu'il faut être authentifié, mais accepte tous les rôles
     [Route("api/[controller]")]
     [ApiController]
-    public class MasteringsController : ControllerBase
+    public class MasteringsController : OurController
     {
-        private readonly CvContext _context;
-        private readonly IMapper _mapper;
 
-        /*
-        Le contrôleur est instancié automatiquement par ASP.NET Core quand une requête HTTP est reçue.
-        Les deux paramètres du constructeur recoivent automatiquement, par injection de dépendance, 
-        une instance du context EF (MsnContext) et une instance de l'auto-mapper (IMapper).
-        */
-
-        public MasteringsController(CvContext context, IMapper mapper) {
-            _context = context;
-            _mapper = mapper;
+        public MasteringsController(CvContext context, IMapper mapper) : base(context, mapper) {
         }
-    
-        private int getConnectedUserId() {
-            int connectedID = 0;
-            if (Int32.TryParse(User.Identity.Name, out int ID)) {
-                connectedID = ID;
-            }
-            return connectedID;
-        }
-        private User getConnectedUser() {
-            return _context.Users.FirstOrDefault(u => u.Id == getConnectedUserId());
-        }
-
-        private bool isConnectedUser(int userID) {
-            var connectedUser = getConnectedUser();
-            var user = _context.Users.Find(userID);
-            return user != null && user.Id == connectedUser.Id;
-        }
-
-        // private bool isAdmin() {
-        //     return User.IsInRole(Title.AdminSystem.ToString());
-        // }
-
-        // private bool isManager() {
-        //     return User.IsInRole(Title.Manager.ToString());
-        // }
 
         // GET /api/masterings  
-        [Authorized(Title.AdminSystem, Title.Manager)]
+        [Authorized(Title.AdminSystem)] // TODO: check if authorized for managers [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet]
-
-        public async Task<ActionResult<IEnumerable<MasteringDTO>>> GetAll() {   // TODO: check if needed be
+        public async Task<ActionResult<IEnumerable<MasteringDTO>>> GetAll() {   
             return _mapper.Map<List<MasteringDTO>>(await _context.Masterings.ToListAsync());
         }
 
 
         // GET /api/masterings/{masteringID}
-        [Authorized(Title.AdminSystem, Title.Manager, Title.Consultant)] // TODO Title.Consultant: to check with Sev
         [HttpGet("{masteringID}")]
-        public async Task<ActionResult<MasteringDTO>> GetOne(int masteringID) { // TODO: check with PostMastering
-            // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
+        public async Task<ActionResult<MasteringDTO>> GetOne(int masteringID) {
             var mastering = await _context.Masterings.FindAsync(masteringID);
-            // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
             if (mastering == null)
                 return NotFound();
-            // Transforme le membre en son DTO et retourne ce dernier
-            return _mapper.Map<MasteringDTO>(mastering);
+            if (isConnectedUser(mastering.UserId) || isConsultantsManagerMastering(mastering) || isAdmin())    
+                return _mapper.Map<MasteringDTO>(mastering);
+            return BadRequest("You are not entitled to get these data");     
         }
 
+        // Manager is entitled to get a mastering of his/her consultants or consultants with no manager
+        private bool isConsultantsManagerMastering(Mastering mastering) {
+            if (isManager()) {
+                var manager = (Manager) getConnectedUser();
+                var consultant = _context.Consultants.Find(mastering.UserId);
+                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));  
+            }
+            return false;
+        }
+
+        // private bool isConsultantsManagerMasteringOld(Mastering mastering) {
+        //     if (isManager()) {
+        //         var manager = (Manager) getConnectedUser();
+        //         var consultantsOfTheManager = manager.Consultants;
+        //         foreach (var consultant in consultantsOfTheManager) {
+        //             if (consultant.Id == mastering.UserId)
+        //                 return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+
         // POST /api/masterings
-        // [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpPost]
         public async Task<ActionResult<MasteringDTO>> PostMastering(MasteringDTO mastering) {
             // Utilise le mapper pour convertir le DTO qu'on a reçu en une instance de Mastering
@@ -98,14 +81,10 @@ namespace prid2122_g03.Controllers
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
                 return BadRequest(res);
-            // find back the mastering from the DB to use the actual id
-            // Renvoie une réponse ayant dans son body les données du nouveau mastering (3ème paramètre)
-            // et ayant dans ses headers une entrée 'Location' qui contient l'url associé à GetOne avec la bonne valeur 
-            // pour le paramètre 'id' de cet url.  
-            // TODO: check the return after adding frontend - ask Sev
-            return CreatedAtAction(nameof(GetOne), new { masteringID = newMastering.Id }, _mapper.Map<MasteringDTO>(newMastering));
+            // return CreatedAtAction(nameof(GetOne), new { masteringID = newMastering.Id }, _mapper.Map<MasteringDTO>(newMastering));
+            // TODO ask confirmation
+            return NoContent();
         }
-
 
         // PUT /api/masterings
         [HttpPut]
@@ -119,7 +98,7 @@ namespace prid2122_g03.Controllers
             if (isConnectedUser(mastering.UserId)) {
                 // Attention: I had to comment "[Required]" for User and Skill in Mastering.cs
                 dto.UserId = mastering.UserId;
-                dto.SkillId = mastering.SkillId;
+                dto.SkillId = mastering.SkillId; // skillId can't be changed
                 // Mappe les données reçues sur celles du mastering en question
                 _mapper.Map<MasteringDTO, Mastering>(dto, mastering);
                 // Sauve les changements
@@ -141,9 +120,9 @@ namespace prid2122_g03.Controllers
             // Si aucun mastering n'a été trouvé, renvoyer une erreur 404 Not Found
             if (mastering == null)
                 return NotFound();
-            // Si le mastering appartient au user connecté
+            // Si le user connecté est le "propriétaire" du mastering (si le mastering appartient au user connecté)
             if (isConnectedUser(mastering.UserId)) {
-                // Indique au contexte EF qu'il faut supprimer ce membre
+                // Indique au contexte EF qu'il faut supprimer ce mastering
                 _context.Masterings.Remove(mastering);
                 // Sauve les changements
                 await _context.SaveChangesAsync();

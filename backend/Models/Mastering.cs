@@ -15,7 +15,7 @@ namespace prid2122_g03.Models
         Starter = 1, Junior = 2, Medior = 3, Senior = 4, Expert = 5
     }
 
-    public class Mastering //: IValidatableObject
+    public class Mastering : IValidatableObject 
     {
         [Key]
         public int Id { get; set; }
@@ -49,6 +49,19 @@ namespace prid2122_g03.Models
         // public Mastering(Level level) { // , int id = 0) {
         //     Level = level;
         // }
+
+        public bool CheckSkillUnicityByUser(CvContext context) {
+            // return context.Masterings.Count(m => m.UserId == UserId && m.SkillId == SkillId) == 0;   
+            return context.Entry(this).State == EntityState.Modified || 
+                context.Masterings.AsNoTracking().Count(m => m.UserId == UserId && m.SkillId == SkillId) == 0;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
+            var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
+            Debug.Assert(currContext != null);
+            if (!CheckSkillUnicityByUser(currContext))
+                yield return new ValidationResult("You already have this skill", new[] { nameof(SkillId) }); // new[] { nameof(SkillId) });
+        }
 
     }
 

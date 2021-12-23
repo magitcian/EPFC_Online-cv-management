@@ -158,12 +158,15 @@ namespace prid2122_g03.Models
 
             // masterings
             modelBuilder.Entity<Mastering>().HasData(
-                new Mastering { Id = 1, Level = Level.Expert, UserId = 1, SkillId = 1 },
-                new Mastering { Id = 2, Level = Level.Senior, UserId = 2, SkillId = 2 },
-                new Mastering { Id = 3, Level = Level.Medior, UserId = 3, SkillId = 3 },
-                new Mastering { Id = 4, Level = Level.Junior, UserId = 4, SkillId = 4 },
-                new Mastering { Id = 5, Level = Level.Senior, UserId = 1, SkillId = 2 },
-                new Mastering { Id = 6, Level = Level.Medior, UserId = 1, SkillId = 3 }
+                new Mastering { Id = 1, Level = Level.Expert, UserId = 1, SkillId = 1 }, // Bruno   Java
+                new Mastering { Id = 2, Level = Level.Senior, UserId = 2, SkillId = 2 }, // Benoît  PHP
+                new Mastering { Id = 3, Level = Level.Medior, UserId = 3, SkillId = 3 }, // Sev     Sqlite      Bruno manager
+                new Mastering { Id = 4, Level = Level.Junior, UserId = 4, SkillId = 4 }, // Ines    Entity      Bruno manager
+                new Mastering { Id = 5, Level = Level.Senior, UserId = 1, SkillId = 2 }, // Bruno   PHP
+                new Mastering { Id = 6, Level = Level.Medior, UserId = 1, SkillId = 3 }, // Bruno   Sqlite
+                new Mastering { Id = 7, Level = Level.Expert, UserId = 3, SkillId = 1 }, // Sev     Java
+                new Mastering { Id = 8, Level = Level.Expert, UserId = 7, SkillId = 6 }, // Cons7   C#          no manager
+                new Mastering { Id = 9, Level = Level.Senior, UserId = 8, SkillId = 7 }  // Cons9   JavaScript  Ben manager
             );
 
             modelBuilder.Entity<Using>().HasData(
