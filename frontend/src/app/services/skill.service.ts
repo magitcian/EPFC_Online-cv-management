@@ -22,34 +22,34 @@ export class SkillService {
         );
     }
 
-    // public update(s: Skill): Observable<boolean> {
-    //     return this.http.put<Skill>(`${this.baseUrl}api/skills`, s).pipe(
-    //         map(res => true),
-    //         catchError(err => {
-    //             console.error(err);
-    //             return of(false);
-    //         })
-    //     );
-    // }
+    public update(s: Skill): Observable<boolean> {
+        return this.http.put<Skill>(`${this.baseUrl}api/skills`, s).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
 
-    // public delete(s: Skill): Observable<boolean> {
-    //     return this.http.delete<boolean>(`${this.baseUrl}api/skills/${s.id}`).pipe(
-    //         map(res => true),
-    //         catchError(err => {
-    //             console.error(err);
-    //             return of(false);
-    //         })
-    //     );
-    // }
+    public delete(s: Skill): Observable<boolean> {
+        return this.http.delete<boolean>(`${this.baseUrl}api/skills/${s.id}`).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
 
-    // public add(s: Skill): Observable<boolean> {
-    //     return this.http.post<Skill>(`${this.baseUrl}api/skills`, s).pipe(
-    //         map(res => true),
-    //         catchError(err => {
-    //             console.error(err);
-    //             return of(false);
-    //         })
-    //     );
-    // }
+    public add(s: Skill): Observable<boolean> {
+        return this.http.post<Skill>(`${this.baseUrl}api/skills`, s).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
 
 }

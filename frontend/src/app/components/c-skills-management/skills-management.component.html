@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Skills</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>I found the following skills :</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul *ngIf="skills.length > 0">
+            <li *ngFor="let skill of skills">{{ skill.name }}  
+                <button mat-icon-button >
+                    <!-- <mat-icon>edit</mat-icon> -->
+                    <mat-icon (click)="edit(skill)">edit</mat-icon>
+                </button>
+                <button mat-icon-button >
+                    <!-- <mat-icon>delete</mat-icon> -->
+                    <mat-icon (click)="delete(skill)">delete</mat-icon>
+                </button>
+            </li>
+        </ul>
+        <p *ngIf="skills.length == 0">No skills found</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <button mat-raised-button >New skill</button>
+        <!-- <button mat-raised-button (click)="create()">New Skill</button> -->
+    </div>
+</div>
