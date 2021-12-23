@@ -43,4 +43,8 @@ export class User {
         return today.diff(this.birthDate, 'years');
     }
 
+    get getBirthDate(): any{
+        return this.birthDate ; //?.format('DD/MM/YYYY');
+    }
+
 }

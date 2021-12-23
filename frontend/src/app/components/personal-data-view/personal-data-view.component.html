@@ -1,0 +1,77 @@
+<div class="titre">
+    <h1>Personal data
+        <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </h1>
+</div>
+
+<div class="cv-view" *ngIf="!isEditMode">
+    <p>{{user.firstName}} {{user.lastName}} <span *ngIf="user.getBirthDate != null">born in {{user.getBirthDate |
+            date:'dd/MM/yyyy'}} ({{user.age}} years old)</span></p>
+    <p>Email : {{user.email}} </p>
+    <p>Title : {{user.titleAsString}} </p>
+</div>
+
+<div class="cv-edit" *ngIf="isEditMode">
+    <form id="frm" class="form" [formGroup]="frm" novalidate>
+        <mat-tab-group mat-stretch-tabs dynamicHeight>
+            <mat-tab label="Personal Data">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <mat-form-field>
+                            <input matInput placeholder="First name" [formControl]="ctlFirstName">
+                            <mat-error class="field-error" *ngIf="ctlFirstName.hasError('required')">Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <mat-form-field>
+                            <input matInput placeholder="Last name" [formControl]="ctlLastName">
+                            <mat-error class="field-error" *ngIf="ctlLastName.hasError('required')">Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Birth Date</mat-label>
+                            <input matInput [matDatepicker]="picker" [formControl]="ctlBirthDate" [max]="maxDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('tooYoung')">Must be at least 18 years old</mat-error>
+                            <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('futureBorn')">Can't be born in the future</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <mat-form-field>
+                            <input matInput placeholder="Email" [formControl]="ctlEmail">
+                            <!-- <mat-error class="field-error" *ngIf="ctlEmail.hasError('required')">Required </mat-error> -->
+                            <mat-error class="field-error" *ngIf="ctlEmail.hasError('emailUsed')">This email address is not available </mat-error>
+                            <mat-error class="field-error" *ngIf="ctlEmail.hasError('badEmailFormat')">Bad email format </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <label>Password (leave blank if no change):</label>
+                    <div class="form-group col-md-3">
+                        <mat-form-field>
+                            <input matInput placeholder="password (leave blank if no change)" [formControl]="ctlPassword" type="password">
+                            <mat-error class="field-error" *ngIf="ctlPassword.hasError('lengthProb')">Minimum length is 10</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <mat-form-field>
+                            <input type="password" matInput placeholder="Confirm Password" [formControl]="ctlPasswordConfirm">
+                            <mat-error class="field-error" *ngIf="ctlPassword.hasError('lengthProb')">Minimum length is 10</mat-error>
+                        </mat-form-field>
+                        <div *ngIf="frm.errors && ctlPasswordConfirm.dirty && ctlPasswordConfirm.valid">
+                            <mat-error class="float-left" *ngIf="frm.hasError('passwordNotConfirmed')">The passwords don't match</mat-error>
+                        </div>
+                    </div>
+
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+        <div class="footer">
+            <button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">Update</button>
+            <button type="reset" mat-button (click)="changeEditMode()">Cancel</button>
+        </div>
+    </form>
+</div>

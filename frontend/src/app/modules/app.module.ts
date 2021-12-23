@@ -35,6 +35,7 @@ import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent }
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 import { MasteringListComponent } from '../components/masteringlist/masteringlist.component';
+import { PersonalDataViewComponent } from '../components/personal-data-view/personal-data-view.component';
 // import { MdChipsModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
 //import {MatNativeDateModule} from '@angular/material/core';
@@ -75,7 +76,7 @@ export function getBaseUrl() {
         ,CategoriesViewComponent
         ,MissionEditComponent
         ,MasteringListComponent
-        
+        ,PersonalDataViewComponent
     ],
     entryComponents: [
         EditUserComponent

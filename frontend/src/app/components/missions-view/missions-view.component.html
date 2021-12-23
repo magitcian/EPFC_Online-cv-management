@@ -12,6 +12,7 @@
             {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}} ( Skills:
             <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)
         </li>
+        <!-- Possibilité : let index = index; let isFirst = first; let isOdd = odd; -->
     </ul>
 </div>
 

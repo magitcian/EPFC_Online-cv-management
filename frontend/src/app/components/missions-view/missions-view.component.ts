@@ -31,9 +31,10 @@ export class MissionsViewComponent {
         this.userCvId = val;
         this.refresh();
     }
-    @Input() userCvId !: number;
-    @Input() missions!: Mission[];
     @Input() isEditable!: boolean;
+
+    userCvId !: number;
+    missions!: Mission[];
     isEditMode: boolean = false;
 
     constructor(
@@ -49,7 +50,7 @@ export class MissionsViewComponent {
     refresh() {
         this.userService.getMissions(this.userCvId).subscribe(missions => {
             this.missions = missions;
-            console.log(this.missions);
+            //console.log(this.missions);
         });
     }
 

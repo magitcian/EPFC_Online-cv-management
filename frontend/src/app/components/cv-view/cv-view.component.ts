@@ -1,5 +1,5 @@
 
-import { Component, AfterViewInit, Input } from '@angular/core';
+import { Component, AfterViewInit, Input, ViewChild } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UserService } from '../../services/user.service';
 import { User } from 'src/app/models/user';
@@ -24,7 +24,6 @@ export class CvViewComponent {
     categories: Category[] = [];
     skills: Skill[] = [];
     masterings: Mastering[] = [];
-    
 
     constructor(private userService: UserService, public authenticationService: AuthenticationService) {
         
