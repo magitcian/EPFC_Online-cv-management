@@ -38,6 +38,7 @@ import { PersonalDataViewComponent } from '../components/personal-data-view/pers
 import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
 import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
 import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // import { MdChipsModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
@@ -95,6 +96,8 @@ export function getBaseUrl() {
         BrowserAnimationsModule,
         SharedModule
         ,MatChipsModule
+        ,MatTooltipModule
+
         //,MatNativeDateModule
         //,MatAutocompleteSelectedEvent
     ],

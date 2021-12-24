@@ -1,8 +1,6 @@
 <div class="titre">
-    <h1>Personal data
-        <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
-            <mat-icon>edit</mat-icon>
-        </button>
+    <h1 *ngIf="isEditable" (click)="changeEditMode()">
+        <span title="click to edit" matTooltip="Edit personal data">Personal data</span>
     </h1>
 </div>
 

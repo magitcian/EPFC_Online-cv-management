@@ -133,7 +133,7 @@ export class MissionEditComponent {
         this.updateDataWithEnterprisesName();
         const data = this.frm.value;
         data.usings = this.usingsOfMission;
-        console.log(data);
+        //console.log(data);
         this.dialogRef.close(data);
     }
 

@@ -15,3 +15,7 @@ th.mat-column-actions {
 /* [hidden] {
     display: none !important;
 } */
+
+h1:hover {
+    cursor: pointer;
+}

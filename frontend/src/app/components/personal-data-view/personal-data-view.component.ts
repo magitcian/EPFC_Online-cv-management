@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Input, Output, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { __exportStar } from 'tslib';
 import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as _ from 'lodash-es';
-import { plainToClass } from 'class-transformer';
 import { MatDialog } from '@angular/material/dialog';
-import { MissionEditComponent } from '../mission-edit/mission-edit.component';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -60,7 +58,7 @@ export class PersonalDataViewComponent {
             if (user != null) {
                 this.user = user;
             }
-            console.log(this.user);
+            //console.log(this.user);
             this.controlForm();
         });
     }

@@ -109,7 +109,7 @@ namespace prid2122_g03.Models
                 new Mission { Id = 7, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission7", Description = "M7", EnterpriseId = 1, UserId = 4, ClientId = 3 },
                 new Mission { Id = 8, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission8", Description = "M8", EnterpriseId = 1, UserId = 7, ClientId = 3 },
                 new Mission { Id = 9, Start = new DateTime(2018, 1, 2), Finish = new DateTime(2019, 12, 20), Title = "Mission9", Description = "M9", EnterpriseId = 1, UserId = 1, ClientId = 3 },
-                new Mission { Id = 10, Start = new DateTime(2020, 1, 2), Finish = new DateTime(2021, 3, 2), Title = "Mission10", Description = "M10", EnterpriseId = 1, UserId = 1, ClientId = 3 }
+                new Mission { Id = 10, Start = new DateTime(2020, 1, 2), Finish = new DateTime(2021, 3, 2), Title = "Mission10", Description = "M10", EnterpriseId = 1, UserId = 1 }
             );
 
             // modelBuilder.Entity<Training>().HasData(

@@ -1,16 +1,17 @@
 <div class="titre">
-    <h1>Missions
-        <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
+    <h1 *ngIf="isEditable" (click)="changeEditMode()">
+        <span title="click to edit" matTooltip="Edit missions">Missions</span>
+        <!-- <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
             <mat-icon>edit</mat-icon>
-        </button>
+        </button> -->
     </h1>
 </div>
 
 <div class="cv-view" *ngIf="!isEditMode">
     <ul *ngFor="let mission of missions">
         <li>
-            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}} ( Skills:
-            <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)
+            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}<span *ngIf="mission.client != null">, chez {{mission.client?.name}}</span>
+            <span *ngIf="mission.usings != null ? mission.usings.length != 0 : false"> ( Skills: <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)</span>
         </li>
         <!-- Possibilité : let index = index; let isFirst = first; let isOdd = odd; -->
     </ul>
@@ -19,8 +20,8 @@
 <div class="cv-edit" *ngIf="isEditMode">
     <ul *ngFor="let mission of missions">
         <li>
-            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}, chez {{mission.client?.name}} ( Skills:
-            <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)
+            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}<span *ngIf="mission.client != null">, chez {{mission.client?.name}}</span>
+            <span *ngIf="mission.usings != null ? mission.usings.length != 0 : false"> ( Skills: <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)</span>
             <button mat-icon-button>
                 <mat-icon (click)="edit(mission)">edit</mat-icon>
             </button>
