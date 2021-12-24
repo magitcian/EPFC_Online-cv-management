@@ -23,7 +23,7 @@ export class SignUpComponent {
     ) {
         this.ctlLastName = this.fb.control('', [Validators.minLength(3)]);
         this.ctlFirstName = this.fb.control('', [Validators.minLength(3)]);
-        this.ctlEmail = this.fb.control('', [Validators.required, Validators.minLength(3)], [this.emailUsed()]);
+        this.ctlEmail = this.fb.control('', [Validators.required, Validators.minLength(3), this.validateEmail()], [this.emailUsed()]);
         this.ctlPassword = this.fb.control('', [Validators.required, Validators.minLength(3)]);
         this.ctlPasswordConfirm = this.fb.control('', [Validators.required, Validators.minLength(3)]);
         this.frm = this.fb.group({
@@ -64,5 +64,16 @@ export class SignUpComponent {
                 this.router.navigate(['/']);
             }
         });
+    }
+
+    validateEmail(): any {
+        return (ctl: FormControl) => {
+            const email = ctl.value;
+            const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email
+            if(!regex.test(email)){
+                return { badEmailFormat: true };
+            }
+            return null;
+        };
     }
 }

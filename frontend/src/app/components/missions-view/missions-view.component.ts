@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Input, Output, OnChanges } from '@angular/core';
+import { Component, Input, Output, OnChanges } from '@angular/core';
 //import * as _ from 'lodash-es';
 import { Mission } from 'src/app/models/mission';
 import { __exportStar } from 'tslib';
@@ -7,18 +7,10 @@ import { UserService } from '../../services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 //import { EditMissionComponent } from '../edit-mission/edit-mission.component';
 import * as _ from 'lodash-es';
-import { User, Title } from 'src/app/models/user';
-import { Moment } from 'moment';
-import * as moment from 'moment';
 import { plainToClass } from 'class-transformer';
-import { StateService } from 'src/app/services/state.service';
-import { MatTableState } from 'src/app/helpers/mattable.state';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { newArray } from '@angular/compiler/src/util';
 import { MissionEditComponent } from '../mission-edit/mission-edit.component';
+
 
 @Component({
     selector: 'app-missions-view',
@@ -31,9 +23,10 @@ export class MissionsViewComponent {
         this.userCvId = val;
         this.refresh();
     }
-    @Input() userCvId !: number;
-    @Input() missions!: Mission[];
     @Input() isEditable!: boolean;
+
+    userCvId !: number;
+    missions!: Mission[];
     isEditMode: boolean = false;
 
     constructor(
@@ -49,7 +42,7 @@ export class MissionsViewComponent {
     refresh() {
         this.userService.getMissions(this.userCvId).subscribe(missions => {
             this.missions = missions;
-            console.log(this.missions);
+            //console.log(this.missions);
         });
     }
 
@@ -63,6 +56,10 @@ export class MissionsViewComponent {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
                         this.refresh();
+                        this.changeEditMode();
+                    }else{
+                        this.refresh();
+                        this.changeEditMode();
                     }
                 });
             }
@@ -83,8 +80,10 @@ export class MissionsViewComponent {
                 this.missionService.add(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
+                    }else{
+                        this.refresh();
+                        this.changeEditMode();
                     }
-                    this.refresh();
                 });
             }
         });
@@ -99,6 +98,7 @@ export class MissionsViewComponent {
                 this.missionService.delete(mission).subscribe();
             }else{
                 this.refresh();
+                this.changeEditMode();
             }
         });
     }

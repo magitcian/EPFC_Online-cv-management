@@ -151,16 +151,18 @@ namespace prid2122_g03.Controllers
         }
 
         // GET /api/users/{userID}
-        [Authorized(Title.AdminSystem)]
         [HttpGet("{userID}")]
         public async Task<ActionResult<UserDTO>> GetOne(int userID) {
-            // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
-            var user = await _context.Users.FindAsync(userID);
-            // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
-            if (user == null)
-                return NotFound();
-            // Transforme le membre en son DTO et retourne ce dernier
-            return _mapper.Map<UserDTO>(user);
+            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+                // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
+                var user = await _context.Users.FindAsync(userID);
+                // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
+                if (user == null)
+                    return NotFound();
+                // Transforme le membre en son DTO et retourne ce dernier
+                return _mapper.Map<UserDTO>(user);
+            }
+            return BadRequest("You are not entitled to obtain those data");
         }
 
         // POST /api/users
@@ -181,6 +183,25 @@ namespace prid2122_g03.Controllers
             // et ayant dans ses headers une entrée 'Location' qui contient l'url associé à GetOne avec la bonne valeur 
             // pour le paramètre 'email' de cet url.
             return CreatedAtAction(nameof(GetOne), new { userID = newUser.Id }, _mapper.Map<UserDTO>(newUser));
+        }
+
+
+        [HttpPut]
+        public async Task<ActionResult<UserDTO>> PutUser(UserWithPasswordDTO userDTO) {
+            var user = await _context.Users.FirstAsync(m => m.Id == userDTO.Id);
+            if (user == null)
+                return NotFound();
+            if (string.IsNullOrEmpty(userDTO.Password))
+                userDTO.Password = user.Password;
+            userDTO.Title = user.Title;
+            if (isConnectedUser(userDTO.Id)) {
+                _mapper.Map<UserWithPasswordDTO, User>(userDTO, user);
+                var res = await _context.SaveChangesAsyncWithValidation();
+                if (!res.IsEmpty)
+                    return BadRequest(res);
+                return NoContent();
+            }
+            return BadRequest("You are not entitled to adjust these data");
         }
 
 
@@ -277,6 +298,12 @@ namespace prid2122_g03.Controllers
             return await _context.Users.SingleOrDefaultAsync(u => u.Email == email) == null;
         }
 
+
+        [HttpGet("an-other-email-available/{email}")]
+        public async Task<ActionResult<bool>> IsAnOtherEmailAvailable(string email) {
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email && u.Id != getConnectedUserId()) == null;
+        }
+
         [AllowAnonymous]
         [HttpPost("signup")]
         public async Task<ActionResult<UserDTO>> SignUp(UserWithPasswordDTO data) {
@@ -311,7 +338,7 @@ namespace prid2122_g03.Controllers
             if (consultant.ManagerId == null) {
                 consultant.ManagerId = getConnectedUserId();
             } else {
-                 return BadRequest(new ValidationErrors().Add("You are not allowed to change this link!", "Add link"));
+                return BadRequest(new ValidationErrors().Add("You are not allowed to change this link!", "Add link"));
             }
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
@@ -328,7 +355,7 @@ namespace prid2122_g03.Controllers
             if (consultant.ManagerId == getConnectedUserId()) {
                 consultant.ManagerId = null;
             } else {
-                 return BadRequest(new ValidationErrors().Add("You are not allowed to change this link!", "Remove link"));
+                return BadRequest(new ValidationErrors().Add("You are not allowed to change this link!", "Remove link"));
             }
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)

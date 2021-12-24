@@ -130,6 +130,10 @@ export class UserService {
         );
     }
 
+    public isAnOtherEmailAvailable(email: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.baseUrl}api/users/an-other-email-available/${email}`);
+    }
+
     // public getMembersWithRelationship(pseudo: string): Observable<Friend[]> {
     //     return this.http.get<any[]>(`${this.baseUrl}api/members/rels/${pseudo}`).pipe(
     //         map(res => plainToClass(Friend, res)),

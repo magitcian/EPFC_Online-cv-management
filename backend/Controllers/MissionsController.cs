@@ -81,7 +81,11 @@ namespace prid2122_g03.Controllers
             if (isConnectedUser(mission.UserId)) {
                 dto.UserId = mission.UserId;
                 _mapper.Map<MissionDTO, Mission>(dto, mission);
+                if(mission.ClientId == 0){
+                    mission.ClientId = null;
+                }
                 var res = await _context.SaveChangesAsyncWithValidation();
+
                 if (!res.IsEmpty)
                     return BadRequest(res);
                 return NoContent();

@@ -34,9 +34,12 @@ import { ConsultantsCvManagementComponent } from '../components/consultants-cv-m
 import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent } from '../components/consultants-management/consultants-management.component';
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
 import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
+import { PersonalDataViewComponent } from '../components/personal-data-view/personal-data-view.component';
 import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
 import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
 import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 // import { MdChipsModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
 //import {MatNativeDateModule} from '@angular/material/core';
@@ -79,6 +82,7 @@ export function getBaseUrl() {
         ,CategoriesViewComponent
         ,MissionEditComponent
         ,MasteringListComponent
+        ,PersonalDataViewComponent
         ,MasteringEditRowComponent
         ,MasteringEditFormComponent
         ,SkillsManagementComponent
@@ -96,6 +100,8 @@ export function getBaseUrl() {
         BrowserAnimationsModule,
         SharedModule
         ,MatChipsModule
+        ,MatTooltipModule
+
         //,MatNativeDateModule
         //,MatAutocompleteSelectedEvent
     ],
