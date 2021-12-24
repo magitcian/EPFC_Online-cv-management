@@ -13,8 +13,6 @@ import { UserService } from '../../services/user.service';
 import { MasteringService } from '../../services/mastering.service';
 import { SkillService } from 'src/app/services/skill.service';
 import { MasteringEditRowComponent } from '../mastering-edit-row/mastering-edit-row.component';
-import { __assign } from 'tslib';
-import { plainToClass } from 'class-transformer';
 
 @Component({
     selector: 'app-mastering-edit-form',
@@ -28,12 +26,8 @@ export class MasteringEditFormComponent  {
         this.userCvId = val;
         this.refresh();
     }
-    // @Input() userCvId !: number;
     userCvId !: number;
-    // public userCvId = 1;
     public masterings : Mastering[] = [];
-    // @Input() masterings!: Mastering[];
-    // @Input() isEditable!: boolean;
     isEditMode: boolean = false;
     public isEditable: boolean = true;
 
@@ -41,16 +35,40 @@ export class MasteringEditFormComponent  {
         public snackBar: MatSnackBar,
         private masteringService: MasteringService,
         private userService: UserService
-        // ,public dialog: MatDialog,
     ) {
-        this.refresh();
+        // this.refresh(); // error bc it starts there (before input) and at this stage, it does not have the userCvId !
     }
 
     refresh() {
+        console.log("test2");
         this.userService.getMasterings(this.userCvId).subscribe(masterings => {
             this.masterings = masterings;
             console.log(this.masterings);
+            // console.log("testDaddy2");
         });
+    }
+
+    refreshMastering(mastering: Mastering) {
+        console.log("testDaddy");
+        this.userService.getMasterings(this.userCvId).subscribe(masterings => {
+            this.masterings = masterings;
+            console.log(this.masterings);
+            console.log("testDaddy2");
+        });
+    }
+
+    add(mastering: Mastering) {
+        // this.masteringService.add(mastering).subscribe();
+        // this.refresh();
+        this.masteringService.add(mastering).subscribe(res => { // res: ce que me renvoie le backend 
+            if (!res) {
+                this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
+                // console.log(res.valueOf());
+            } else {
+                this.refresh();
+                console.log("test1");
+            }            
+        }); 
     }
 
     delete(mastering: Mastering) {
@@ -67,28 +85,20 @@ export class MasteringEditFormComponent  {
     }
 
     update(mastering: Mastering) {
-        const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' level will be updated`, 'Undo', { duration: 5000 });
-        snackBarRef.afterDismissed().subscribe(res => {
-            if (!res.dismissedByAction) {
-                // _.assign(mastering, res);
-                // res = plainToClass(Mastering, res);
-                this.masteringService.update(mastering).subscribe();
-            } else {
-                this.refresh();
-            }
-        });
+        this.masteringService.update(mastering).subscribe();
+        this.refresh(); // in subscribe !
+        // TODO add snackbar for error msg and refresh automatic
+        // attention: refresh() se fait avant masteringService => mettre le refresh() dans le subscribe => si mal passé, snackbar,
+        // si bien passé, refresh() et changer le mode non editable
+        // attention: récupération du résultat du snackbar => if et else : refresh() doit être dans le "else"
     }
 
-    // add() {
-    //     const mastering = new Mastering();
+    // add(mastering: Mastering) {
     //     this.masteringService.add(mastering).subscribe();
-    //     this.refresh();
+    //     this.refresh(); // in subscribe !
     // }
 
-    // update() {
-    //     const data = this.frm.value;
-    // }
-
+   
     changeEditMode() {
         if (this.isEditable) {
             this.isEditMode = !this.isEditMode;
@@ -96,3 +106,18 @@ export class MasteringEditFormComponent  {
     }
 
 }
+
+ // update(mastering: Mastering) {
+    //     const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' level will be updated`, 'Undo', { duration: 5000 });
+    //     snackBarRef.afterDismissed().subscribe(res => {
+    //         if (!res.dismissedByAction) {
+                
+    //             this.masteringService.update(mastering).subscribe();
+    //         } else {
+    //             this.refresh();
+    //         }
+    //     });
+    // }
+
+    // _.assign(mastering, res);    // dit que le res est formaté comme un mastering (il faut le repréciser)
+    // res = plainToClass(Mastering, res);  // res n'a rien à voir avec le res qui m'intéresse - que pour savoir si l'util a cliqué sur undo ou pas
