@@ -15,10 +15,10 @@ namespace prid2122_g03.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Required"), MinLength(3, ErrorMessage = "Minimum 3 characters")]
+        [Required(ErrorMessage = "Required"), MinLength(2, ErrorMessage = "Minimum 3 characters")]
         public string Name { get; set; }
 
-        [Required]
+        // [Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; } 
 

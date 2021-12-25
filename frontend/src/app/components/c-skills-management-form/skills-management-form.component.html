@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Skills management</h1>
+    </div>
+</div>
+<!-- *ngFor="let skill of skills" -->
+<div class="skills-edit" *ngFor="let skill of skills">
+    <!-- <div class="cv-edit" *ngIf="isEditMode" *ngFor="let skill of skills"></div> -->
+    <div class="container" [formGroup]="frm">
+        <form id="frm" class="form" [formGroup]="frm"  novalidate>    
+            <div class="form-row" >
+                <div class="form-group col-md-3">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Skill</mat-label>
+                        <!-- <input matInput [readonly]="!editable" upperCaseInput placeholder="Nom d'usage" formControlName="lastName"> -->
+                        <input matInput [formControl]="ctlSkillName" readonly>
+        
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Category</mat-label>
+                        <!-- <input matInput [formControl]="ctlCategoryName" readonly> -->
+                        <mat-select [formControl]="ctlCategoryId" > 
+                            <!-- <mat-select [formControl]="ctlCategoryId" *ngIf="isNew" > -->
+                            <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+                </div>
+
+                <div class="form-group col-md-3">
+                    <button mat-icon-button (click)="delete(skill)" >
+                        <!-- <button mat-icon-button *ngIf="!isNew" (click)="delete()" > -->
+                        <mat-icon >delete</mat-icon>
+                    </button>
+                </div>
+            </div>       
+
+        </form>
+    </div>
+</div>

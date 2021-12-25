@@ -1,0 +1,33 @@
+<form id="frm" class="form" [formGroup]="frm" novalidate>
+    <h1 class="header">{{(!isNew ? 'Edit existing' : 'Add a new') + ' skill'}}</h1>
+    <mat-tab-group mat-stretch-tabs dynamicHeight>
+        <mat-tab label="General Data">
+            <div class="form">
+                <mat-form-field>
+                    <input matInput placeholder="Name" [formControl]="ctlSkillName">
+                    <mat-error class="field-error" *ngIf="ctlSkillName.hasError('required')">Required</mat-error>
+                    <mat-error class="field-error" *ngIf="ctlSkillName.hasError('minlength')">Minimum length is {{ctlSkillName.errors?.minlength?.requiredLength}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <!-- <input matInput placeholder="Category" [formControl]="ctlCategoryName"> -->
+                    <mat-select placeholder="Category" [formControl]="ctlCategoryId" >
+                        <!-- <mat-select [formControl]="ctlCategoryId" *ngIf="isNew" > -->
+                            <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+                        </mat-select>
+                    <!-- <mat-error class="field-error" *ngIf="ctlCategoryName.hasError('minlength')">Minimum length is {{ctlFirstName.errors?.minlength?.requiredLength}}</mat-error> -->
+                </mat-form-field>
+            </div>
+        </mat-tab>
+        
+    </mat-tab-group>    
+    <div class="footer">
+        <button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">{{!isNew ? 'Update' : 'Add'}}</button>
+        <button type="reset" mat-button (click)="cancel()">Cancel</button>
+    </div>
+</form>
+<!-- <pre>
+{{frm.value | json }}
+{{frm.invalid | json }}
+{{frm.pristine | json }}
+{{frm.pending | json }}
+</pre> -->
