@@ -1,6 +1,6 @@
 <div class="titre">
     <h1 *ngIf="isEditable" (click)="changeEditMode()">
-        <span title="click to edit">Skills</span> 
+        <span title="click to edit" matTooltip="Edit skills">Skills</span> 
         
         <!-- <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">  
             <mat-icon >edit</mat-icon> 
@@ -18,8 +18,8 @@
 </div>
 
 
-<div class="cv-edit" *ngIf="isEditMode">
-    <app-mastering-edit-form [getUserID]="userCvId" ></app-mastering-edit-form>
+<div class="cv-edit" *ngIf="isEditMode" >
+    <app-mastering-edit-form [getUserID]="userCvId" (refreshInDaddy)="refresh()" ></app-mastering-edit-form>
     <button mat-raised-button (click)="changeEditMode()">Back to CV</button>
     <!-- <button mat-icon-button (click)="changeEditMode()">  
         <mat-icon >save</mat-icon> 

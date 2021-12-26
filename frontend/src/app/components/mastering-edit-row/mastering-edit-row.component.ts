@@ -32,6 +32,14 @@ export class MasteringEditRowComponent {
         this.controlInput();
     }
     mastering!: Mastering;
+
+    // @Input() set getMasterings(val: Mastering[]) {
+    //     // console.log(val);
+    //     this.masterings = val;
+    //     console.log(val);
+    // }
+    // masterings!: Mastering[];
+
     @Input() isNew!: boolean;
     
     @Output() deleteMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); // () car daddy connait déjà le mastering
@@ -60,10 +68,12 @@ export class MasteringEditRowComponent {
     controlInput() {
         this.ctlId = this.fb.control('', []);
         this.ctlSkillId = this.fb.control('', []);
+        // this.ctlSkillId = this.fb.control('', [Validators.required]);
         this.ctlSkillName = this.fb.control('', []);     // this.fb.control('', []); // form element potentially "controlled"
         this.ctlCategoryName = this.fb.control('', []);
         this.ctlCategoryId = this.fb.control('', []);
-        this.ctlLevel = this.fb.control('', [Validators.required]);
+        this.ctlLevel = this.fb.control('', []);
+        // this.ctlLevel = this.fb.control('', [Validators.required]);
         // fb.group content needs to respect the JSON we get from backend !
         this.frm = this.fb.group({ // building the form using FormBuilder
             id: this.ctlId,
@@ -125,6 +135,10 @@ export class MasteringEditRowComponent {
         
     // }
 
+    // checkSkillAlreadyThere() {
+
+    // }
+
     add() {
         var res = this.frm.value; // cherche les valeurs de la row du form
         res.id = 0;
@@ -141,14 +155,12 @@ export class MasteringEditRowComponent {
         var res = this.frm.value; // récupère la ligne (row) qui a été modifiée
         this.updateMasteringInDaddy.emit(res); // res est un EventEmitter et celui-ci va être transformé en Mastering
     }
-    
-    // addOption2() {
-    //     var res = this.frm.value; 
-    //     this.addMasteringInDaddy.emit(res); 
-    // }
 
     cancel() {
         this.ctlLevel.patchValue(this.mastering.level);
+        // TODO "save" and "cancel" buttons remain after clicking on "cancel" => do we have to resfreshInDaddy ?
+        // this.ctlLevel.markAsPristine;
+        // !this.ctlLevel.dirty;
         // this.refreshInDaddy.emit();
     }
 

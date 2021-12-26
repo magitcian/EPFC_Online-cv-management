@@ -44,12 +44,15 @@
                 <mat-icon >delete</mat-icon>
             </button>
             <button mat-icon-button *ngIf="!isNew && ctlLevel.dirty"  (click)="update()" > 
+            <!-- <button mat-icon-button *ngIf="!isNew && !frm.pristine"  (click)="update()" >  -->
                 <mat-icon >save</mat-icon>
             </button>
             <button mat-icon-button *ngIf="!isNew && ctlLevel.dirty" (click)="cancel()" > 
+            <!-- <button mat-icon-button *ngIf="!isNew && !frm.pristine" (click)="cancel()" >  -->
                 <mat-icon >cancel</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="isNew && ctlSkillId.dirty" (click)="add()" > 
+            <button mat-icon-button *ngIf="isNew && ctlSkillId.dirty && ctlLevel.dirty" (click)="add()" > 
+            <!-- <button mat-icon-button *ngIf="isNew" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="add()" >  -->
                 <mat-icon >add</mat-icon>
             </button>
           </div>

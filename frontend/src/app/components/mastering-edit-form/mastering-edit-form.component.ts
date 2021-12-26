@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
@@ -27,9 +27,13 @@ export class MasteringEditFormComponent  {
         this.refresh();
     }
     userCvId !: number;
+
+    @Output() refreshInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
+
     public masterings : Mastering[] = [];
     isEditMode: boolean = false;
     public isEditable: boolean = true;
+    public masteringToAdd : Mastering = new Mastering();
 
     constructor(
         public snackBar: MatSnackBar,
@@ -43,6 +47,7 @@ export class MasteringEditFormComponent  {
         console.log("test2");
         this.userService.getMasterings(this.userCvId).subscribe(masterings => {
             this.masterings = masterings;
+            this.masteringToAdd = new Mastering();
             console.log(this.masterings);
             // console.log("testDaddy2");
         });
@@ -58,15 +63,14 @@ export class MasteringEditFormComponent  {
     }
 
     add(mastering: Mastering) {
-        // this.masteringService.add(mastering).subscribe();
-        // this.refresh();
         this.masteringService.add(mastering).subscribe(res => { // res: ce que me renvoie le backend 
             if (!res) {
-                this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
+                this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
                 // console.log(res.valueOf());
             } else {
                 this.refresh();
-                console.log("test1");
+                this.refreshInDaddy.emit();
+                // console.log("test1");
             }            
         }); 
     }
@@ -74,19 +78,32 @@ export class MasteringEditFormComponent  {
     delete(mastering: Mastering) {
         var index = this.masterings.indexOf(mastering);
         this.masterings.splice(index, 1);
-        const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' will be removed`, 'Undo', { duration: 5000 });
+        const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' will be removed`, 'Undo', { duration: 3000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
                 this.masteringService.delete(mastering).subscribe();
+                // this.changeEditMode();
+                // this.refreshInDaddy.emit();
             } else {
                 this.refresh();
+                // this.refreshInDaddy.emit();
             }
         });
+        // this.refreshInDaddy.emit(); // TODO fix this issue (it does not work the second time)
     }
 
     update(mastering: Mastering) {
-        this.masteringService.update(mastering).subscribe();
-        this.refresh(); // in subscribe !
+        this.masteringService.update(mastering).subscribe(res => { // res: ce que me renvoie le backend 
+            if (!res) {
+                this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
+            } else {
+                this.refresh();
+                this.refreshInDaddy.emit();
+                // console.log("test1");
+            }            
+        }); 
+        // this.masteringService.update(mastering).subscribe();
+        // this.refresh(); // in subscribe !
         // TODO add snackbar for error msg and refresh automatic
         // attention: refresh() se fait avant masteringService => mettre le refresh() dans le subscribe => si mal passé, snackbar,
         // si bien passé, refresh() et changer le mode non editable
@@ -107,17 +124,6 @@ export class MasteringEditFormComponent  {
 
 }
 
- // update(mastering: Mastering) {
-    //     const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' level will be updated`, 'Undo', { duration: 5000 });
-    //     snackBarRef.afterDismissed().subscribe(res => {
-    //         if (!res.dismissedByAction) {
-                
-    //             this.masteringService.update(mastering).subscribe();
-    //         } else {
-    //             this.refresh();
-    //         }
-    //     });
-    // }
 
     // _.assign(mastering, res);    // dit que le res est formaté comme un mastering (il faut le repréciser)
     // res = plainToClass(Mastering, res);  // res n'a rien à voir avec le res qui m'intéresse - que pour savoir si l'util a cliqué sur undo ou pas

@@ -61,6 +61,7 @@ namespace prid2122_g03.Controllers
             var skill = await _context.Skills.FindAsync(dto.Id);
             if (skill == null)
                 return NotFound();
+            // TODO issue if no category linked to a skill    
             if (dto.CategoryId == 0)
                 dto.CategoryId = skill.CategoryId;
             skill.CategoryId = dto.CategoryId;

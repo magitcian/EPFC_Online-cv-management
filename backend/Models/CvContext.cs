@@ -141,6 +141,7 @@ namespace prid2122_g03.Models
                 new Skill { Id = 7, Name = "JavaScript", CategoryId = 1 },
                 new Skill { Id = 8, Name = "MySQL", CategoryId = 2 },
                 new Skill { Id = 9, Name = "Angular", CategoryId = 3 }
+                // ,new Skill { Id = 10, Name = "SkillWithNoCategory" } // not working now 
             );
 
 

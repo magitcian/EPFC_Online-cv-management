@@ -22,6 +22,9 @@ namespace prid2122_g03.Models
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; } 
 
+        // TODO we may have to remove ForeignKey, remove comments from constructor with name only and update CategoryId to allow for null 
+        // public int? CategoryId { get; set; } 
+
         //[Required]
         public Category Category { get; set; } 
 
