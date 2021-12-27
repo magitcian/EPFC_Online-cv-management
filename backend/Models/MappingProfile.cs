@@ -116,6 +116,17 @@ namespace prid2122_g03.Models
             CreateMap<Category, CategoryWithSkillsAndMasteringsDTO>();
             CreateMap<CategoryWithSkillsAndMasteringsDTO, Category>();
 
+            CreateMap<Training, TrainingDTO>();
+            CreateMap<TrainingDTO, Training>();
+
+            // CreateMap<Training, TrainingWithEnterprisesAndUsingsDTO>();
+            // CreateMap<TrainingWithEnterprisesAndUsingsDTO, Training>();
+
+            // CreateMap<Training, TrainingWithUserDTO>();
+            // CreateMap<TrainingWithUserDTO, Training>();
+
+            CreateMap<Training, TrainingWithUsingsDTO>();
+            CreateMap<TrainingWithUsingsDTO, Training>();
 
         }
     }

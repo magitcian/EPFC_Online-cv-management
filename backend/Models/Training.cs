@@ -11,15 +11,16 @@ namespace prid2122_g03.Models
 
         public enum Grade
     {
-        Senior = 0, Expert = 1, Junior = 2
+        SummaCumLaude = 0, MagnaCumLaude = 1, CumLaude = 2
     }
 
-    public class Training : Experience //: IValidatableObject
+    public class Training : Experience //: IValidatableObject // TODO add validation for Grade
     {
         public Grade Grade { get; set; }
-        public Training(DateTime start, DateTime finish, string title, string description, Grade grade) : base(start, finish, title, description) {
+        
+        public Training(DateTime start, DateTime finish, string title, string description, Enterprise enterprise, Grade grade) : base(start, finish, title, description, enterprise) {
             Grade = grade;
-        }
+        } // entreprise should be the school / university
 
         public Training() {
 

@@ -90,7 +90,10 @@ namespace prid2122_g03.Models
                 new Enterprise { Id = 2, Name = "Enterprise2" },
                 new Enterprise { Id = 3, Name = "Enterprise3" },
                 new Enterprise { Id = 4, Name = "Enterprise4" },
-                new Enterprise { Id = 5, Name = "Enterprise5" }
+                new Enterprise { Id = 5, Name = "Enterprise5" },
+                new Enterprise { Id = 6, Name = "EPFC" },
+                new Enterprise { Id = 7, Name = "ULB" },
+                new Enterprise { Id = 8, Name = "UCL" }
             );
 
             // modelBuilder.Entity<Experience>().HasData(
@@ -175,6 +178,12 @@ namespace prid2122_g03.Models
                 new Using { Id = 2, ExperienceId = 3, SkillId = 3 }
             );
 
+            modelBuilder.Entity<Training>().HasData(
+                new Training { Id = 11, Start = new DateTime(2010, 9, 15), Finish = new DateTime(2013, 9, 14), Title = "Bachelier", Description = "Informatique", EnterpriseId = 6, UserId = 1, Grade = Grade.MagnaCumLaude },
+                new Training { Id = 12, Start = new DateTime(2013, 9, 15), Finish = new DateTime(2015, 9, 14), Title = "Master", Description = "Cybersécurité", EnterpriseId = 7, UserId = 1, Grade = Grade.MagnaCumLaude },
+                new Training { Id = 13, Start = new DateTime(2014, 9, 15), Finish = new DateTime(2016, 9, 14), Title = "Master", Description = "Informatique", EnterpriseId = 8, UserId = 3, Grade = Grade.MagnaCumLaude }
+            );
+
         }
 
         public void SeedData() {
@@ -233,5 +242,8 @@ namespace prid2122_g03.Models
 
         public DbSet<Mastering> Masterings { get; set; }
         public DbSet<Using> Usings { get; set; }
+
+        public DbSet<Training> Trainings { get; set; }
+
     }
 }
