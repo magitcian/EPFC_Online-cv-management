@@ -11,12 +11,17 @@ import { User } from "./user";
 import * as _ from 'lodash-es';
 
 export enum Grade {
-    Senior = 0, Expert = 1, Junior = 2
+    SummaCumLaude = 0, MagnaCumLaude = 1, CumLaude = 2
 }
 
 export class Training extends Experience {
    
-    grade?: Grade;
+    grade!: Grade; // TODO fix issue (not working)
+    // grade: Grade = Grade.CumLaude;
+
+    public get gradeAsString(): string {
+        return Grade[this.grade];
+    }
 
 
 }

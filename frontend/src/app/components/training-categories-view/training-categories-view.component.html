@@ -1,0 +1,8 @@
+<div class="cv-view" *ngIf="!isEditMode">
+    <!-- <div class="cv-view" *ngIf="categories.length > 0"></div> -->       
+    <ul *ngFor="let category of categories">
+        <li>
+            <b>{{category?.name}}:</b> {{category?.displaySkillsInExperiences}}    
+        </li>
+    </ul>
+</div>

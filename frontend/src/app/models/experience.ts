@@ -13,7 +13,7 @@ import { Using } from './using';
 
 export class Experience {
 
-    id?: number;
+    id: number = 0; // id?: number;
     @Type(() => Date)
     @Transform(({ value }) => value ? moment(value) : value, { toClassOnly: true })
     start?: Moment;
@@ -38,6 +38,18 @@ export class Experience {
 
     get finishDate(): any{
         return this.finish ; //?.format('DD/MM/YYYY');
+    }
+
+    get yearOfStartDate(): any{
+        return this.start?.format('YYYY') ; //?.format('YYYY');
+    }
+
+    get yearOfFinishDate(): any{
+        return this.finish?.format('YYYY') ; //?.format('YYYY');
+    }
+
+    get entrepriseName(): string {
+        return `${this.enterprise?.name}`;
     }
 
 

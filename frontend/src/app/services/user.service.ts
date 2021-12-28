@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Mission } from '../models/mission';
 import { Mastering } from '../models/mastering';
 import { Category } from '../models/category';
+import { Training } from '../models/training';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { plainToClass } from 'class-transformer';
@@ -108,6 +109,14 @@ export class UserService {
         return this.http.get<any[]>(`${this.baseUrl}api/users/consultant-without-manager`)
             .pipe(map(res => plainToClass(Consultant, res))
             );
+    }
+
+    getTrainings(userID: number): Observable<Training[]> {
+        // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
+        return this.http.get<any[]>(`${this.baseUrl}api/users/user_trainings/${userID}`).pipe(
+            map(t => plainToClass(Training, t))
+            //,catchError(err => of(null))
+        );
     }
 
     public addLinkWithConsultant(consultantID: number): Observable<boolean> {

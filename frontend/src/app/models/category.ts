@@ -23,4 +23,13 @@ export class Category {
         return allSkills;
     } 
 
+    get displaySkillsInExperiences(): string {
+        var allSkills = "";
+        this.skills?.forEach(skill => { 
+            allSkills += skill.name + ", ";
+        }); 
+        allSkills = allSkills.substring(0, allSkills.length - 2);
+        return allSkills;
+    } 
+
 }

@@ -17,17 +17,13 @@ using System.Text.Json;
 
 namespace prid2122_g03.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ExperiencesController : ControllerBase
+    public class ExperiencesController : OurController
     {
-        private readonly CvContext _context;
-        private readonly IMapper _mapper;
 
-        public ExperiencesController(CvContext context, IMapper mapper) {
-            _context = context;
-            _mapper = mapper;
+        public ExperiencesController(CvContext context, IMapper mapper) : base(context, mapper) {
         }
 
         //[Authorized(Role.Admin)]
@@ -36,6 +32,35 @@ namespace prid2122_g03.Controllers
             //return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.ToListAsync()); 
             return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.Include(exp => exp.Enterprise).ToListAsync());
         }
+
+        // GET /api/experiences/{categoryID}
+        [HttpGet("{experienceID}")]
+        public async Task<ActionResult<ExperienceDTO>> GetOne(int experienceID) {
+            var experience = await _context.Experiences.FindAsync(experienceID);
+            if (experience == null)
+                return NotFound();
+            return _mapper.Map<ExperienceDTO>(experience);
+        }
+
+
+        [HttpGet("experience_categoriesWithUsings/{experienceID}")]
+        public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndUsingsDTO>>> GetCategoriesWithUsings(int experienceID) {
+            // TODO ask if it should only be manager of the connected user
+            if (isConnectedUserExperience(experienceID) || isAdmin() || isManager()) {
+                var categories = await _context.Categories
+                                    .Where(c => c.Skills.Any(s => s.Usings.Any(u => u.ExperienceId == experienceID)))
+                                    .Include(c => c.Skills.Where(s => s.Usings.Any(u => u.ExperienceId == experienceID)))
+                                    .ThenInclude(s => s.Usings.Where(u => u.ExperienceId == experienceID))
+                                    .ToListAsync();
+                return _mapper.Map<List<CategoryWithSkillsAndUsingsDTO>>(categories);
+            }
+            return BadRequest("You are not entitled to obtain those data");
+        }
+
+        private bool isConnectedUserExperience(int experienceID) {
+            var experience = _context.Experiences.Find(experienceID);
+            return getConnectedUserId() == experience.UserId;
+        }   
 
     }
 }

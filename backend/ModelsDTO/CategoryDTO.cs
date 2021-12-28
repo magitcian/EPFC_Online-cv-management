@@ -20,4 +20,9 @@ namespace prid2122_g03.Models
         public ICollection<SkillWithMasteringsDTO> Skills { get; set; }
     }
 
+    public class CategoryWithSkillsAndUsingsDTO : CategoryDTO
+    {
+        public ICollection<SkillWithUsingsDTO> Skills { get; set; }
+    }
+
 }

@@ -16,7 +16,7 @@ export class CategoriesViewComponent {
         this.userCvId = val;
         this.refresh();
     }
-    @Input() categories!: Category[]; // on doit l'initialiser dans le constructeur // categories: Category[] = [];
+    @Input() categories!: Category[]; // TODO check to remove @Input()
     @Input() isEditable!: boolean;
 
     userCvId!: number;

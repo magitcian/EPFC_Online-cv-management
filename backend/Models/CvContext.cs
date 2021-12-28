@@ -175,13 +175,20 @@ namespace prid2122_g03.Models
 
             modelBuilder.Entity<Using>().HasData(
                 new Using { Id = 1, ExperienceId = 3, SkillId = 1 },
-                new Using { Id = 2, ExperienceId = 3, SkillId = 3 }
+                new Using { Id = 2, ExperienceId = 3, SkillId = 3 },
+                new Using { Id = 3, ExperienceId = 11, SkillId = 1 },
+                new Using { Id = 4, ExperienceId = 11, SkillId = 3 },
+                new Using { Id = 5, ExperienceId = 11, SkillId = 9 },
+                new Using { Id = 6, ExperienceId = 12, SkillId = 2 },
+                new Using { Id = 7, ExperienceId = 12, SkillId = 9 },
+                new Using { Id = 8, ExperienceId = 13, SkillId = 6 },
+                new Using { Id = 9, ExperienceId = 11, SkillId = 6 }
             );
 
             modelBuilder.Entity<Training>().HasData(
-                new Training { Id = 11, Start = new DateTime(2010, 9, 15), Finish = new DateTime(2013, 9, 14), Title = "Bachelier", Description = "Informatique", EnterpriseId = 6, UserId = 1, Grade = Grade.MagnaCumLaude },
-                new Training { Id = 12, Start = new DateTime(2013, 9, 15), Finish = new DateTime(2015, 9, 14), Title = "Master", Description = "Cybersécurité", EnterpriseId = 7, UserId = 1, Grade = Grade.MagnaCumLaude },
-                new Training { Id = 13, Start = new DateTime(2014, 9, 15), Finish = new DateTime(2016, 9, 14), Title = "Master", Description = "Informatique", EnterpriseId = 8, UserId = 3, Grade = Grade.MagnaCumLaude }
+                new Training { Id = 11, Start = new DateTime(2010, 9, 15), Finish = new DateTime(2013, 9, 14), Title = "Bachelor in Mathematics", Description = "Options in IT", EnterpriseId = 6, UserId = 1, Grade = Grade.CumLaude },
+                new Training { Id = 12, Start = new DateTime(2013, 9, 15), Finish = new DateTime(2015, 9, 14), Title = "Master in Cybersecurity", Description = "Options in xxx", EnterpriseId = 7, UserId = 1, Grade = Grade.MagnaCumLaude },
+                new Training { Id = 13, Start = new DateTime(2014, 9, 15), Finish = new DateTime(2016, 9, 14), Title = "Master in Software Engineering", Description = "Options in xxx", EnterpriseId = 8, UserId = 3, Grade = Grade.MagnaCumLaude }
             );
 
         }

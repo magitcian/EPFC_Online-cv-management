@@ -40,8 +40,8 @@ namespace prid2122_g03.Models
             CreateMap<Mission, MissionWithUsingsDTO>();
             CreateMap<MissionWithUsingsDTO, Mission>();
 
-            // CreateMap<Experience, ExperienceDTO>();
-            // CreateMap<ExperienceDTO, Experience>();
+            CreateMap<Experience, ExperienceDTO>();
+            CreateMap<ExperienceDTO, Experience>();
 
             CreateMap<Enterprise, EnterpriseDTO>();
             CreateMap<EnterpriseDTO, Enterprise>();
@@ -98,11 +98,17 @@ namespace prid2122_g03.Models
             CreateMap<Using, UsingWithSkillDTO>();
             CreateMap<UsingWithSkillDTO, Using>();
 
+            CreateMap<Using, UsingWithExperienceDTO>();
+            CreateMap<UsingWithExperienceDTO, Using>();
+
             CreateMap<Skill, SkillDTO>();
             CreateMap<SkillDTO, Skill>();
 
             CreateMap<Skill, SkillWithMasteringsDTO>();
             CreateMap<SkillWithMasteringsDTO, Skill>();
+
+            CreateMap<Skill, SkillWithUsingsDTO>();
+            CreateMap<SkillWithUsingsDTO, Skill>();
 
             CreateMap<Skill, SkillWithCategoryDTO>();
             CreateMap<SkillWithCategoryDTO, Skill>();
@@ -116,11 +122,14 @@ namespace prid2122_g03.Models
             CreateMap<Category, CategoryWithSkillsAndMasteringsDTO>();
             CreateMap<CategoryWithSkillsAndMasteringsDTO, Category>();
 
+            CreateMap<Category, CategoryWithSkillsAndUsingsDTO>();
+            CreateMap<CategoryWithSkillsAndUsingsDTO, Category>();
+
             CreateMap<Training, TrainingDTO>();
             CreateMap<TrainingDTO, Training>();
 
-            // CreateMap<Training, TrainingWithEnterprisesAndUsingsDTO>();
-            // CreateMap<TrainingWithEnterprisesAndUsingsDTO, Training>();
+            CreateMap<Training, TrainingWithEnterprisesAndUsingsDTO>();
+            CreateMap<TrainingWithEnterprisesAndUsingsDTO, Training>();
 
             // CreateMap<Training, TrainingWithUserDTO>();
             // CreateMap<TrainingWithUserDTO, Training>();

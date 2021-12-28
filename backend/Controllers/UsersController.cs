@@ -133,6 +133,22 @@ namespace prid2122_g03.Controllers
             return BadRequest("You are not entitled to obtain those data");
         }
 
+        [HttpGet("user_trainings/{userID}")]
+        public async Task<ActionResult<IEnumerable<TrainingWithEnterprisesAndUsingsDTO>>> GetTrainings(int userID) {
+            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+                var trainings = await _context.Trainings
+                                    .Where(t => t.UserId == userID)
+                                    .OrderByDescending(t => t.Start) //inverse : OrderBy
+                                    .Include(t => t.Enterprise)
+                                    .Include(t => t.Usings)
+                                    .ThenInclude(u => u.Skill)
+                                    .ThenInclude(s => s.Category)
+                                    .ToListAsync();
+                return _mapper.Map<List<TrainingWithEnterprisesAndUsingsDTO>>(trainings);
+            }
+            return BadRequest("You are not entitled to obtain those data");
+        }
+
         // GET /api/users
         [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet]

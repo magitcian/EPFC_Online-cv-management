@@ -49,6 +49,9 @@ import { SkillsManagementComponent } from '../components/c-skills-management/ski
 import { EditSkillComponent } from '../components/c-edit-skill/edit-skill.component';
 import { SkillsManagementFormComponent } from '../components/c-skills-management-form/skills-management-form.component';
 
+import { TrainingsViewComponent } from '../components/trainings-view/trainings-view.component';
+import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
+
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
 }
@@ -89,6 +92,8 @@ export function getBaseUrl() {
         ,SkillsManagementComponent
         ,EditSkillComponent
         ,SkillsManagementFormComponent
+        ,TrainingsViewComponent
+        ,TrainingCategoriesViewComponent
     ],
     entryComponents: [
         EditUserComponent
