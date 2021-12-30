@@ -13,6 +13,12 @@
     <ul *ngFor="let category of categories">
         <li>
             <b>{{category?.name}}:</b> {{category?.displaySkills}}
+            <!-- <b>{{category?.name}}:</b> 
+            <span *ngFor="let skill of category.skills" >
+                <span matBadge="1" >
+                    {{skill?.name}}
+                </span>
+            </span> -->
         </li>
     </ul>
 </div>

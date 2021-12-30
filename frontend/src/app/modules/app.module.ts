@@ -40,6 +40,7 @@ import { MasteringEditRowComponent } from '../components/mastering-edit-row/mast
 import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
 import { MatTooltipModule } from '@angular/material/tooltip'; 
 import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
 
 // import { MdChipsModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
@@ -112,6 +113,7 @@ export function getBaseUrl() {
         ,MatChipsModule
         ,MatTooltipModule
         ,MatMenuModule
+        ,MatBadgeModule
 
         //,MatNativeDateModule
         //,MatAutocompleteSelectedEvent
