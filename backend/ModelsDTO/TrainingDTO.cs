@@ -5,7 +5,7 @@ namespace prid2122_g03.Models
 {
     public class TrainingDTO : ExperienceDTO
     {
-
+        public Grade Grade { get; set; } 
     }
 
     public class TrainingWithEnterprisesAndUsingsDTO : TrainingDTO

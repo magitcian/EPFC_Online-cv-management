@@ -33,17 +33,22 @@ namespace prid2122_g03.Controllers
 
         // GET /api/trainings/{trainingID}
         [HttpGet("{trainingID}")]
-        public async Task<ActionResult<TrainingDTO>> GetOne(int trainingID) {
-            var training = await _context.Trainings.FindAsync(trainingID);
+        public async Task<ActionResult<TrainingWithEnterprisesAndUsingsDTO>> GetOne(int trainingID) {
+            // var training = await _context.Trainings.FindAsync(trainingID);
+            var training = await _context.Trainings
+                                    .Include(t => t.Enterprise)
+                                    .Include(t => t.Usings)
+                                    .ThenInclude(u => u.Skill)
+                                    .SingleOrDefaultAsync(t => t.Id == trainingID);
             if (training == null)
                 return NotFound();
-            if (isConnectedUser(training.UserId) || isConsultantsManagerMastering(training) || isAdmin())    
-                return _mapper.Map<TrainingDTO>(training);
+            if (isConnectedUser(training.UserId) || isConsultantsManagerTraining(training) || isAdmin())    
+                return _mapper.Map<TrainingWithEnterprisesAndUsingsDTO>(training);
             return BadRequest("You are not entitled to get these data");           
         }
 
         // Manager is entitled to get a training of his/her consultants or consultants with no manager
-        private bool isConsultantsManagerMastering(Training training) {
+        private bool isConsultantsManagerTraining(Training training) {
             if (isManager()) {
                 var manager = (Manager) getConnectedUser();
                 var consultant = _context.Consultants.Find(training.UserId);

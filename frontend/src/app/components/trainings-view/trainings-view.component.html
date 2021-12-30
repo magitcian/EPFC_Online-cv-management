@@ -1,37 +1,23 @@
 <div class="titre">
-    <h1 *ngIf="isEditable" (click)="changeEditMode()">
+    <h1 *ngIf="isEditable">
+        <!-- <h1 *ngIf="isEditable" (click)="changeEditMode()">     -->
         <span title="click to edit" matTooltip="Edit trainings">Trainings</span> 
     </h1>
 </div>
 
-<div class="cv-view" *ngIf="!isEditMode">
+<div class="cv-view">
+    <!-- <div class="cv-view" *ngIf="!isEditMode">     -->
     <!-- <div class="cv-view" *ngIf="trainings.length > 0"></div> -->
-    <ul *ngFor="let training of trainings">
+    <span *ngFor="let training of trainings">
         <!-- envoyer le composant qui envoie le training dans lequel on a des sous-composants par ligne de catégorie -->
-        <li>
+        <app-training-data-view [getTrainingID]="training.id" (updateTrainingInDaddy)="update($event)" (deleteTrainingInDaddy)="delete(training)"></app-training-data-view> 
+        <!-- <app-training-data-view [getTraining]="training" "></app-training-data-view>  -->
 
-            <b>{{training?.yearOfStartDate}} - {{training?.yearOfFinishDate}} </b>
-            &nbsp;&nbsp;&nbsp;&nbsp; 
-            <b>{{training?.entrepriseName}} - {{training?.title}} </b>
-            <br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{training?.description}} 
-            <br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
-            <i> Grade: {{training?.gradeAsString}} </i>
-            <br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
-            Skills: 
-            &nbsp;&nbsp;&nbsp;
-            <span *ngFor="let using of training.usings"> {{using.skill?.name}} &nbsp;&nbsp;&nbsp;</span>
-            <app-training-categories-view [getTrainingID]="training.id" ></app-training-categories-view> 
-
-        </li>
-    </ul>
+    </span>
 </div>
 
 
-<div class="cv-edit" *ngIf="isEditMode" >
+<!-- <div class="cv-edit" *ngIf="isEditMode" >
     <button mat-raised-button (click)="changeEditMode()">Back to CV</button>
-</div>
+</div> -->
 <br>

@@ -20,7 +20,7 @@ import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent }
 // import { MasteringEditComponent } from '../components/mastering-edit-row/mastering-edit.component';
 // import { MasteringEditFormDaddyComponent } from '../components/mastering-edit-form/mastering-edit-form-daddy.component';
 import { SkillsManagementComponent } from '../components/c-skills-management/skills-management.component';
-import { SkillsManagementFormComponent } from '../components/c-skills-management-form/skills-management-form.component'
+import { SkillsManagementFormComponent } from '../components/c-skills-management-form/skills-management-form.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },

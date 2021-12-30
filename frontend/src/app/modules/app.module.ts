@@ -38,7 +38,8 @@ import { PersonalDataViewComponent } from '../components/personal-data-view/pers
 import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
 import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
 import { MasteringEditFormComponent } from '../components/mastering-edit-form/mastering-edit-form.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip'; 
+import { MatMenuModule } from '@angular/material/menu';
 
 // import { MdChipsModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
@@ -51,6 +52,7 @@ import { SkillsManagementFormComponent } from '../components/c-skills-management
 
 import { TrainingsViewComponent } from '../components/trainings-view/trainings-view.component';
 import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
+import { TrainingDataViewComponent } from '../components/training-data-view/training-data-view.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -94,6 +96,7 @@ export function getBaseUrl() {
         ,SkillsManagementFormComponent
         ,TrainingsViewComponent
         ,TrainingCategoriesViewComponent
+        ,TrainingDataViewComponent
     ],
     entryComponents: [
         EditUserComponent
@@ -108,6 +111,7 @@ export function getBaseUrl() {
         SharedModule
         ,MatChipsModule
         ,MatTooltipModule
+        ,MatMenuModule
 
         //,MatNativeDateModule
         //,MatAutocompleteSelectedEvent
