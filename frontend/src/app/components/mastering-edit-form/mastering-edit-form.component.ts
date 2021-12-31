@@ -85,10 +85,9 @@ export class MasteringEditFormComponent  {
                 this.refresh(); // TODO fix issue with 2 refresh()
                 this.refreshInDaddy.emit();
                 this.refresh();
-            } else {
-                this.refresh();
             }
         });
+        snackBarRef.onAction().subscribe(() => this.masterings.splice(index, 0, mastering))
     }
 
     update(mastering: Mastering) {
