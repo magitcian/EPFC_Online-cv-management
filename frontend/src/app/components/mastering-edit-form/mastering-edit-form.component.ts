@@ -82,14 +82,13 @@ export class MasteringEditFormComponent  {
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
                 this.masteringService.delete(mastering).subscribe();
-                // this.changeEditMode();
-                // this.refreshInDaddy.emit();
+                this.refresh(); // TODO fix issue with 2 refresh()
+                this.refreshInDaddy.emit();
+                this.refresh();
             } else {
                 this.refresh();
-                // this.refreshInDaddy.emit();
             }
         });
-        // this.refreshInDaddy.emit(); // TODO fix this issue (it does not work the second time)
     }
 
     update(mastering: Mastering) {
