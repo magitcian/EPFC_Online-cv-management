@@ -10,8 +10,8 @@
     <!-- <div class="cv-view" *ngIf="trainings.length > 0"></div> -->
     <span *ngFor="let training of trainings">
         <!-- envoyer le composant qui envoie le training dans lequel on a des sous-composants par ligne de catégorie -->
-        <app-training-data-view [getTrainingID]="training.id" (updateTrainingInDaddy)="update($event)" (deleteTrainingInDaddy)="delete(training)"></app-training-data-view> 
-        <!-- <app-training-data-view [getTraining]="training" "></app-training-data-view>  -->
+        <app-training-data-view [getTraining]="training" (updateTrainingInDaddy)="update($event)" (deleteTrainingInDaddy)="delete(training)"></app-training-data-view> 
+        <!-- <app-training-data-view [getTrainingID]="training.id" "></app-training-data-view>  -->
 
     </span>
 </div>

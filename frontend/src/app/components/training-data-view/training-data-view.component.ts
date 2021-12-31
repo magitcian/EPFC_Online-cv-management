@@ -19,21 +19,22 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 })
 
 export class TrainingDataViewComponent {
-    @Input() set getTrainingID(val: number) {
-        this.experienceId = val;
-        this.refresh();
-    }
-
-    // @Input() set getTrainingID(val: Training) {
-    //     this.training = val;
+    // @Input() set getTrainingID(val: number) {
+    //     this.experienceId = val;
+    //     this.refresh();
     // }
 
-    // training!: Training;
+    @Input() set getTraining(val: Training) {
+        this.training = val;
+        this.controlInput();
+    }
+
+    training!: Training;
 
     experienceId!: number;
     @Input() isEditable!: boolean;
     isEditMode: boolean = false;
-    training: Training = new Training();
+    // training: Training = new Training();
 
     enterprises!: Enterprise[];
     skills!: Skill[];
@@ -64,14 +65,14 @@ export class TrainingDataViewComponent {
        
     }
 
-    refresh() {
-        this.trainingService.getById(this.experienceId).subscribe(training => {
-            if (training != null) {
-                this.training = training;
-            }
-            this.controlInput();
-        });
-    }
+    // refresh() {
+    //     this.trainingService.getById(this.experienceId).subscribe(training => {
+    //         if (training != null) {
+    //             this.training = training;
+    //         }
+    //         this.controlInput();
+    //     });
+    // }
 
     controlInput() {
         this.ctlStart = this.fb.control('', []);
