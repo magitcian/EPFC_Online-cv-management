@@ -13,6 +13,8 @@ namespace prid2122_g03.Models
     {
         [Key]
         public int Id { get; set; }
+
+        // [Required(ErrorMessage = "Required"), MinLength(2, ErrorMessage = "Minimum 2 characters")] // TODO ask if needed be
         public string Name { get; set; }
         public ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>();
         public ICollection<Mission> Missions { get; set; } = new HashSet<Mission>();
@@ -27,11 +29,17 @@ namespace prid2122_g03.Models
             return this.Name != "";
         }
 
+        public bool CheckNameUnicity(CvContext context) {
+            return context.Enterprises.Count(e => e.Id != Id && e.Name == Name) == 0; 
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
             Debug.Assert(currContext != null);
             if (!CheckName(currContext))
                 yield return new ValidationResult("The name must be completed!", new[] { nameof(Name) });
+            if (!CheckNameUnicity(currContext))
+                yield return new ValidationResult("The name of a skill must be unique", new[] { nameof(Name) });    
         }
     }
 }
