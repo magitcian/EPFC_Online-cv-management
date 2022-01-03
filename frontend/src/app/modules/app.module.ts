@@ -49,7 +49,6 @@ import {MatChipsModule} from '@angular/material/chips';
 //import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { SkillsManagementComponent } from '../components/c-skills-management/skills-management.component';
 import { EditSkillComponent } from '../components/c-edit-skill/edit-skill.component';
-import { SkillsManagementFormComponent } from '../components/c-skills-management-form/skills-management-form.component';
 
 import { TrainingsViewComponent } from '../components/trainings-view/trainings-view.component';
 import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
@@ -95,7 +94,6 @@ export function getBaseUrl() {
         ,MasteringEditFormComponent
         ,SkillsManagementComponent
         ,EditSkillComponent
-        ,SkillsManagementFormComponent
         ,TrainingsViewComponent
         ,TrainingCategoriesViewComponent
         ,TrainingDataViewComponent
