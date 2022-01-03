@@ -25,7 +25,7 @@
 
 
 <div class="cv-edit" *ngIf="isEditMode" >
-    <app-mastering-edit-form [getUserID]="userCvId" (refreshInDaddy)="refreshAndChangeEditMode()" ></app-mastering-edit-form>
+    <app-mastering-edit-form [getUserID]="userCvId" (refreshInDaddy)="refresh()" ></app-mastering-edit-form>
     <button mat-raised-button (click)="changeEditMode()">Back to CV</button>
     <!-- <button mat-icon-button (click)="changeEditMode()">  
         <mat-icon >save</mat-icon> 

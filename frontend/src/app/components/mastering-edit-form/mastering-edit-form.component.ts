@@ -81,13 +81,13 @@ export class MasteringEditFormComponent  {
         const snackBarRef = this.snackBar.open(`This skill '${mastering?.skill?.name}' will be removed`, 'Undo', { duration: 3000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
-                this.masteringService.delete(mastering).subscribe();
-                this.refresh();
-                this.refreshInDaddy.emit();
-                // this.refresh();
+                this.masteringService.delete(mastering).subscribe(res => {
+                    this.refresh();
+                    this.refreshInDaddy.emit();
+                });
             }
         });
-        snackBarRef.onAction().subscribe(() => this.masterings.splice(index, 0, mastering))
+        snackBarRef.onAction().subscribe(() => this.masterings.splice(index, 0, mastering));
     }
 
     update(mastering: Mastering) {

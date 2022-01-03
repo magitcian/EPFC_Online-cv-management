@@ -47,6 +47,8 @@ export class MasteringEditRowComponent {
     public ctlCategoryName!: FormControl;
     public ctlLevel!: FormControl;
 
+    isVisible: boolean = false;
+
     public skills!: Skill[];
 
     constructor( // nthg in constructor bc input content overrides so content in controlInput() in @Input getMastering
@@ -127,12 +129,13 @@ export class MasteringEditRowComponent {
         this.updateMasteringInDaddy.emit(res); // res est un EventEmitter et celui-ci va être transformé en Mastering
     }
 
+    addBtn() {
+        this.isVisible = true;
+    }
+
     cancel() {
         this.ctlLevel.patchValue(this.mastering.level);
-        // TODO "save" and "cancel" buttons remain after clicking on "cancel" => do we have to resfreshInDaddy ?
-        // this.ctlLevel.markAsPristine;
-        // !this.ctlLevel.dirty;
-        // this.refreshInDaddy.emit();
+        this.isVisible = false;
     }
 
 }

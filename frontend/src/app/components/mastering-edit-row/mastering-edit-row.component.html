@@ -29,7 +29,7 @@
           <div class="form-group col-md-3">
             <mat-form-field appearance="fill">
                 <mat-label>Level</mat-label>
-                <mat-select [formControl]="ctlLevel">
+                <mat-select [formControl]="ctlLevel" (selectionChange)="addBtn()">
                     <mat-option [value]="1">Starter</mat-option>
                     <mat-option [value]="2">Junior</mat-option>
                     <mat-option [value]="3">Medior</mat-option>
@@ -43,12 +43,11 @@
             <button mat-icon-button *ngIf="!isNew" (click)="delete()" >
                 <mat-icon >delete</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!isNew && ctlLevel.dirty"  (click)="update()" > 
-            <!-- <button mat-icon-button *ngIf="!isNew && !frm.pristine"  (click)="update()" >  -->
+            <button mat-icon-button *ngIf="!isNew && isVisible"  (click)="update()" > 
                 <mat-icon >save</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="!isNew && ctlLevel.dirty" (click)="cancel()" > 
-            <!-- <button mat-icon-button *ngIf="!isNew && !frm.pristine" (click)="cancel()" >  -->
+            <!-- <button mat-icon-button *ngIf="!isNew && ctlLevel.dirty" (click)="cancel()" >  -->
+                <button mat-icon-button *ngIf="!isNew && isVisible" (click)="cancel()" > 
                 <mat-icon >cancel</mat-icon>
             </button>
             <button mat-icon-button *ngIf="isNew && ctlSkillId.dirty && ctlLevel.dirty" (click)="add()" > 

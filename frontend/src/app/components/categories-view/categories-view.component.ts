@@ -36,11 +36,6 @@ export class CategoriesViewComponent {
         });
     }
 
-    refreshAndChangeEditMode() {
-        this.refresh();
-        this.changeEditMode();
-    }
-
     changeEditMode() {
         if (this.isEditable) {
             this.isEditMode = !this.isEditMode;
