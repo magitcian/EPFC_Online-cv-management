@@ -20,7 +20,7 @@ export class TrainingsViewComponent {
 
     userCvId!: number;
 
-    isEditMode: boolean = false;
+    isAddMode: boolean = false;
 
     // isAddMode: boolean = false;
 
@@ -66,8 +66,7 @@ export class TrainingsViewComponent {
             //     this.refresh();
             // }
         });
-        snackBarRef.onAction().subscribe(() => this.trainings.splice(index, 0, training))
-
+        snackBarRef.onAction().subscribe(() => this.trainings.splice(index, 0, training));
     }
 
     update(training: Training) {
@@ -76,31 +75,25 @@ export class TrainingsViewComponent {
                 this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
             } else {
                 this.refresh();
-                this.changeEditMode();
+                // this.changeEditMode();
             }            
         }); 
     }
 
-    add(trainingToAdd: Training) {
-        this.trainingService.add(trainingToAdd).subscribe(res => { // res: ce que me renvoie le backend 
+    add(training: Training) {
+        this.trainingService.add(training).subscribe(res => { // res: ce que me renvoie le backend 
             if (!res) {
                 this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
             } else {
                 this.refresh();
-                this.changeEditMode();
+                this.changeAddMode();
             }            
         }); 
     }
 
-    // changeAddMode() {
-    //     if (this.isEditable) {
-    //         this.isAddMode = !this.isEditMode;
-    //     }    
-    // }
-
-    changeEditMode() {
+    changeAddMode() {
         if (this.isEditable) {
-            this.isEditMode = !this.isEditMode;
+            this.isAddMode = !this.isAddMode;
         }
     }
 

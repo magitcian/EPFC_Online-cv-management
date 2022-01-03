@@ -21,10 +21,6 @@ import { plainToClass } from 'class-transformer';
 })
 
 export class TrainingDataEditComponent {
-    // @Input() set getTrainingID(val: number) {
-    //     this.experienceId = val;
-    //     this.refresh();
-    // }
 
     @Input() set getTraining(val: Training) {
         this.training = val;
@@ -33,14 +29,13 @@ export class TrainingDataEditComponent {
 
     training!: Training;
 
-    experienceId!: number;
     @Input() isEditable!: boolean;
+
+    experienceId!: number;
     isEditMode: boolean = false;
     // training: Training = new Training();
 
     @Input() isNew!: boolean;
-
-    public trainingToAdd : Training = new Training();
 
     enterprises!: Enterprise[];
     skills!: Skill[];
@@ -48,7 +43,8 @@ export class TrainingDataEditComponent {
 
     @Output() updateTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>(); 
     @Output() addTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>(); 
-    
+    @Output() changeAddModeInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
+    @Output() changeUpdateModeInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
     
     public frm!: FormGroup;
     private ctlId!: FormControl;
@@ -130,16 +126,25 @@ export class TrainingDataEditComponent {
     add() { 
         var res = this.frm.value; // récupère le formulaire avec les infos modifiées
         res.id = 0;
-        _.assign(this.trainingToAdd, res);    // dit que le res est formaté comme un training (il faut le repréciser)
+        _.assign(this.training, res);    // dit que le res est formaté comme un training (il faut le repréciser)
         res = plainToClass(Training, res); 
         this.addTrainingInDaddy.emit(res); // res est un EventEmitter et celui-ci va être transformé en Training
     }
 
     changeEditMode() {
-        // TODO fix issue with isEditable 
-        // if (this.isEditable) {
-            this.isEditMode = !this.isEditMode;
-        // }
+        if (this.isNew) {
+            this.changeAddModeInDaddy.emit();
+        } else {
+            this.changeUpdateModeInDaddy.emit();
+        }
+    }
+
+    edit() {
+        if (this.isNew) {
+            this.add();
+        } else {
+            this.update();
+        }
     }
 
 }

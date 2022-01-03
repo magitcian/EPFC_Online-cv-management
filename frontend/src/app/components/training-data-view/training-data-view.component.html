@@ -4,18 +4,25 @@
     </h1>
 </div> -->
 
-<div class="cv-view" *ngIf="!isEditMode" >
+<div class="cv-view" *ngIf="!isUpdateMode" >
     <b>{{training?.yearOfStartDate}} - {{training?.yearOfFinishDate}} </b>
     &nbsp; 
     <!-- <b>{{training?.entrepriseName}} - {{training?.title}} </b> -->
 
-    <button mat-button [matMenuTriggerFor]="menu"><b>{{training?.entrepriseName}} - {{training?.title}} </b></button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="changeEditMode()"> <mat-icon>edit</mat-icon>Edit training</button>
-        <!-- <button mat-menu-item (click)="changeEditMode()"> <mat-icon>edit</mat-icon>Edit training</button> -->
-        <button mat-menu-item > <mat-icon >add</mat-icon> Add a skill </button>
-        <button mat-menu-item (click)="delete()"> <mat-icon >delete</mat-icon> Delete</button>
-    </mat-menu>
+    <span *ngIf="!isEditable">
+        &nbsp;&nbsp; 
+        <b>{{training?.entrepriseName}} - {{training?.title}} </b>
+    </span>
+
+    <span *ngIf="isEditable">
+        <button mat-button [matMenuTriggerFor]="menu"><b>{{training?.entrepriseName}} - {{training?.title}} </b></button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeUpdateMode()"> <mat-icon>edit</mat-icon>Edit training</button>
+            <!-- <button mat-menu-item (click)="changeEditMode()"> <mat-icon>edit</mat-icon>Edit training</button> -->
+            <button mat-menu-item > <mat-icon >add</mat-icon> Add a skill </button>
+            <button mat-menu-item (click)="delete()"> <mat-icon >delete</mat-icon> Delete</button>
+        </mat-menu>
+    </span>
 
     <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -31,15 +38,15 @@
 </div>
 
 
-<div class="cv-edit" *ngIf="isEditMode">
+<div class="cv-edit" *ngIf="isEditable && isUpdateMode">
+    <app-training-data-edit [getTraining]="training" [isNew]="false" (updateTrainingInDaddy)="update($event)" (changeUpdateModeInDaddy)="changeUpdateMode()"> </app-training-data-edit>
   <!-- <p> it works !</p>
 </div> 
 <div class="cv-edit" *ngIf="isEditMode"> -->
     <!-- <app-training-data-edit [getTraining]="training" (updateTrainingInDaddy)="update(training)" ></app-training-data-edit>  -->
-    <form id="frm" class="form" [formGroup]="frm" novalidate>
+    <!-- <form id="frm" class="form" [formGroup]="frm" novalidate>
         <mat-tab-group mat-stretch-tabs dynamicHeight>
             <mat-tab label="{{training.enterprise?.name}} - {{training.title}}">
-            <!-- <mat-tab *ngIf="isNew" label="New training"></mat-tab> --> <!-- not working -->
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <mat-form-field appearance="fill">
@@ -113,5 +120,5 @@
             <button type="submit" *ngIf="isNew" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="add()">Add</button>
             <button type="reset" mat-raised-button (click)="changeEditMode()">Cancel</button>
         </div>
-    </form>
+    </form> -->
 </div> 
