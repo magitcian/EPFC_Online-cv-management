@@ -54,6 +54,7 @@ import { SkillsManagementFormComponent } from '../components/c-skills-management
 import { TrainingsViewComponent } from '../components/trainings-view/trainings-view.component';
 import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
 import { TrainingDataViewComponent } from '../components/training-data-view/training-data-view.component';
+import { TrainingDataEditComponent } from '../components/training-data-edit/training-data-edit.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -98,6 +99,7 @@ export function getBaseUrl() {
         ,TrainingsViewComponent
         ,TrainingCategoriesViewComponent
         ,TrainingDataViewComponent
+        ,TrainingDataEditComponent
     ],
     entryComponents: [
         EditUserComponent

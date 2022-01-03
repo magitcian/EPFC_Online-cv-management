@@ -15,12 +15,12 @@ import { plainToClass } from 'class-transformer';
 // import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @Component({
-    selector: 'app-training-data-view', 
-    templateUrl: './training-data-view.component.html',
-    styleUrls: ['./training-data-view.component.css']
+    selector: 'app-training-data-edit', 
+    templateUrl: './training-data-edit.component.html',
+    styleUrls: ['./training-data-edit.component.css']
 })
 
-export class TrainingDataViewComponent {
+export class TrainingDataEditComponent {
     // @Input() set getTrainingID(val: number) {
     //     this.experienceId = val;
     //     this.refresh();
@@ -40,11 +40,12 @@ export class TrainingDataViewComponent {
 
     @Input() isNew!: boolean;
 
+    public trainingToAdd : Training = new Training();
+
     enterprises!: Enterprise[];
     skills!: Skill[];
     usings!: Using[];
 
-    @Output() deleteTrainingInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
     @Output() updateTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>(); 
     @Output() addTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>(); 
     
@@ -126,14 +127,10 @@ export class TrainingDataViewComponent {
         this.updateTrainingInDaddy.emit(res); // res est un EventEmitter et celui-ci va être transformé en Training
     }
 
-    delete() {
-        this.deleteTrainingInDaddy.emit();
-    }
-
     add() { 
         var res = this.frm.value; // récupère le formulaire avec les infos modifiées
         res.id = 0;
-        _.assign(this.training, res);    // dit que le res est formaté comme un training (il faut le repréciser)
+        _.assign(this.trainingToAdd, res);    // dit que le res est formaté comme un training (il faut le repréciser)
         res = plainToClass(Training, res); 
         this.addTrainingInDaddy.emit(res); // res est un EventEmitter et celui-ci va être transformé en Training
     }

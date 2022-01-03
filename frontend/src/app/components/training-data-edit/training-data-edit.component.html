@@ -1,45 +1,8 @@
-<!-- <div class="titre">
-    <h1 *ngIf="isEditable" (click)="changeEditMode()">
-        <span title="click to edit" matTooltip="Edit trainings">Trainings</span>
-    </h1>
-</div> -->
-
-<div class="cv-view" *ngIf="!isEditMode" >
-    <b>{{training?.yearOfStartDate}} - {{training?.yearOfFinishDate}} </b>
-    &nbsp; 
-    <!-- <b>{{training?.entrepriseName}} - {{training?.title}} </b> -->
-
-    <button mat-button [matMenuTriggerFor]="menu"><b>{{training?.entrepriseName}} - {{training?.title}} </b></button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="changeEditMode()"> <mat-icon>edit</mat-icon>Edit training</button>
-        <!-- <button mat-menu-item (click)="changeEditMode()"> <mat-icon>edit</mat-icon>Edit training</button> -->
-        <button mat-menu-item > <mat-icon >add</mat-icon> Add a skill </button>
-        <button mat-menu-item (click)="delete()"> <mat-icon >delete</mat-icon> Delete</button>
-    </mat-menu>
-
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    {{training?.description}} 
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
-    <i> Grade: {{training?.gradeAsString}} </i>
-    <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
-    Skills: 
-    &nbsp;&nbsp;&nbsp;
-    <span *ngFor="let using of training.usings"> {{using.skill?.name}} &nbsp;&nbsp;&nbsp;</span>
-</div>
-
-
 <div class="cv-edit" *ngIf="isEditMode">
-  <!-- <p> it works !</p>
-</div> 
-<div class="cv-edit" *ngIf="isEditMode"> -->
-    <!-- <app-training-data-edit [getTraining]="training" (updateTrainingInDaddy)="update(training)" ></app-training-data-edit>  -->
     <form id="frm" class="form" [formGroup]="frm" novalidate>
         <mat-tab-group mat-stretch-tabs dynamicHeight>
             <mat-tab label="{{training.enterprise?.name}} - {{training.title}}">
-            <!-- <mat-tab *ngIf="isNew" label="New training"></mat-tab> --> <!-- not working -->
+            <!-- <mat-tab *ngIf="isNew" label="New training"></mat-tab> --> <!-- not working -->    
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <mat-form-field appearance="fill">
@@ -47,8 +10,7 @@
                             <input matInput [matDatepicker]="picker1" [formControl]="ctlStart" >
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
-                        
+                        </mat-form-field>  
                     </div>
                     <div class="form-group col-md-6">
                         <mat-form-field appearance="fill">
@@ -63,6 +25,7 @@
                     <div class="form-group col-md-6">
                         <mat-form-field appearance="fill">
                             <mat-label>School / Training center</mat-label>
+                            <!-- <input matInput [formControl]="ctlEnterpriseName"> -->
                             <mat-select [formControl]="ctlEnterpriseId" >
                                 <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
                             </mat-select>

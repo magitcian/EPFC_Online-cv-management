@@ -37,5 +37,15 @@ export class TrainingService {
             })
         );
     }
+
+    public add(t: Training): Observable<boolean> {
+        return this.http.post<Training>(`${this.baseUrl}api/trainings`, t).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
     
 }

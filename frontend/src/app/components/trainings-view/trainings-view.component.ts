@@ -22,7 +22,11 @@ export class TrainingsViewComponent {
 
     isEditMode: boolean = false;
 
+    // isAddMode: boolean = false;
+
     trainings!: Training[]; 
+    
+    public trainingToAdd : Training = new Training();
     
     constructor(
         private userService: UserService,
@@ -35,9 +39,20 @@ export class TrainingsViewComponent {
     refresh() {
         this.userService.getTrainings(this.userCvId).subscribe(trainings => {
             this.trainings = trainings;
+            this.trainingToAdd = new Training();
             console.log(this.trainings);
         });
     }
+
+    // refresh() {
+    //     console.log("test2");
+    //     this.userService.getMasterings(this.userCvId).subscribe(masterings => {
+    //         this.masterings = masterings;
+    //         this.masteringToAdd = new Mastering();
+    //         console.log(this.masterings);
+    //         // console.log("testDaddy2");
+    //     });
+    // }
 
     delete(training: Training) {
         var index = this.trainings.indexOf(training);
@@ -61,9 +76,27 @@ export class TrainingsViewComponent {
                 this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
             } else {
                 this.refresh();
+                this.changeEditMode();
             }            
         }); 
     }
+
+    add(trainingToAdd: Training) {
+        this.trainingService.add(trainingToAdd).subscribe(res => { // res: ce que me renvoie le backend 
+            if (!res) {
+                this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
+            } else {
+                this.refresh();
+                this.changeEditMode();
+            }            
+        }); 
+    }
+
+    // changeAddMode() {
+    //     if (this.isEditable) {
+    //         this.isAddMode = !this.isEditMode;
+    //     }    
+    // }
 
     changeEditMode() {
         if (this.isEditable) {

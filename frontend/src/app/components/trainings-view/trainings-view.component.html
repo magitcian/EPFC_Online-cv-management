@@ -1,16 +1,24 @@
 <div class="titre">
-    <h1 *ngIf="isEditable">
+    <h1>
         <!-- <h1 *ngIf="isEditable" (click)="changeEditMode()">     -->
-        <span title="click to edit" matTooltip="Edit trainings">Trainings</span> 
+        <span *ngIf="isEditable" matTooltip="Click to add a training" (click)= changeEditMode()>Trainings</span> 
+        <!-- <span *ngIf="isEditable" matTooltip="Click to add a training" (click)= changeAddMode()>Trainings</span>  -->
+        <span *ngIf="!isEditable">Trainings</span> 
     </h1>
 </div>
+
+<div *ngIf="isEditMode">
+<!-- <div *ngIf="isAddMode"> -->
+    Tests
+    <app-training-data-view [getTraining]="trainingToAdd" [isNew]="true" (addTrainingInDaddy)="add($event)"></app-training-data-view> 
+</div> 
 
 <div class="cv-view">
     <!-- <div class="cv-view" *ngIf="!isEditMode">     -->
     <!-- <div class="cv-view" *ngIf="trainings.length > 0"></div> -->
     <span *ngFor="let training of trainings">
         <!-- envoyer le composant qui envoie le training dans lequel on a des sous-composants par ligne de catégorie -->
-        <app-training-data-view [getTraining]="training" (updateTrainingInDaddy)="update($event)" (deleteTrainingInDaddy)="delete(training)"></app-training-data-view> 
+        <app-training-data-view [getTraining]="training" [isNew]="false" (updateTrainingInDaddy)="update($event)" (deleteTrainingInDaddy)="delete(training)"></app-training-data-view> 
         <!-- <app-training-data-view [getTrainingID]="training.id" "></app-training-data-view>  -->
 
     </span>
