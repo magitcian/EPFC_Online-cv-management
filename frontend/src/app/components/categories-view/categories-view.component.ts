@@ -37,10 +37,8 @@ export class CategoriesViewComponent {
     }
 
     refreshAndChangeEditMode() {
-        this.userService.getCategoriesWithDetails(this.userCvId).subscribe(categories => {
-            this.categories = categories;
-            this.changeEditMode();
-        });
+        this.refresh();
+        this.changeEditMode();
     }
 
     changeEditMode() {
