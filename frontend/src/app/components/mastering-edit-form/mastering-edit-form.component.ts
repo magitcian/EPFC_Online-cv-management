@@ -82,9 +82,9 @@ export class MasteringEditFormComponent  {
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
                 this.masteringService.delete(mastering).subscribe();
-                this.refresh(); // TODO fix issue with 2 refresh()
-                this.refreshInDaddy.emit();
                 this.refresh();
+                this.refreshInDaddy.emit();
+                // this.refresh();
             }
         });
         snackBarRef.onAction().subscribe(() => this.masterings.splice(index, 0, mastering))
@@ -99,8 +99,7 @@ export class MasteringEditFormComponent  {
                 this.refreshInDaddy.emit();
                 // console.log("test1");
             }            
-        }); 
-        // TODO issue with changeEditMode()
+        });
     }
 
     changeEditMode() {

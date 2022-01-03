@@ -36,6 +36,13 @@ export class CategoriesViewComponent {
         });
     }
 
+    refreshAndChangeEditMode() {
+        this.userService.getCategoriesWithDetails(this.userCvId).subscribe(categories => {
+            this.categories = categories;
+            this.changeEditMode();
+        });
+    }
+
     changeEditMode() {
         if (this.isEditable) {
             this.isEditMode = !this.isEditMode;
