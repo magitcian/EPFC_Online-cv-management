@@ -21,14 +21,6 @@ export class CvViewComponent {
     userCvId !: number;
     @Input() isEditable!: boolean;
 
-    categories: Category[] = [];
-    skills: Skill[] = [];
-    masterings: Mastering[] = [];
-
-    // categories: Category[] = [];
-    // skills: Skill[] = [];
-    // masterings: Mastering[] = [];
-
     constructor(
         // private userService: UserService, 
         public authenticationService: AuthenticationService) {

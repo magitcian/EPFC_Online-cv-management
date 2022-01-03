@@ -16,7 +16,7 @@ export class CategoriesViewComponent {
         this.userCvId = val;
         this.refresh();
     }
-    @Input() categories!: Category[]; // TODO check to remove @Input()
+    categories!: Category[];
     @Input() isEditable!: boolean;
 
     userCvId!: number;
@@ -35,10 +35,6 @@ export class CategoriesViewComponent {
             this.categories = categories;
         });
     }
-
-    // // appelée quand on clique sur le bouton "edit" d'une skill
-    // edit(skill: Skill) {
-    // }
 
     changeEditMode() {
         if (this.isEditable) {

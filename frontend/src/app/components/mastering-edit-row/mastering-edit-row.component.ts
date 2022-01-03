@@ -21,7 +21,6 @@ import { plainToClass } from 'class-transformer';
 
 export class MasteringEditRowComponent {
 
-    // @Input() userCvId!: number;
     @Input() set getMastering(val: Mastering | undefined) {
         // console.log(val);
         if (val == undefined) {
@@ -32,13 +31,6 @@ export class MasteringEditRowComponent {
         this.controlInput();
     }
     mastering!: Mastering;
-
-    // @Input() set getMasterings(val: Mastering[]) {
-    //     // console.log(val);
-    //     this.masterings = val;
-    //     console.log(val);
-    // }
-    // masterings!: Mastering[];
 
     @Input() isNew!: boolean;
     
@@ -55,8 +47,6 @@ export class MasteringEditRowComponent {
     public ctlCategoryName!: FormControl;
     public ctlLevel!: FormControl;
 
-    // public skill!: Skill; 
-    // public category!: Category; 
     public skills!: Skill[];
 
     constructor( // nthg in constructor bc input content overrides so content in controlInput() in @Input getMastering
@@ -119,25 +109,6 @@ export class MasteringEditRowComponent {
         });
         return correspondingCategoryName;
     }
-
-    // add() {
-    //     var res = this.frm.value; // cherche les valeurs de la row du form
-    //     res.id = 0;
-    //     this.masteringService.add(res).subscribe(res => { // res: ce que me renvoie le backend 
-    //         if (!res) {
-    //             this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
-    //             // console.log(res.valueOf());
-    //         } else {
-    //             this.refreshInDaddy.emit();
-    //         }            
-    //     }); // add snackBar
-    //     console.log(res);
-        
-    // }
-
-    // checkSkillAlreadyThere() {
-
-    // }
 
     add() {
         var res = this.frm.value; // cherche les valeurs de la row du form

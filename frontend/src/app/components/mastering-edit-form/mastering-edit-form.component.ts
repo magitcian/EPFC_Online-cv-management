@@ -100,20 +100,9 @@ export class MasteringEditFormComponent  {
                 // console.log("test1");
             }            
         }); 
-        // this.masteringService.update(mastering).subscribe();
-        // this.refresh(); // in subscribe !
-        // TODO add snackbar for error msg and refresh automatic
-        // attention: refresh() se fait avant masteringService => mettre le refresh() dans le subscribe => si mal passé, snackbar,
-        // si bien passé, refresh() et changer le mode non editable
-        // attention: récupération du résultat du snackbar => if et else : refresh() doit être dans le "else"
+        // TODO issue with changeEditMode()
     }
 
-    // add(mastering: Mastering) {
-    //     this.masteringService.add(mastering).subscribe();
-    //     this.refresh(); // in subscribe !
-    // }
-
-   
     changeEditMode() {
         if (this.isEditable) {
             this.isEditMode = !this.isEditMode;
@@ -121,7 +110,6 @@ export class MasteringEditFormComponent  {
     }
 
 }
-
 
     // _.assign(mastering, res);    // dit que le res est formaté comme un mastering (il faut le repréciser)
     // res = plainToClass(Mastering, res);  // res n'a rien à voir avec le res qui m'intéresse - que pour savoir si l'util a cliqué sur undo ou pas
