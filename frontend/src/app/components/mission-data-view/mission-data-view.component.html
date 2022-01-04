@@ -1,25 +1,24 @@
 <div class="cv-view" *ngIf="!isUpdateMode">
     <table>
         <tr>
-            <td><b>{{mission?.monthOfStartDate}}/{{mission?.yearOfStartDate}} - {{mission?.monthOfFinishDate}}/{{mission?.yearOfFinishDate}} </b></td>
-            <td><span *ngIf="!isEditable">
+            <td><span class="inBold">{{mission?.monthOfStartDate}}/{{mission?.yearOfStartDate}} - {{mission?.monthOfFinishDate}}/{{mission?.yearOfFinishDate}}</span></td>
+            <td><span class="inBold" *ngIf="!isEditable">
                     &nbsp;&nbsp;
-                    <b>{{mission?.enterprise?.name}} - {{mission?.title}} </b>
+                    {{mission?.enterprise?.name}} - {{mission?.title}}
                 </span>
                 <span *ngIf="isEditable">
-                    <button mat-button [matMenuTriggerFor]="menu"><b>{{mission?.enterprise?.name}} - {{mission?.title}}
-                        </b></button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="changeUpdateMode()">
+                    <button mat-button [matMenuTriggerFor]="menu"><span class="inBold">{{mission?.enterprise?.name}} - {{mission?.title}}</span></button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="changeUpdateMode()">
                             <mat-icon>edit</mat-icon>Edit mission
                         </button>
-                        <button mat-menu-item>
+                    <button mat-menu-item>
                             <mat-icon>add</mat-icon> Add a skill
                         </button>
-                        <button mat-menu-item (click)="delete()">
+                    <button mat-menu-item (click)="delete()">
                             <mat-icon>delete</mat-icon> Delete
                         </button>
-                    </mat-menu>
+                </mat-menu>
                 </span>
             </td>
         </tr>
