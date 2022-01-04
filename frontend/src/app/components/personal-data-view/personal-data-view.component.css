@@ -1,3 +1,7 @@
 h1:hover {
     cursor: pointer;
 }
+
+.userTitle {
+    font-weight: bold;
+}

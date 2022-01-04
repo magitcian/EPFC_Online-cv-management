@@ -25,7 +25,6 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 // import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
 //import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
-import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/category-list/category-list.component';
@@ -33,7 +32,6 @@ import { ConsultantsListComponent } from '../components/consultants-list/consult
 import { ConsultantsCvManagementComponent } from '../components/consultants-cv-management/consultants-cv-management.component';
 import { MyConsultantsManagementComponent, OtherConsultantsManagementComponent } from '../components/consultants-management/consultants-management.component';
 import { CategoriesViewComponent } from '../components/categories-view/categories-view.component';
-import { MissionEditComponent } from '../components/mission-edit/mission-edit.component';
 import { PersonalDataViewComponent } from '../components/personal-data-view/personal-data-view.component';
 import { MasteringListComponent } from '../components/mastering-list/mastering-list.component';
 import { MasteringEditRowComponent } from '../components/mastering-edit-row/mastering-edit-row.component';
@@ -41,12 +39,7 @@ import { MasteringEditFormComponent } from '../components/mastering-edit-form/ma
 import { MatTooltipModule } from '@angular/material/tooltip'; 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
-
-// import { MdChipsModule } from '@angular/material';
-import {MatChipsModule} from '@angular/material/chips';
-//import {MatNativeDateModule} from '@angular/material/core';
-//import { MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
-//import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
 import { SkillsManagementComponent } from '../components/c-skills-management/skills-management.component';
 import { EditSkillComponent } from '../components/c-edit-skill/edit-skill.component';
 
@@ -54,6 +47,10 @@ import { TrainingsViewComponent } from '../components/trainings-view/trainings-v
 import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
 import { TrainingDataViewComponent } from '../components/training-data-view/training-data-view.component';
 import { TrainingDataEditComponent } from '../components/training-data-edit/training-data-edit.component';
+
+import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
+import { MissionDataViewComponent } from '../components/mission-data-view/mission-data-view.component';
+import { MissionDataEditComponent } from '../components/mission-data-edit/mission-data-edit.component';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -80,14 +77,12 @@ export function getBaseUrl() {
         //,ExperiencesViewComponent
         CvViewComponent,
         CvConnectedUserComponent,
-        MissionsViewComponent,
         CategoryListComponent
         ,ConsultantsListComponent
         ,ConsultantsCvManagementComponent
         ,MyConsultantsManagementComponent
         ,OtherConsultantsManagementComponent
         ,CategoriesViewComponent
-        ,MissionEditComponent
         ,MasteringListComponent
         ,PersonalDataViewComponent
         ,MasteringEditRowComponent
@@ -98,6 +93,10 @@ export function getBaseUrl() {
         ,TrainingCategoriesViewComponent
         ,TrainingDataViewComponent
         ,TrainingDataEditComponent
+        ,MissionsViewComponent
+        ,MissionDataViewComponent
+        ,MissionDataEditComponent
+
     ],
     entryComponents: [
         EditUserComponent

@@ -12,7 +12,7 @@ import { CounterParentComponent } from '../components/counter-stateless/counter-
 // import { RelationshipsComponent } from '../components/relationships/relationships.component';
 import { SignUpComponent } from '../components/signup/signup.component';
 //import { ExperiencesViewComponent } from '../components/missions-view/missions-view.component';
-import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
+//import { MissionsViewComponent } from '../components/old/missions-view/missions-view.component';
 //import { CvViewComponent } from '../components/cv-view/cv-view.component';
 import { CvConnectedUserComponent } from '../components/cv-connected-user/cv-connected-user.component';
 import { CategoryListComponent } from '../components/category-list/category-list.component';

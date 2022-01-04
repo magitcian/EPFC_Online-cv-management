@@ -1,0 +1,49 @@
+<div class="cv-view" *ngIf="!isUpdateMode">
+    <table>
+        <tr>
+            <td><b>{{mission?.monthOfStartDate}}/{{mission?.yearOfStartDate}} - {{mission?.monthOfFinishDate}}/{{mission?.yearOfFinishDate}} </b></td>
+            <td><span *ngIf="!isEditable">
+                    &nbsp;&nbsp;
+                    <b>{{mission?.enterprise?.name}} - {{mission?.title}} </b>
+                </span>
+                <span *ngIf="isEditable">
+                    <button mat-button [matMenuTriggerFor]="menu"><b>{{mission?.enterprise?.name}} - {{mission?.title}}
+                        </b></button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="changeUpdateMode()">
+                            <mat-icon>edit</mat-icon>Edit mission
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>add</mat-icon> Add a skill
+                        </button>
+                        <button mat-menu-item (click)="delete()">
+                            <mat-icon>delete</mat-icon> Delete
+                        </button>
+                    </mat-menu>
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf='mission.description != null && mission.description != ""'>
+            <td></td>
+            <td>&nbsp;&nbsp;&nbsp; {{mission?.description}}</td>
+        </tr>
+        <tr *ngIf="mission.client != null">
+            <td></td>
+            <td>&nbsp;&nbsp;&nbsp; Mission accomplished at {{mission?.client?.name}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><span *ngIf="mission.usings != null ? mission.usings.length != 0 : false">&nbsp;&nbsp;&nbsp; Skills :
+                    <span *ngFor="let using of mission.usings; let isFirst = first">
+                        <span *ngIf=!isFirst>,</span> {{using.skill?.name}}
+                </span>
+                </span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="cv-edit" *ngIf="isEditable && isUpdateMode">
+    <app-mission-data-edit [getMission]="mission" [isNew]="false" (updateMissionInDaddy)="update($event)" (changeUpdateModeInDaddy)="changeUpdateMode()"> </app-mission-data-edit>
+</div>
