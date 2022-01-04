@@ -47,8 +47,8 @@ import {MatChipsModule} from '@angular/material/chips';
 //import {MatNativeDateModule} from '@angular/material/core';
 //import { MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
 //import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { SkillsManagementComponent } from '../components/c-skills-management/skills-management.component';
-import { EditSkillComponent } from '../components/c-edit-skill/edit-skill.component';
+import { SkillsManagementComponent } from '../components/skills-management/skills-management.component';
+import { SkillEditComponent } from '../components/skill-edit/skill-edit.component';
 
 import { TrainingsViewComponent } from '../components/trainings-view/trainings-view.component';
 import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
@@ -96,7 +96,7 @@ export function getBaseUrl() {
         ,MasteringEditRowComponent
         ,MasteringEditFormComponent
         ,SkillsManagementComponent
-        ,EditSkillComponent
+        ,SkillEditComponent
         ,TrainingsViewComponent
         ,TrainingCategoriesViewComponent
         ,TrainingDataViewComponent

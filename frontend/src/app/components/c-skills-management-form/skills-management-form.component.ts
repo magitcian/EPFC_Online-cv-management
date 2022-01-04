@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import * as _ from 'lodash-es';
-import { EditSkillComponent } from '../c-edit-skill/edit-skill.component';
+import { SkillEditComponent } from '../skill-edit/skill-edit.component';
 import { StateService } from 'src/app/services/state.service';
 import { MatTableState } from 'src/app/helpers/mattable.state';
 import { MatTableDataSource } from '@angular/material/table';

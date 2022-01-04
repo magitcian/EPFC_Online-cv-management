@@ -6,7 +6,7 @@ import { CategoryService } from '../../services/category.service';
 import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { Validators, AbstractControl, AsyncValidatorFn, ValidationErrors  } from '@angular/forms';
 import * as _ from 'lodash-es';
 import { Skill } from 'src/app/models/skill';
 import { plainToClass } from 'class-transformer';
@@ -14,11 +14,11 @@ import { Category } from 'src/app/models/category';
 
 
 @Component({
-    selector: 'app-edit-skill-mat',
-    templateUrl: './edit-skill.component.html',
-    styleUrls: ['./edit-skill.component.css']
+    selector: 'app-skill-edit-mat',
+    templateUrl: './skill-edit.component.html',
+    styleUrls: ['./skill-edit.component.css']
 })
-export class EditSkillComponent {
+export class SkillEditComponent {
 
     public categories: Category[] = [];
     public frm!: FormGroup;
@@ -29,18 +29,14 @@ export class EditSkillComponent {
     public ctlCategoryName!: FormControl;
     public isNew: boolean;
 
-    constructor(public dialogRef: MatDialogRef<EditSkillComponent>,
+    constructor(public dialogRef: MatDialogRef<SkillEditComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { skill: Skill; isNew: boolean; },
         private fb: FormBuilder,
-        // private skillService: SkillService,
+        private skillService: SkillService,
         private categoryService: CategoryService
     ) {
         this.ctlId = this.fb.control('', []);
-        this.ctlSkillName = this.fb.control('', [Validators.required, Validators.minLength(2)]);
-            // this.ctlSkillName = this.fb.control('', [
-            //     Validators.required,
-            //     Validators.minLength(2)
-            // ], [this.nameUsed()]);
+        this.ctlSkillName = this.fb.control('', [Validators.required, Validators.minLength(2)], [this.nameUsed()]);
         this.ctlCategoryId = this.fb.control('', []);  
         this.ctlCategory = this.fb.control('', []);
         this.ctlCategoryName = this.fb.control('', []);
@@ -65,25 +61,20 @@ export class EditSkillComponent {
         });
     }
 
-    // // Validateur asynchrone qui vérifie si l'email n'est pas déjà utilisé par un autre user
-    // nameUsed(): any {
-    //     let timeout: NodeJS.Timer;
-    //     return (ctl: FormControl) => {
-    //         clearTimeout(timeout);
-    //         const name = ctl.value; // issue
-    //         return new Promise(resolve => {
-    //             timeout = setTimeout(() => {
-    //                 if (ctl.pristine) {
-    //                     resolve(null);
-    //                 } else {
-    //                     this.skillService.getById(name).subscribe(skill => { // TODO: should I add 
-    //                         resolve(skill ? { nameUsed: true } : null);
-    //                     });
-    //                 }
-    //             }, 300);
-    //         });
-    //     };
-    // }
+    nameUsed(): AsyncValidatorFn {
+        let timeout: NodeJS.Timeout;
+        return (ctl: AbstractControl) => {
+            clearTimeout(timeout);
+            const name = ctl.value;
+            return new Promise(resolve => {
+                timeout = setTimeout(() => {
+                    this.skillService.isNameAvailable(name).subscribe(res => {
+                        resolve(res ? null : { nameUsed: true });
+                    });
+                }, 300);
+            });
+        };
+    }
 
     onNoClick(): void {
         this.dialogRef.close();

@@ -52,4 +52,8 @@ export class SkillService {
         );
     }
 
+    public isNameAvailable(name: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.baseUrl}api/skills/name-available/${name}`);
+    }
+
 }

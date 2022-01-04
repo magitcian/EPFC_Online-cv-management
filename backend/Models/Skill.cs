@@ -15,7 +15,7 @@ namespace prid2122_g03.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Required"), MinLength(2, ErrorMessage = "Minimum 3 characters")]
+        [Required(ErrorMessage = "Required"), MinLength(2, ErrorMessage = "Minimum 2 characters")]
         public string Name { get; set; }
 
         // [Required]

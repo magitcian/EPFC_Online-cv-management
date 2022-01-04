@@ -6,6 +6,7 @@
                 <mat-form-field>
                     <input matInput placeholder="Name" [formControl]="ctlSkillName">
                     <mat-error class="field-error" *ngIf="ctlSkillName.hasError('required')">Required</mat-error>
+                    <mat-error class="field-error" *ngIf="ctlSkillName.hasError('nameUsed')">This skill name is not available </mat-error>
                     <mat-error class="field-error" *ngIf="ctlSkillName.hasError('minlength')">Minimum length is {{ctlSkillName.errors?.minlength?.requiredLength}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
@@ -25,9 +26,3 @@
         <button type="reset" mat-button (click)="cancel()">Cancel</button>
     </div>
 </form>
-<!-- <pre>
-{{frm.value | json }}
-{{frm.invalid | json }}
-{{frm.pristine | json }}
-{{frm.pending | json }}
-</pre> -->

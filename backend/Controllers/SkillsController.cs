@@ -85,6 +85,14 @@ namespace prid2122_g03.Controllers
             return NoContent();
         }
 
+
+        // GET /api/skills/name-available/{name} 
+        [Authorized(Title.AdminSystem, Title.Manager)]
+        [HttpGet("name-available/{name}")]
+        public async Task<ActionResult<bool>> IsNameAvailable(string name) {
+            return await _context.Skills.SingleOrDefaultAsync(s => s.Name == name) == null;
+        }
+
     }
     
 }
