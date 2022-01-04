@@ -48,6 +48,14 @@ export class Experience {
         return this.finish?.format('YYYY') ; //?.format('YYYY');
     }
 
+    get monthOfStartDate(): any{
+        return this.start?.format('MM') ; //?.format('YYYY');
+    }
+
+    get monthOfFinishDate(): any{
+        return this.finish?.format('MM') ; //?.format('YYYY');
+    }
+
     get entrepriseName(): string {
         return `${this.enterprise?.name}`;
     }

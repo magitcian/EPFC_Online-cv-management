@@ -1,0 +1,12 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form>* {
+    width: 50%;
+}
+
+.inBold {
+    font-weight: bold;
+}

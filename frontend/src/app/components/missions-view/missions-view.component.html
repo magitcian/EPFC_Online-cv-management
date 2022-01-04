@@ -1,25 +1,19 @@
 <div class="titre">
-    <h1 *ngIf="isEditable" (click)="changeEditMode()">
-        <span title="click to edit" matTooltip="Edit missions">Missions</span>
-        <!-- <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">
-            <mat-icon>edit</mat-icon>
-        </button> -->
+    <h1>
+        <span *ngIf="isEditable" matTooltip="Click to add a mission" (click)="changeAddMode()">Missions</span>
+        <span *ngIf="!isEditable">Missions</span>
     </h1>
 </div>
 
-<div class="cv-view">
-    <ul *ngFor="let mission of missions">
-        <li>
-            {{mission.startDate | date:'dd/MM/yyyy'}} - {{mission.finishDate | date:'dd/MM/yyyy'}} ({{mission.enterprise?.name}}): {{mission.title}}, {{mission.description}}<span *ngIf="mission.client != null">, chez {{mission.client?.name}}</span>
-            <span *ngIf="mission.usings != null ? mission.usings.length != 0 : false"> (Skills: <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>,</span> {{using.skill?.name}}</span>)</span>
-            <button *ngIf="isEditMode" mat-icon-button>
-                <mat-icon (click)="edit(mission)">edit</mat-icon>
-            </button>
-            <button *ngIf="isEditMode" mat-icon-button>
-                <mat-icon (click)="delete(mission)">delete</mat-icon>
-            </button>
-        </li>
-        <!-- Possibilité : let index = index; let isFirst = first; let isOdd = odd; -->
-    </ul>
-    <button *ngIf="isEditMode" mat-raised-button (click)="create()">New Mission</button>
+<div *ngIf="isEditable && isAddMode">
+    <app-mission-data-edit [getMission]="missionToAdd" [isNew]="true" (addMissionInDaddy)="add($event)" (changeAddModeInDaddy)="changeAddMode()"></app-mission-data-edit>
 </div>
+
+<div class="cv-view">
+    <span *ngFor="let mission of missions">
+        <app-mission-data-view [getMission]="mission" [isEditable]="isEditable" [isNew]="false" (updateMissionInDaddy)="update($event)" 
+         (deleteMissionInDaddy)="delete(mission)"></app-mission-data-view> 
+    </span>
+</div>
+
+<br>
