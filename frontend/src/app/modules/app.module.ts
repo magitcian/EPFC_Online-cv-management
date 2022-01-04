@@ -55,6 +55,9 @@ import { TrainingCategoriesViewComponent } from '../components/training-categori
 import { TrainingDataViewComponent } from '../components/training-data-view/training-data-view.component';
 import { TrainingDataEditComponent } from '../components/training-data-edit/training-data-edit.component';
 
+import { EnterprisesManagementComponent } from '../components/enterprises-management/enterprises-management.component';
+import { EnterpriseEditComponent } from '../components/enterprise-edit/enterprise-edit.component';
+
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
 }
@@ -98,6 +101,8 @@ export function getBaseUrl() {
         ,TrainingCategoriesViewComponent
         ,TrainingDataViewComponent
         ,TrainingDataEditComponent
+        ,EnterprisesManagementComponent
+        ,EnterpriseEditComponent
     ],
     entryComponents: [
         EditUserComponent

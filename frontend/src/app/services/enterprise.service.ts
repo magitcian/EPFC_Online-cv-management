@@ -16,5 +16,39 @@ export class EnterpriseService {
             .pipe(map(res => plainToClass(Enterprise, res))
             );
     }
+
+    public update(e: Enterprise): Observable<boolean> {
+        return this.http.put<Enterprise>(`${this.baseUrl}api/enterprises`, e).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+
+    public delete(e: Enterprise): Observable<boolean> {
+        return this.http.delete<boolean>(`${this.baseUrl}api/enterprises/${e.id}`).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+
+    public add(e: Enterprise): Observable<boolean> {
+        return this.http.post<Enterprise>(`${this.baseUrl}api/enterprises`, e).pipe(
+            map(res => true),
+            catchError(err => {
+                console.error(err);
+                return of(false);
+            })
+        );
+    }
+
+    public isNameAvailable(name: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.baseUrl}api/enterprises/name-available/${name}`);
+    }
     
 }

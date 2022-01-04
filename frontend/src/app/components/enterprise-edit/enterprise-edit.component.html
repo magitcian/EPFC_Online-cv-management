@@ -1,0 +1,20 @@
+<form id="frm" class="form" [formGroup]="frm" novalidate>
+    <h1 class="header">{{(!isNew ? 'Edit existing' : 'Add a new') + ' enterprise'}}</h1>
+    <mat-tab-group mat-stretch-tabs dynamicHeight>
+        <mat-tab label="General Data">
+            <div class="form">
+                <mat-form-field>
+                    <input matInput placeholder="Name" [formControl]="ctlEnterpriseName">
+                    <mat-error class="field-error" *ngIf="ctlEnterpriseName.hasError('required')">Required</mat-error>
+                    <mat-error class="field-error" *ngIf="ctlEnterpriseName.hasError('nameUsed')">This enterprise name is not available </mat-error>
+                    <!-- <mat-error class="field-error" *ngIf="ctlEnterpriseName.hasError('minlength')">Minimum length is {{ctlEnterpriseName.errors?.minlength?.requiredLength}}</mat-error> -->
+                </mat-form-field>
+            </div>
+        </mat-tab>
+        
+    </mat-tab-group>    
+    <div class="footer">
+        <button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">{{!isNew ? 'Update' : 'Add'}}</button>
+        <button type="reset" mat-button (click)="cancel()">Cancel</button>
+    </div>
+</form>

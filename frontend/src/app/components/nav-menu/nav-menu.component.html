@@ -28,6 +28,9 @@
                     <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && (isAdmin || isManager) ">
                         <a class="nav-link text-dark" [routerLink]='["/skills"]'>Skills</a>
                     </li>
+                    <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && (isAdmin || isManager) ">
+                        <a class="nav-link text-dark" [routerLink]='["/enterprises"]'>Enterprises</a>
+                    </li>
                     <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="currentUser && isAdmin">
                         <a class="nav-link text-dark" [routerLink]='["/categories"]'>Categories</a>
                     </li>

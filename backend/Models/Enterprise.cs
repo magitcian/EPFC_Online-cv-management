@@ -39,7 +39,7 @@ namespace prid2122_g03.Models
             if (!CheckName(currContext))
                 yield return new ValidationResult("The name must be completed!", new[] { nameof(Name) });
             if (!CheckNameUnicity(currContext))
-                yield return new ValidationResult("The name of a skill must be unique", new[] { nameof(Name) });    
+                yield return new ValidationResult("The name of an enterprise must be unique", new[] { nameof(Name) });    
         }
     }
 }

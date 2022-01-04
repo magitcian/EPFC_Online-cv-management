@@ -1,10 +1,10 @@
 import { Component, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Console } from 'console';
-import { Skill } from '../../models/skill';
-import { SkillService } from '../../services/skill.service';
+import { Enterprise } from '../../models/enterprise';
+import { EnterpriseService } from '../../services/enterprise.service';
 import * as _ from 'lodash-es';
-import { EditSkillComponent } from '../c-edit-skill/edit-skill.component';
+import { EnterpriseEditComponent } from '../enterprise-edit/enterprise-edit.component';
 import { StateService } from 'src/app/services/state.service';
 import { MatTableState } from 'src/app/helpers/mattable.state';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,15 +14,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { plainToClass } from 'class-transformer';
 
 @Component({
-    selector: 'app-skills-management',
-    templateUrl: './skills-management.component.html',
-    styleUrls: ['./skills-management.component.css']
+    selector: 'app-enterprises-management',
+    templateUrl: './enterprises-management.component.html',
+    styleUrls: ['./enterprises-management.component.css']
 })
 
-export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy {
-    // skills: Skill[] = [];
-    displayedColumns: string[] = ['name', 'category', 'actions'];
-    dataSource: MatTableDataSource<Skill> = new MatTableDataSource();
+export class EnterprisesManagementComponent { // implements AfterViewInit, OnDestroy {
+    displayedColumns: string[] = ['name', 'actions'];
+    dataSource: MatTableDataSource<Enterprise> = new MatTableDataSource();
     filter: string = '';
     state: MatTableState;
 
@@ -30,13 +29,11 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
     @ViewChild(MatSort) sort!: MatSort;
 
     constructor(
-        private skillService: SkillService, 
+        private enterpriseService: EnterpriseService, 
         private stateService: StateService,
         public dialog: MatDialog,
         public snackBar: MatSnackBar) {
             this.state = this.stateService.skillOrEnterpriseListState;
-            // this.getSkills();
-            // console.log(this.skills);
     }
 
     ngAfterViewInit(): void {
@@ -44,8 +41,8 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         // définit le predicat qui doit être utilisé pour filtrer les membres
-        this.dataSource.filterPredicate = (data: Skill, filter: string) => {
-            const str = data.name + ' ' + data.category?.name;
+        this.dataSource.filterPredicate = (data: Enterprise, filter: string) => {
+            const str = data.name + '';
             return str.toLowerCase().includes(filter);
         };
         // établit les liens entre le data source et l'état de telle sorte que chaque fois que 
@@ -55,17 +52,10 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
         this.refresh();
     }
 
-    // getSkills() {
-    //     this.skillService.getAll().subscribe(skills => {
-    //         this.skills = skills;
-    //         console.log(this.skills);
-    //     });
-    // }
-
     refresh() {
-        this.skillService.getAll().subscribe(skills => {
+        this.enterpriseService.getAll().subscribe(enterprises => {
             // assigne les données récupérées au datasource
-            this.dataSource.data = skills;
+            this.dataSource.data = enterprises;
             // restaure l'état du datasource (tri et pagination) à partir du state
             this.state.restoreState(this.dataSource);
             // restaure l'état du filtre à partir du state
@@ -86,14 +76,13 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
             this.dataSource.paginator.firstPage();
     }
 
-    // // appelée quand on clique sur le bouton "edit" d'une skill
-    edit(skill: Skill) {
-        const dlg = this.dialog.open(EditSkillComponent, { data: { skill, isNew: false } });
+    edit(enterprise: Enterprise) {
+        const dlg = this.dialog.open(EnterpriseEditComponent, { data: { enterprise, isNew: false } });
         dlg.beforeClosed().subscribe(res => {
             if (res) {
-                _.assign(skill, res);
-                res = plainToClass(Skill, res);
-                this.skillService.update(res).subscribe(res => {
+                _.assign(enterprise, res);
+                res = plainToClass(Enterprise, res);
+                this.enterpriseService.update(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
                         this.refresh();
@@ -103,30 +92,28 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
         });
     }
     
-    // appelée quand on clique sur le bouton "delete" d'une skill
-    delete(skill: Skill) {
+    delete(enterprise: Enterprise) {
         const backup = this.dataSource.data;
-        this.dataSource.data = _.filter(this.dataSource.data, s => s.name !== skill.name); // don't understand this line
-        const snackBarRef = this.snackBar.open(`Skill '${skill.name}' will be deleted`, 'Undo', { duration: 3000 });
+        this.dataSource.data = _.filter(this.dataSource.data, e => e.name !== enterprise.name); // don't understand this line
+        const snackBarRef = this.snackBar.open(`Enterprise '${enterprise.name}' will be deleted`, 'Undo', { duration: 3000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction)
-                this.skillService.delete(skill).subscribe();
+                this.enterpriseService.delete(enterprise).subscribe();
             else 
                 this.dataSource.data = backup;
         });
     }
 
-    // // appelée quand on clique sur le bouton "new skill"
     create() {
-        const skill = new Skill();
-        const dlg = this.dialog.open(EditSkillComponent, { data: { skill, isNew: true } });
+        const enterprise = new Enterprise();
+        const dlg = this.dialog.open(EnterpriseEditComponent, { data: { enterprise, isNew: true } });
         dlg.beforeClosed().subscribe(res => {
             if (res) {
-                res = plainToClass(Skill, res);
+                res = plainToClass(Enterprise, res);
                 this.dataSource.data = [...this.dataSource.data, res];
-                this.skillService.add(res).subscribe(res => {
+                this.enterpriseService.add(res).subscribe(res => {
                     if (!res) {
-                        this.snackBar.open(`There was an error at the server. The user has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
+                        this.snackBar.open(`There was an error at the server. The enterprise has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
                         this.refresh();
                     }
                 });

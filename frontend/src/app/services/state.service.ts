@@ -5,5 +5,5 @@ import { MatTableState } from "../helpers/mattable.state";
 export class StateService {
     public userListState = new MatTableState('lastName', 'asc', 5);
     public masteringListState = new MatTableState('level', 'desc', 5);
-    public skillListState = new MatTableState('name', 'asc', 5);    // name needs to be defined in the skill.ts
+    public skillOrEnterpriseListState = new MatTableState('name', 'asc', 5);    // name needs to be defined in the skill.ts and enterprise.Ts
 }
