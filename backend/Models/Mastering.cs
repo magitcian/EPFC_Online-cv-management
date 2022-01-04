@@ -56,22 +56,22 @@ namespace prid2122_g03.Models
                 context.Masterings.AsNoTracking().Count(m => m.UserId == UserId && m.SkillId == SkillId) == 0;
         }
 
-        // public bool CheckLevelInput() {
-        //     // if (Enum.GetValues(typeof(Level))
-        //     return true; 
-        // }
+        public bool CheckLevelInput() {         
+            foreach (int i in Enum.GetValues(typeof(Level))) { // int start = (int) Level.Starter;
+                if (i < 1 || i > 5)
+                    return false;
+            }
+            return true; 
+        }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
             Debug.Assert(currContext != null);
             if (!CheckSkillUnicityByUser(currContext))
                 yield return new ValidationResult("You already have this skill", new[] { nameof(SkillId) }); // new[] { nameof(SkillId) });
-            // if (!CheckLevelInput())
-            //     yield return new ValidationResult("The level is between 1 and 5", new[] { nameof(Level) }); 
-            // return null;   
+            if (CheckLevelInput())
+                yield return new ValidationResult("The level is between 1 and 5", new[] { nameof(Level) });  
         }
-
-        // TODO check level is within 1-5 => Level.value
 
     }
 
