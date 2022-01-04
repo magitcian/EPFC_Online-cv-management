@@ -71,10 +71,9 @@
         </mat-tab>
     </mat-tab-group>
     <div class="footer">
-        <button type="submit" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="edit()">Edit</button>
-        
-        <!-- <button type="submit" *ngIf="!isNew" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">Update</button>
-        <button type="submit" *ngIf="isNew" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="add()">Add</button> -->
+        <!-- <button type="submit" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="edit()">{{!isNew ? 'Update' : 'Add'}}</button> -->
+        <button type="submit" *ngIf="!isNew" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">Update</button>
+        <button type="submit" *ngIf="isNew" mat-raised-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="add()">Add</button>
         <button type="reset" mat-raised-button (click)="changeEditMode()">Cancel</button>
     </div>
 </form>

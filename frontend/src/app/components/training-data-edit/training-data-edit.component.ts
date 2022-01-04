@@ -139,12 +139,12 @@ export class TrainingDataEditComponent {
         }
     }
 
-    edit() {
-        if (this.isNew) {
-            this.add();
-        } else {
-            this.update();
-        }
-    }
+    // edit() {
+    //     if (this.isNew) {
+    //         this.add();
+    //     } else {
+    //         this.update();
+    //     }
+    // }
 
 }
