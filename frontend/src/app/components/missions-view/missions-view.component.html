@@ -1,8 +1,9 @@
 <div class="titre">
     <h1>
         <span *ngIf="isEditable" matTooltip="Click to add a mission" (click)="changeAddMode()">Missions</span>
-        <span *ngIf="!isEditable">Missions</span>
+        <span *ngIf="!isEditable && missions != null && missions.length != 0">Missions</span>
     </h1>
+    <p *ngIf="isEditable && (missions == null || missions.length == 0)">You don't have any mission. Click on the title "Missions" to add one.</p>
 </div>
 
 <div *ngIf="isEditable && isAddMode">

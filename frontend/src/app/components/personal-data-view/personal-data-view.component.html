@@ -1,6 +1,6 @@
-<div class="titre">
-    <h1 class="userTitle" *ngIf="isEditable" (click)="changeEditMode()">
-        <span matTooltip="Edit personal data">CV {{user.firstName}} {{user.lastName}}</span>
+<div>
+    <h1 class="userTitle titre" *ngIf="isEditable">
+        <span matTooltip="Edit personal data" (click)="changeEditMode()">CV {{user.firstName}} {{user.lastName}}</span>
         <!-- title="click to edit" -->
     </h1>
     <h1 class="userTitle" *ngIf="!isEditable">

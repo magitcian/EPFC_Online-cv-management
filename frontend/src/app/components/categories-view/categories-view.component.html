@@ -1,11 +1,12 @@
-<div class="titre">
-    <h1 *ngIf="isEditable" (click)="changeEditMode()">
-        <span title="click to edit" matTooltip="Edit skills">Skills</span> 
-        
+<div>
+    <h1>
+        <span class="titre" *ngIf="isEditable" title="click to edit" matTooltip="Edit skills" (click)="changeEditMode()">Skills</span>
+        <span *ngIf="!isEditable && categories != null && categories.length != 0">Skills</span>
         <!-- <button mat-icon-button *ngIf="isEditable" (click)="changeEditMode()">  
             <mat-icon >edit</mat-icon> 
         </button> -->
     </h1>
+    <p *ngIf="isEditable && (categories == null || categories.length == 0)">You don't have any skills. Click on the title "Skills" to add one.</p>
 </div>
 
 <div class="cv-view" *ngIf="!isEditMode">
@@ -24,8 +25,8 @@
 </div>
 
 
-<div class="cv-edit" *ngIf="isEditMode" >
-    <app-mastering-edit-form [getUserID]="userCvId" (refreshInDaddy)="refresh()" ></app-mastering-edit-form>
+<div class="cv-edit" *ngIf="isEditMode">
+    <app-mastering-edit-form [getUserID]="userCvId" (refreshInDaddy)="refresh()"></app-mastering-edit-form>
     <button mat-raised-button (click)="changeEditMode()">Back to CV</button>
     <!-- <button mat-icon-button (click)="changeEditMode()">  
         <mat-icon >save</mat-icon> 
