@@ -18,5 +18,12 @@ export class ExperienceService {
             //,catchError(err => of(null))
         );
     }  
+
+    getById(experienceID: number) {
+        return this.http.get<Experience>(`${this.baseUrl}api/experiences/${experienceID}`).pipe(
+            map(e => plainToClass(Experience, e)),
+            catchError(err => of(null))
+        );
+    }
     
 }

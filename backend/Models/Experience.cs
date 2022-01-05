@@ -73,5 +73,13 @@ namespace prid2122_g03.Models
             //     yield return new ValidationResult("Start date must be realistic!", new[] { nameof(this.Start) });
 
         }
+
+        public int GetDuration() {
+            var date1 = (DateTime) this.Start;
+            var date2 = (DateTime) this.Finish;
+            int durationInDays = date2.Subtract(date1).Days;
+            return durationInDays;
+        }
+
     }
 }

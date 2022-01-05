@@ -33,7 +33,7 @@ namespace prid2122_g03.Controllers
             return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.Include(exp => exp.Enterprise).ToListAsync());
         }
 
-        // GET /api/experiences/{categoryID}
+        // GET /api/experiences/{experienceID}
         [HttpGet("{experienceID}")]
         public async Task<ActionResult<ExperienceDTO>> GetOne(int experienceID) {
             var experience = await _context.Experiences.FindAsync(experienceID);

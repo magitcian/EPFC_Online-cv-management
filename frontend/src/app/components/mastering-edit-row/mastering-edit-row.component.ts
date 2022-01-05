@@ -32,6 +32,11 @@ export class MasteringEditRowComponent {
     }
     mastering!: Mastering;
 
+    @Input() set getMasterings(values: Mastering[]) {
+        this.masterings = values;
+    }
+    masterings!: Mastering[];
+
     @Input() isNew!: boolean;
     
     @Output() deleteMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); // () car daddy connait déjà le mastering
@@ -59,12 +64,12 @@ export class MasteringEditRowComponent {
 
     controlInput() {
         this.ctlId = this.fb.control('', []);
-        this.ctlSkillId = this.fb.control('', []);
-        // this.ctlSkillId = this.fb.control('', [Validators.required]);
+        this.ctlSkillId = this.fb.control('', [Validators.required]);
+        // this.ctlSkillId = this.fb.control('', [Validators.required, this.checkSkillAlreadyUSed()]);
         this.ctlSkillName = this.fb.control('', []);     // this.fb.control('', []); // form element potentially "controlled"
         this.ctlCategoryName = this.fb.control('', []);
         this.ctlCategoryId = this.fb.control('', []);
-        this.ctlLevel = this.fb.control('', []);
+        this.ctlLevel = this.fb.control('', [Validators.required]);
         // this.ctlLevel = this.fb.control('', [Validators.required]);
         // fb.group content needs to respect the JSON we get from backend !
         this.frm = this.fb.group({ // building the form using FormBuilder
@@ -137,5 +142,27 @@ export class MasteringEditRowComponent {
         this.ctlLevel.patchValue(this.mastering.level);
         this.isVisible = false;
     }
+
+    checkSkillAlreadyUSed() {
+        return (ctl: FormControl) => {
+            const skillId: number = ctl.value;
+            // if (isSkillAlreadyUsed)
+            //     return { skillAlreadyUsed: true }
+            this.masterings.forEach(m => {
+                if (m.skillId == skillId) 
+                    return { skillAlreadyUsed: true }
+                return null; 
+            });
+            return null;
+        };
+    }
+
+    // isSkillAlreadyUsed(skillId: number): boolean {
+    //     this.masterings.forEach(m => {
+    //         if (m.skillId == skillId) 
+    //             return true;
+    //         return false; 
+    //     });
+    // }
 
 }
