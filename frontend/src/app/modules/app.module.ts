@@ -7,10 +7,6 @@ import { AppRoutes } from '../routing/app.routing';
 import { AppComponent } from '../components/app/app.component';
 import { NavMenuComponent } from '../components/nav-menu/nav-menu.component';
 import { HomeComponent } from '../components/home/home.component';
-import { CounterComponent } from '../components/counter/counter.component';
-import { CounterStatelessComponent } from '../components/counter-stateless/counter-stateless.component';
-import { CounterParentComponent } from '../components/counter-stateless/counter-parent.component';
-import { FetchDataComponent } from '../components/fetch-data/fetch-data.component';
 import { UserListComponent } from '../components/userlist/userlist.component';
 import { RestrictedComponent } from '../components/restricted/restricted.component';
 import { UnknownComponent } from '../components/unknown/unknown.component';
@@ -65,10 +61,6 @@ export function getBaseUrl() {
         AppComponent,
         NavMenuComponent,
         HomeComponent,
-        CounterComponent,
-        CounterStatelessComponent,
-        CounterParentComponent,
-        FetchDataComponent,
         // add new component
         UserListComponent,
         LoginComponent,

@@ -17,17 +17,6 @@ namespace prid2122_g03.Models
         public MappingProfile(CvContext context) {
             _context = context;
 
-            CreateMap<Member, MemberDTO>();
-            CreateMap<MemberDTO, Member>();
-
-            CreateMap<Member, MemberWithPasswordDTO>();
-            CreateMap<MemberWithPasswordDTO, Member>();
-
-            CreateMap<Phone, PhoneDTO>();
-            CreateMap<PhoneDTO, Phone>();
-
-
-            //ajout classes du projet prid2121-g03:
             CreateMap<Mission, MissionDTO>();
             CreateMap<MissionDTO, Mission>();
 
