@@ -60,5 +60,14 @@ export class Experience {
         return `${this.enterprise?.name}`;
     }
 
+    // get duration(): number {
+    //     return moment.duration(this.finish?.diff(this.start)).asDays();
+    // }
+
+    get duration(): number | undefined {
+        if (this.finish != undefined && this.start != undefined)
+            return this.finish.diff(this.start, 'days');
+        return undefined;    
+    }
 
 }
