@@ -50,7 +50,7 @@ import { EnterpriseEditComponent } from '../components/enterprise-edit/enterpris
 import { MissionsViewComponent } from '../components/missions-view/missions-view.component';
 import { MissionDataViewComponent } from '../components/mission-data-view/mission-data-view.component';
 import { MissionDataEditComponent } from '../components/mission-data-edit/mission-data-edit.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 export function getBaseUrl() {
     return document.getElementsByTagName('base')[0].href;
@@ -94,6 +94,7 @@ export function getBaseUrl() {
         ,MissionsViewComponent
         ,MissionDataViewComponent
         ,MissionDataEditComponent
+
     ],
     entryComponents: [
         EditUserComponent
@@ -110,9 +111,7 @@ export function getBaseUrl() {
         ,MatTooltipModule
         ,MatMenuModule
         ,MatBadgeModule
-
-        //,MatNativeDateModule
-        //,MatAutocompleteSelectedEvent
+        ,MatAutocompleteModule
     ],
     providers: [
         { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },

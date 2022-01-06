@@ -13,8 +13,14 @@ import { plainToClass } from 'class-transformer';
 import { SkillService } from '../../services/skill.service';
 import { Moment } from 'moment';
 
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
 @Component({
-    selector: 'app-mission-data-edit', 
+    selector: 'app-mission-data-edit',
     templateUrl: './mission-data-edit.component.html',
     styleUrls: ['./mission-data-edit.component.css']
 })
@@ -32,14 +38,19 @@ export class MissionDataEditComponent {
     experienceId!: number;
     isEditMode: boolean = false;
     enterprises!: Enterprise[];
-    skills!: Skill[];
-    usings!: Using[];
+    missionUsings: Using[] = [];
+    otherSkills: Skill[] = [];
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    filteredSkills: Observable<string[]> = new Observable();
 
-    @Output() updateMissionInDaddy: EventEmitter<Mission> = new EventEmitter<Mission>(); 
-    @Output() addMissionInDaddy: EventEmitter<Mission> = new EventEmitter<Mission>(); 
-    @Output() changeAddModeInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
-    @Output() changeUpdateModeInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
-    
+    // @ViewChild('skillInput') skillInput: ElementRef<HTMLInputElement>;
+    @ViewChild('skillInput', { static: false }) skillInput: ElementRef<HTMLInputElement> = {} as ElementRef;
+
+    @Output() updateMissionInDaddy: EventEmitter<Mission> = new EventEmitter<Mission>();
+    @Output() addMissionInDaddy: EventEmitter<Mission> = new EventEmitter<Mission>();
+    @Output() changeAddModeInDaddy: EventEmitter<void> = new EventEmitter<void>();
+    @Output() changeUpdateModeInDaddy: EventEmitter<void> = new EventEmitter<void>();
+
     public frm!: FormGroup;
     private ctlId!: FormControl;
     public ctlStart!: FormControl;
@@ -51,17 +62,17 @@ export class MissionDataEditComponent {
     public ctlClientId!: FormControl;
     public ctlClientName!: FormControl;
     public ctlUsings !: FormControl;
-    public usingsOfMission: Using[] = [];
-    public skillsTotal: Skill[] = [];
+    public skillCtrl = new FormControl();
 
     constructor(
         private fb: FormBuilder,
         private missionService: MissionService,
         private enterpriseService: EnterpriseService,
-        public dialog: MatDialog, 
+        public dialog: MatDialog,
         public snackBar: MatSnackBar,
         private skillService: SkillService) {
-       
+
+
     }
 
     controlInput() {
@@ -96,15 +107,17 @@ export class MissionDataEditComponent {
 
         });
         this.mission = this.mission;
-        //this.usingsOfMission = data.mission.usings!;
+        //this.missionSkills = data.mission.usings!;
         this.mission.usings?.forEach(u =>
-            this.usingsOfMission.push(u)
+            this.missionUsings.push(u)
         );
         this.isNew = this.isNew;
 
         this.addEnterprises();
         this.refreshSkills();
         this.frm.patchValue(this.mission);
+
+
     }
 
     addEnterprises() {
@@ -115,20 +128,28 @@ export class MissionDataEditComponent {
 
     refreshSkills() {
         this.skillService.getAll().subscribe(skills => {
-            this.skillsTotal = skills;
-            //this.usingsOfMission = this.mission.usings!;
-            this.usingsOfMission = [];
+            this.otherSkills = skills;
+            //this.missionSkills = this.mission.usings!;
+            this.missionUsings = [];
             this.mission.usings?.forEach(u =>
-                this.usingsOfMission.push(u)
+                this.missionUsings.push(u)
             );
-            for (let s = 0; s < this.skillsTotal.length; s++) {
-                for (let u = 0; u < this.usingsOfMission.length; u++) {
-                    if (this.skillsTotal[s].id == this.usingsOfMission[u].skill?.id) {
-                        this.skillsTotal.splice(s, 1) //supprime 1 élément à l'index s
+            for (let s = 0; s < this.otherSkills.length; s++) {
+                for (let u = 0; u < this.missionUsings.length; u++) {
+                    if (this.otherSkills[s].id == this.missionUsings[u].skill?.id) {
+                        this.otherSkills.splice(s, 1) //supprime 1 élément à l'index s
                     }
                 }
             }
+            this.updateFilter();
         });
+    }
+
+    updateFilter() {
+        this.filteredSkills = this.skillCtrl.valueChanges.pipe(
+            startWith(null),
+            map((skill: string | null) => (skill ? this._filter(skill) : this.otherSkills.map(s => s.name!))),
+        );
     }
 
     cancel() {
@@ -141,19 +162,19 @@ export class MissionDataEditComponent {
 
     edit() {
         this.updateDataWithEnterprisesName();
-        var res = this.frm.value; 
-        if(res.clientId == null || res.clientId == ''){
+        var res = this.frm.value;
+        if (res.clientId == null || res.clientId == '') {
             res.clientId = 0;
         }
-        _.assign(this.mission, res);    
-        res = plainToClass(Mission, res); 
-        res.usings = this.usingsOfMission;
+        _.assign(this.mission, res);
+        res = plainToClass(Mission, res);
+        res.usings = this.missionUsings;
         //console.log(res);
         if (this.isNew) {
             res.id = 0;
             this.addMissionInDaddy.emit(res);
         } else {
-            this.updateMissionInDaddy.emit(res); 
+            this.updateMissionInDaddy.emit(res);
         }
     }
 
@@ -194,26 +215,40 @@ export class MissionDataEditComponent {
     //     };
     // }
 
-    removeSkill(using: Using): void {
-        const index = this.usingsOfMission.indexOf(using);
-        if (index >= 0) {
-            let u = this.usingsOfMission.splice(index, 1);
-            this.skillsTotal.splice(index, 0, u[0].skill!);
+    addSkill(event: MatChipInputEvent): void {
 
+    }
+
+
+    removeSkill(using: Using): void {
+        const index = this.missionUsings.indexOf(using);
+        if (index >= 0) {
+            let u = this.missionUsings.splice(index, 1);
+            this.otherSkills.splice(index, 0, u[0].skill!);
+            this.updateFilter();
             this.frm.markAsDirty();
         }
     }
 
-    addSkill(skill: Skill): void {
-        const index = this.skillsTotal.indexOf(skill);
-        if (index >= 0) {
-            let s = this.skillsTotal.splice(index, 1);
-            let u = new Using();
-            u.addSkill(s[0], this.mission);
-            this.usingsOfMission.splice(index, 0, u);
-
-            this.frm.markAsDirty(); 
+    selectedSkill(event: MatAutocompleteSelectedEvent): void {
+        var skill = this.otherSkills.find(s => s.name == event.option.viewValue);
+        if (skill) {
+            const index = this.otherSkills.indexOf(skill);
+            if (index >= 0) {
+                let s = this.otherSkills.splice(index, 1);
+                let u = new Using();
+                u.addSkill(s[0], this.mission);
+                this.missionUsings.splice(index, 0, u);
+                this.frm.markAsDirty();
+            }
+            this.skillInput.nativeElement.value = '';
+            this.skillCtrl.setValue(null);
         }
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.otherSkills.map(s => s.name!).filter(skill => skill.toLowerCase().includes(filterValue));
     }
 
 }

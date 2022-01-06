@@ -38,26 +38,25 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <mat-form-field class="example-chip-list" appearance="fill">
+                    <mat-label>Skills</mat-label>
+                    <mat-chip-list #chipList aria-label="Skill selection">
+                        <mat-chip *ngFor="let using of missionUsings" (removed)="removeSkill(using)">
+                            {{using.skill!.name!}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                            <!-- <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                      </button> -->
+                        </mat-chip>
+                        <input placeholder="New skill..." #skillInput [formControl]="skillCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addSkill($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSkill($event)">
+                        <mat-option *ngFor="let skillName of filteredSkills | async" [value]="skillName">
+                            {{skillName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
             </div>
-        </mat-tab>
-        <mat-tab label="Skills management">
-            <!-- https://material.angular.io/components/chips/overview -->
-            <mat-form-field class="example-chip-list" appearance="fill">
-                <mat-label>Skills (click to remove):</mat-label>
-                <mat-chip-list #chipList aria-label="Skill selection" [formControl]="ctlUsings">
-                    <mat-chip *ngFor="let using of usingsOfMission" (click)="removeSkill(using)">
-                        {{using.skill!.name}}
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-form-field>
-            <mat-form-field class="example-chip-list" appearance="fill">
-                <mat-label>List of available skills :</mat-label>
-                <mat-chip-list #chipList aria-label="Skill selection">
-                    <mat-chip *ngFor="let skill of skillsTotal" (click)="addSkill(skill)">
-                        {{skill.name}}
-                    </mat-chip>
-                </mat-chip-list>
-            </mat-form-field>
         </mat-tab>
     </mat-tab-group>
     <div class="footer">
