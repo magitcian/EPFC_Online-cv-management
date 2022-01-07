@@ -89,6 +89,7 @@ export class UserListComponent implements AfterViewInit, OnDestroy {
                 this.userService.update(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 10000 });
+                    }else{
                         this.refresh();
                     }
                 });
@@ -120,6 +121,7 @@ export class UserListComponent implements AfterViewInit, OnDestroy {
                 this.userService.add(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The user has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
+                    }else{
                         this.refresh();
                     }
                 });

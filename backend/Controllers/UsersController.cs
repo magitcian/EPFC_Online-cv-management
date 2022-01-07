@@ -209,8 +209,10 @@ namespace prid2122_g03.Controllers
                 return NotFound();
             if (string.IsNullOrEmpty(userDTO.Password))
                 userDTO.Password = user.Password;
-            userDTO.Title = user.Title;
-            if (isConnectedUser(userDTO.Id)) {
+            if(!isAdmin()){
+                userDTO.Title = user.Title;
+            }
+            if (isConnectedUser(userDTO.Id) || isAdmin()) {
                 _mapper.Map<UserWithPasswordDTO, User>(userDTO, user);
                 var res = await _context.SaveChangesAsyncWithValidation();
                 if (!res.IsEmpty)
