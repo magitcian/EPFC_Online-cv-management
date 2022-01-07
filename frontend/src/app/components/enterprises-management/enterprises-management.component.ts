@@ -85,6 +85,7 @@ export class EnterprisesManagementComponent { // implements AfterViewInit, OnDes
                 this.enterpriseService.update(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
+                    }else{
                         this.refresh();
                     }
                 });
@@ -114,6 +115,7 @@ export class EnterprisesManagementComponent { // implements AfterViewInit, OnDes
                 this.enterpriseService.add(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The enterprise has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
+                    }else{
                         this.refresh();
                     }
                 });
