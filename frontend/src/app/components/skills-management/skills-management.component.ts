@@ -83,9 +83,13 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
             if (res) {
                 _.assign(skill, res);
                 res = plainToClass(Skill, res);
+                if (res.categoryId == null || res.categoryId == '') {
+                    res.categoryId = 0;
+                }
                 this.skillService.update(res).subscribe(res => {
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
+                    }else{
                         this.refresh();
                     }
                 });
@@ -113,10 +117,16 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
         dlg.beforeClosed().subscribe(res => {
             if (res) {
                 res = plainToClass(Skill, res);
+                if (res.categoryId == null || res.categoryId == '') {
+                    res.categoryId = 0;
+                }
+                console.log(res);
                 this.dataSource.data = [...this.dataSource.data, res];
                 this.skillService.add(res).subscribe(res => {
+                    console.log(res);
                     if (!res) {
                         this.snackBar.open(`There was an error at the server. The skill has not been created! Please try again.`, 'Dismiss', { duration: 10000 });
+                    }else{
                         this.refresh();
                     }
                 });

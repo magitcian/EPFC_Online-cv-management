@@ -68,7 +68,7 @@ export class SkillEditComponent {
             const name = ctl.value;
             return new Promise(resolve => {
                 timeout = setTimeout(() => {
-                    this.skillService.isNameAvailable(name).subscribe(res => {
+                    this.skillService.isNameAvailable(this.frm.value.id, name).subscribe(res => {
                         resolve(res ? null : { nameUsed: true });
                     });
                 }, 300);

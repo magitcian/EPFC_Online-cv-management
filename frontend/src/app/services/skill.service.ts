@@ -52,8 +52,14 @@ export class SkillService {
         );
     }
 
-    public isNameAvailable(name: string): Observable<boolean> {
-        return this.http.get<boolean>(`${this.baseUrl}api/skills/name-available/${name}`);
+    public isNameAvailable(skillId: number, name: string): Observable<boolean> {
+        return this.http.get<boolean>(`${this.baseUrl}api/skills/name-available/${name}/${skillId}`);
     }
+
+    // public isNameAvailable(email: string, password: string, firstName: string, lastName: string): Observable<User> {
+    //     return this.http.post<User>(`${this.baseUrl}api/users/signup`, { email: email, password: password, firstName: firstName, lastName: lastName }).pipe(
+    //         mergeMap(res => this.login(email, password)),
+    //     );
+    // }
 
 }

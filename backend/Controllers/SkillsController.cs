@@ -20,8 +20,16 @@ namespace prid2122_g03.Controllers
     public class SkillsController : OurController
     {
 
+        private readonly CvContext _context;
+        private readonly IMapper _mapper;
+
         public SkillsController(CvContext context, IMapper mapper) : base(context, mapper) {
-        } 
+            _context = context;
+            _mapper = mapper;
+        }
+
+        // public SkillsController(CvContext context, IMapper mapper) : base(context, mapper) {
+        // }
 
         // GET /api/skills
         [HttpGet]
@@ -36,7 +44,7 @@ namespace prid2122_g03.Controllers
             var skill = await _context.Skills
                                 .Include(s => s.Category)
                                 .SingleAsync(s => s.Id == skillID);
-            return _mapper.Map<SkillWithCategoryDTO>(skill);          
+            return _mapper.Map<SkillWithCategoryDTO>(skill);
         }
 
 
@@ -46,6 +54,9 @@ namespace prid2122_g03.Controllers
         public async Task<ActionResult<SkillDTO>> PostSkill(SkillDTO skill) {
             var newSkill = _mapper.Map<Skill>(skill);
             _context.Skills.Add(newSkill);
+            if (skill.CategoryId == 0) {
+                newSkill.CategoryId = null;
+            }
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
                 return BadRequest(res);
@@ -62,10 +73,14 @@ namespace prid2122_g03.Controllers
             if (skill == null)
                 return NotFound();
             // TODO issue if no category linked to a skill    
-            if (dto.CategoryId == 0)
-                dto.CategoryId = skill.CategoryId;
-            skill.CategoryId = dto.CategoryId;
+            // if (dto.CategoryId == 0) {
+            //     dto.CategoryId = skill.CategoryId;
+            // }
+            // skill.CategoryId = dto.CategoryId;
             _mapper.Map<SkillDTO, Skill>(dto, skill);
+            if (dto.CategoryId == 0) {
+                skill.CategoryId = null;
+            }
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
                 return BadRequest(res);
@@ -88,11 +103,11 @@ namespace prid2122_g03.Controllers
 
         // GET /api/skills/name-available/{name} 
         [Authorized(Title.AdminSystem, Title.Manager)]
-        [HttpGet("name-available/{name}")]
-        public async Task<ActionResult<bool>> IsNameAvailable(string name) {
-            return await _context.Skills.SingleOrDefaultAsync(s => s.Name == name) == null;
+        [HttpGet("name-available/{name}/{skillId}")]
+        public async Task<ActionResult<bool>> IsNameAvailable(string name, int skillId) {
+            return await _context.Skills.SingleOrDefaultAsync(s => s.Name == name && s.Id != skillId) == null;
         }
 
     }
-    
+
 }
