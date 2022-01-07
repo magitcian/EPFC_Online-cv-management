@@ -51,10 +51,9 @@ export class MasteringEditFormComponent  {
     }
 
     refresh() {
-        console.log("test2");
         this.userService.getMasterings(this.userCvId).subscribe(masterings => {
             this.masterings = masterings;
-            this.masteringToAdd = new Mastering();
+            //this.masteringToAdd = new Mastering();
             console.log(this.masterings);
             // console.log("testDaddy2");
         });
@@ -82,7 +81,20 @@ export class MasteringEditFormComponent  {
     //     }); 
     // }
 
-    addMasteringService(mastering: Mastering) {
+    // addMasteringService(mastering: Mastering) {
+    //     this.masteringService.add(mastering).subscribe(res => { // res: ce que me renvoie le backend 
+    //         if (!res) {
+    //             this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
+    //             // console.log(res.valueOf());
+    //         } else {
+    //             this.refresh();
+    //             this.refreshInDaddy.emit();
+    //             // console.log("test1");
+    //         }            
+    //     }); 
+    // }
+
+    add(mastering: Mastering) {
         this.masteringService.add(mastering).subscribe(res => { // res: ce que me renvoie le backend 
             if (!res) {
                 this.snackBar.open(`There was an error at the server. The update has not been done! Please try again.`, 'Dismiss', { duration: 3000 });
@@ -95,35 +107,35 @@ export class MasteringEditFormComponent  {
         }); 
     }
 
-    add(mastering: Mastering) {
-        if (mastering.level == 3 && this.getDurationOfSkillExperiences(mastering) < 730) {
-            console.log(this.getDurationOfSkillExperiences(mastering));
-            const snackBarRef = this.snackBar.open(`This skill was developed less than 2 years in your experiences. Are you sure you are "Medior"?`, 'Yes', { duration: 5000 });
-            snackBarRef.onAction().subscribe(() => this.addMasteringService(mastering));        
-        } 
-        else if (mastering.level == 4 && this.getDurationOfSkillExperiences(mastering) < 1460) {
-            const snackBarRef = this.snackBar.open(`This skill was developed less than 4 years in your experiences. Are you sure you are "Senior"?`, 'Yes', { duration: 5000 });
-            snackBarRef.onAction().subscribe(() => this.addMasteringService(mastering));        
-        } 
-        else if (mastering.level == 5 && this.getDurationOfSkillExperiences(mastering) < 2190) {
-            const snackBarRef = this.snackBar.open(`This skill was developed less than 6 years in your experiences. Are you sure you are "Expert"?`, 'Yes', { duration: 5000 });
-            snackBarRef.onAction().subscribe(() => this.addMasteringService(mastering));        
-        } else {
-            this.addMasteringService(mastering);
-        }    
-    }
+    // add(mastering: Mastering) {
+    //     if (mastering.level == 3 && this.getDurationOfSkillExperiences(mastering) < 730) {
+    //         console.log(this.getDurationOfSkillExperiences(mastering));
+    //         const snackBarRef = this.snackBar.open(`This skill was developed less than 2 years in your experiences. Are you sure you are "Medior"?`, 'Yes', { duration: 5000 });
+    //         snackBarRef.onAction().subscribe(() => this.addMasteringService(mastering));        
+    //     } 
+    //     else if (mastering.level == 4 && this.getDurationOfSkillExperiences(mastering) < 1460) {
+    //         const snackBarRef = this.snackBar.open(`This skill was developed less than 4 years in your experiences. Are you sure you are "Senior"?`, 'Yes', { duration: 5000 });
+    //         snackBarRef.onAction().subscribe(() => this.addMasteringService(mastering));        
+    //     } 
+    //     else if (mastering.level == 5 && this.getDurationOfSkillExperiences(mastering) < 2190) {
+    //         const snackBarRef = this.snackBar.open(`This skill was developed less than 6 years in your experiences. Are you sure you are "Expert"?`, 'Yes', { duration: 5000 });
+    //         snackBarRef.onAction().subscribe(() => this.addMasteringService(mastering));        
+    //     } else {
+    //         this.addMasteringService(mastering);
+    //     }    
+    // }
 
-    getDurationOfSkillExperiences(mastering: Mastering) {
-        let counterOfDays = 0;
-        if (mastering.skill != null && mastering.skill.usings != null) {
-            mastering.skill.usings.forEach(using => {
-                if(using.experience != null && using.experience.duration != null) {
-                    counterOfDays += using.experience.duration;
-                }
-            })
-        }
-        return counterOfDays;
-    }
+    // getDurationOfSkillExperiences(mastering: Mastering) {
+    //     let counterOfDays = 0;
+    //     if (mastering.skill != null && mastering.skill.usings != null) {
+    //         mastering.skill.usings.forEach(using => {
+    //             if(using.experience != null && using.experience.duration != null) {
+    //                 counterOfDays += using.experience.duration;
+    //             }
+    //         })
+    //     }
+    //     return counterOfDays;
+    // }
 
     // getDurationOfSkillExperiencesTest(mastering: Mastering) {
     //     let counterOfDays = 0;

@@ -38,5 +38,12 @@ export class MasteringService {
             })
         );
     }
+
+    public getIsEnoughExperience(masteringID: number): Observable<boolean> {
+        return this.http.get<boolean>(`${this.baseUrl}api/masterings/is-enough-experiences/${masteringID}`).pipe(
+            map(res => res)
+            //,catchError(err => of(null))
+        );
+    }
     
 }

@@ -23,13 +23,21 @@ namespace prid2122_g03.Controllers
     public class MasteringsController : OurController
     {
 
+        private readonly CvContext _context;
+        private readonly IMapper _mapper;
+
         public MasteringsController(CvContext context, IMapper mapper) : base(context, mapper) {
+            _context = context;
+            _mapper = mapper;
         }
+
+        // public MasteringsController(CvContext context, IMapper mapper) : base(context, mapper) {
+        // }
 
         // GET /api/masterings  
         [Authorized(Title.AdminSystem)] // TODO: check if authorized for managers [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MasteringDTO>>> GetAll() {   
+        public async Task<ActionResult<IEnumerable<MasteringDTO>>> GetAll() {
             return _mapper.Map<List<MasteringDTO>>(await _context.Masterings.ToListAsync());
         }
 
@@ -40,17 +48,17 @@ namespace prid2122_g03.Controllers
             var mastering = await _context.Masterings.FindAsync(masteringID);
             if (mastering == null)
                 return NotFound();
-            if (isConnectedUser(mastering.UserId) || isConsultantsManagerMastering(mastering) || isAdmin())    
+            if (isConnectedUser(mastering.UserId) || isConsultantsManagerMastering(mastering) || isAdmin())
                 return _mapper.Map<MasteringDTO>(mastering);
-            return BadRequest("You are not entitled to get these data");     
+            return BadRequest("You are not entitled to get these data");
         }
 
         // Manager is entitled to get a mastering of his/her consultants or consultants with no manager
         private bool isConsultantsManagerMastering(Mastering mastering) {
             if (isManager()) {
-                var manager = (Manager) getConnectedUser();
+                var manager = (Manager)getConnectedUser();
                 var consultant = _context.Consultants.Find(mastering.UserId);
-                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));  
+                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));
             }
             return false;
         }
@@ -93,7 +101,7 @@ namespace prid2122_g03.Controllers
             var mastering = await _context.Masterings.FindAsync(dto.Id);
             // Si aucun mastering n'a été trouvé, renvoyer une erreur 404 Not Found
             if (mastering == null)
-                return NotFound();  
+                return NotFound();
             // Si le mastering appartient au user connecté
             if (isConnectedUser(mastering.UserId)) {
                 // Attention: I had to comment "[Required]" for User and Skill in Mastering.cs
@@ -108,7 +116,7 @@ namespace prid2122_g03.Controllers
                 // Retourne un statut 204 avec une réponse vide
                 return NoContent();
             }
-            return BadRequest("You are not entitled to adjust these data");  
+            return BadRequest("You are not entitled to adjust these data");
         }
 
 
@@ -128,8 +136,37 @@ namespace prid2122_g03.Controllers
                 await _context.SaveChangesAsync();
                 // Retourne un statut 204 avec une réponse vide
                 return NoContent();
-            } 
+            }
             return BadRequest("You are not entitled to remove these data");
+        }
+
+        [HttpGet("is-enough-experiences/{masteringID}")]
+        public async Task<ActionResult<Boolean>> IsEnoughExperience(int masteringID) {
+            var mastering = await _context.Masterings
+                    .Include(m => m.Skill)
+                     .ThenInclude(s => s.Usings.Where(u => u.Experience.UserId == getConnectedUserId()))
+                    .ThenInclude(u => u.Experience)
+                    .FirstAsync(m => m.Id == masteringID);
+
+            if (mastering == null) {
+                return NotFound();
+            }
+            if (mastering.UserId == getConnectedUserId()) {
+                double dur = 0;
+                mastering.Skill.Usings.ToList().ForEach( u => {
+                    dur += (u.Experience.Finish - u.Experience.Start).Value.TotalDays;
+                });
+                if(((int) mastering.Level ==3 && dur < 730) ||
+                ((int) mastering.Level ==4 && dur < 1460) ||
+                ((int) mastering.Level == 5 && dur < 2190)){
+                    return false;
+                }
+                return true;
+            } else {
+                return BadRequest(new ValidationErrors().Add("You are not allowed to obtain this info!"));
+            }
+
+
         }
 
     }

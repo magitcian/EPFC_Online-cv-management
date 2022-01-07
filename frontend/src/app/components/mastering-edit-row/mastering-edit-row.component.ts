@@ -12,6 +12,7 @@ import { MasteringService } from '../../services/mastering.service';
 import { SkillService } from 'src/app/services/skill.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { plainToClass } from 'class-transformer';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
     selector: 'app-mastering-edit-row',
@@ -21,13 +22,9 @@ import { plainToClass } from 'class-transformer';
 
 export class MasteringEditRowComponent {
 
-    @Input() set getMastering(val: Mastering | undefined) {
+    @Input() set getMastering(val: Mastering) {
         // console.log(val);
-        if (val == undefined) {
-            this.mastering = new Mastering();
-        } else {
-            this.mastering = val;
-        }
+        this.mastering = val;
         this.controlInput();
     }
     mastering!: Mastering;
@@ -38,10 +35,10 @@ export class MasteringEditRowComponent {
     masterings!: Mastering[];
 
     @Input() isNew!: boolean;
-    
+    isEnoughExperience: boolean = false;
     @Output() deleteMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); // () car daddy connait déjà le mastering
-    @Output() updateMasteringInDaddy: EventEmitter<Mastering> = new EventEmitter<Mastering>(); 
-    @Output() refreshInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
+    @Output() updateMasteringInDaddy: EventEmitter<Mastering> = new EventEmitter<Mastering>();
+    @Output() refreshInDaddy: EventEmitter<void> = new EventEmitter<void>();
     @Output() addMasteringInDaddy: EventEmitter<Mastering> = new EventEmitter<Mastering>();
 
     public frm!: FormGroup;
@@ -60,12 +57,11 @@ export class MasteringEditRowComponent {
         private fb: FormBuilder,
         private skillService: SkillService,
         private masteringService: MasteringService,
-        public snackBar: MatSnackBar)  { }   
+        public snackBar: MatSnackBar) { }
 
     controlInput() {
         this.ctlId = this.fb.control('', []);
-        this.ctlSkillId = this.fb.control('', [Validators.required]);
-        // this.ctlSkillId = this.fb.control('', [Validators.required, this.checkSkillAlreadyUSed()]);
+        this.ctlSkillId = this.fb.control('', [Validators.required, this.isSkillAlreadyUsed()]);
         this.ctlSkillName = this.fb.control('', []);     // this.fb.control('', []); // form element potentially "controlled"
         this.ctlCategoryName = this.fb.control('', []);
         this.ctlCategoryId = this.fb.control('', []);
@@ -88,14 +84,16 @@ export class MasteringEditRowComponent {
         })
         this.addSkillsInDropDown();
         this.frm.patchValue(this.mastering);
+        // this.ctlSkillId.setValidators([this.isSkillAlreadyUsed()]);
         // console.log(this.mastering);
         // console.log(this.masteringId);
+        this.checkEnoughExperience();
     }
 
     skillChange() {
         // this.ctlCategoryName.patchValue("test"); 
         var correspondingCategoryName: string = this.getCategoryName();
-        this.ctlCategoryName.patchValue(correspondingCategoryName); 
+        this.ctlCategoryName.patchValue(correspondingCategoryName);
     }
 
     addSkillsInDropDown() { // to test in constructor to check but also in controlAlim
@@ -109,10 +107,10 @@ export class MasteringEditRowComponent {
         var selectedSkillId: number = this.ctlSkillId.value;
         var correspondingCategoryName: string = "";
         this.skills.forEach(skill => {
-           if (skill.id == selectedSkillId) {
-               correspondingCategoryName = (skill.category != null && skill.category.name != null ? skill.category.name : ""); 
-            //    correspondingCategoryName = skill!.category!.name!; // never null in this case
-           }  
+            if (skill.id == selectedSkillId) {
+                correspondingCategoryName = (skill.category != null && skill.category.name != null ? skill.category.name : "");
+                //    correspondingCategoryName = skill!.category!.name!; // never null in this case
+            }
         });
         return correspondingCategoryName;
     }
@@ -121,8 +119,12 @@ export class MasteringEditRowComponent {
         var res = this.frm.value; // cherche les valeurs de la row du form
         res.id = 0;
         _.assign(this.mastering, res);    // dit que le res est formaté comme un mastering (il faut le repréciser)
-        res = plainToClass(Mastering, res); 
-        this.addMasteringInDaddy.emit(res);   
+        res = plainToClass(Mastering, res);
+        this.addMasteringInDaddy.emit(res);
+
+        //Pour remettre les control à blanc
+        this.mastering = new Mastering();
+        this.controlInput();
     }
 
     delete() {
@@ -143,19 +145,54 @@ export class MasteringEditRowComponent {
         this.isVisible = false;
     }
 
-    checkSkillAlreadyUSed() {
-        return (ctl: FormControl) => {
-            const skillId: number = ctl.value;
-            // if (isSkillAlreadyUsed)
-            //     return { skillAlreadyUsed: true }
-            this.masterings.forEach(m => {
-                if (m.skillId == skillId) 
-                    return { skillAlreadyUsed: true }
-                return null; 
+    // checkSkillAlreadyUSed() {
+    //     return (ctl: FormControl) => {
+    //         const skillId: number = ctl.value;
+    //         // if (isSkillAlreadyUsed)
+    //         //     return { skillAlreadyUsed: true }
+    //         this.masterings.forEach(m => {
+    //             if (m.skillId == skillId)
+    //                 return { skillAlreadyUsed: true }
+    //             return null;
+    //         });
+    //         return null;
+    //     };
+    // }
+
+    checkEnoughExperience() {
+        if (this.mastering.id != null) {
+            this.masteringService.getIsEnoughExperience(this.mastering.id).subscribe(res => {
+                this.isEnoughExperience = res;
+                // if (!res) {
+                //     this.isEnoughExperience = false;
+                // } else {
+                //     this.isEnoughExperience = true;
+                // }            
             });
-            return null;
+        }
+    }
+
+    isSkillAlreadyUsed(): any {
+        return (ctl: FormControl) => {
+            if (this.isNew) {
+                const id = this.ctlSkillId.value;
+                let nameAlreadyUsed: boolean = false;
+                this.masterings.forEach(m => {
+                    if (m.skill != null && m.skill.id != null && m.skill.id == id) {
+                        nameAlreadyUsed = true;
+                    }
+                });
+                if (nameAlreadyUsed) {
+                    return { skillAlreadyUsed: true }
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         };
     }
+
 
     // isSkillAlreadyUsed(skillId: number): boolean {
     //     this.masterings.forEach(m => {
