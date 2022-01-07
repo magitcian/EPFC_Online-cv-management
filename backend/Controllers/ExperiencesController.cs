@@ -22,9 +22,16 @@ namespace prid2122_g03.Controllers
     [ApiController]
     public class ExperiencesController : OurController
     {
+        private readonly CvContext _context;
+        private readonly IMapper _mapper;
 
         public ExperiencesController(CvContext context, IMapper mapper) : base(context, mapper) {
+            _context = context;
+            _mapper = mapper;
         }
+
+        // public ExperiencesController(CvContext context, IMapper mapper) : base(context, mapper) {
+        // }
 
         //[Authorized(Role.Admin)]
         [HttpGet]

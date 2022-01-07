@@ -22,8 +22,8 @@ namespace prid2122_g03.Controllers
     [ApiController]
     public class OurController : ControllerBase
     {
-        protected readonly CvContext _context;
-        protected readonly IMapper _mapper;
+        private readonly CvContext _context;
+        private readonly IMapper _mapper;
 
         /*
         Le contrôleur est instancié automatiquement par ASP.NET Core quand une requête HTTP est reçue.
@@ -31,7 +31,7 @@ namespace prid2122_g03.Controllers
         une instance du context EF (CvContext) et une instance de l'auto-mapper (IMapper).
         */
 
-        public OurController(CvContext context, IMapper mapper) {
+        protected OurController(CvContext context, IMapper mapper) {
             _context = context;
             _mapper = mapper;
         }

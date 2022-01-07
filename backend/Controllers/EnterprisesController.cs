@@ -22,8 +22,16 @@ namespace prid2122_g03.Controllers
     [ApiController]
     public class EnterprisesController : OurController
     {
+        private readonly CvContext _context;
+        private readonly IMapper _mapper;
+
         public EnterprisesController(CvContext context, IMapper mapper) : base(context, mapper) {
+            _context = context;
+            _mapper = mapper;
         }
+
+        // public EnterprisesController(CvContext context, IMapper mapper) : base(context, mapper) {
+        // }
 
         // GET /api/enterprises
         [HttpGet]

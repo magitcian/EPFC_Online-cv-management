@@ -20,42 +20,16 @@ namespace prid2122_g03.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class MissionsController : ControllerBase
+    public class MissionsController : OurController
     {
+
         private readonly CvContext _context;
         private readonly IMapper _mapper;
 
-        public MissionsController(CvContext context, IMapper mapper) {
+        public MissionsController(CvContext context, IMapper mapper) : base(context, mapper) {
             _context = context;
             _mapper = mapper;
         }
-
-        private int getConnectedUserId() {
-            int connectedID = 0;
-            if (Int32.TryParse(User.Identity.Name, out int ID)) {
-                connectedID = ID;
-            }
-            return connectedID;
-        }
-
-        private User getConnectedUser() {
-            return _context.Users.FirstOrDefault(u => u.Id == getConnectedUserId());
-        }
-
-        private bool isConnectedUser(int userID) {
-            var connectedUser = getConnectedUser();
-            var user = _context.Users.Find(userID);
-            return user != null && user.Id == connectedUser.Id;
-        }
-
-        private bool isAdmin() {
-            return User.IsInRole(Title.AdminSystem.ToString());
-        }
-
-        private bool isManager() {
-            return User.IsInRole(Title.Manager.ToString());
-        }
-
 
         [HttpDelete("{missionID}")]
         public async Task<IActionResult> DeleteMission(int missionID) {
@@ -81,7 +55,7 @@ namespace prid2122_g03.Controllers
             if (isConnectedUser(mission.UserId)) {
                 dto.UserId = mission.UserId;
                 _mapper.Map<MissionDTO, Mission>(dto, mission);
-                if(mission.ClientId == 0){
+                if (mission.ClientId == 0) {
                     mission.ClientId = null;
                 }
                 var res = await _context.SaveChangesAsyncWithValidation();

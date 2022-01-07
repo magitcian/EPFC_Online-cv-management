@@ -20,8 +20,16 @@ namespace prid2122_g03.Controllers
     public class TrainingsController : OurController
     {
 
+        private readonly CvContext _context;
+        private readonly IMapper _mapper;
+
         public TrainingsController(CvContext context, IMapper mapper) : base(context, mapper) {
-        } 
+            _context = context;
+            _mapper = mapper;
+        }
+
+        // public TrainingsController(CvContext context, IMapper mapper) : base(context, mapper) {
+        // } 
 
         // GET /api/trainings
         [HttpGet]
@@ -42,17 +50,17 @@ namespace prid2122_g03.Controllers
                                     .SingleOrDefaultAsync(t => t.Id == trainingID);
             if (training == null)
                 return NotFound();
-            if (isConnectedUser(training.UserId) || isConsultantsManagerTraining(training) || isAdmin())    
+            if (isConnectedUser(training.UserId) || isConsultantsManagerTraining(training) || isAdmin())
                 return _mapper.Map<TrainingWithEnterprisesAndUsingsDTO>(training);
-            return BadRequest("You are not entitled to get these data");           
+            return BadRequest("You are not entitled to get these data");
         }
 
         // Manager is entitled to get a training of his/her consultants or consultants with no manager
         private bool isConsultantsManagerTraining(Training training) {
             if (isManager()) {
-                var manager = (Manager) getConnectedUser();
+                var manager = (Manager)getConnectedUser();
                 var consultant = _context.Consultants.Find(training.UserId);
-                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));  
+                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));
             }
             return false;
         }
@@ -86,7 +94,7 @@ namespace prid2122_g03.Controllers
                 if (!res.IsEmpty)
                     return BadRequest(res);
                 return NoContent();
-            } 
+            }
             return BadRequest("You are not entitled to adjust these data");
             // TODO check edit a training with usings !
         }
@@ -99,7 +107,7 @@ namespace prid2122_g03.Controllers
             var training = await _context.Trainings.FindAsync(trainingID);
             if (training == null)
                 return NotFound();
-            if (isConnectedUser(training.UserId)) {    
+            if (isConnectedUser(training.UserId)) {
                 _context.Trainings.Remove(training);
                 await _context.SaveChangesAsync();
                 return NoContent();
@@ -108,5 +116,5 @@ namespace prid2122_g03.Controllers
         }
 
     }
-    
+
 }
