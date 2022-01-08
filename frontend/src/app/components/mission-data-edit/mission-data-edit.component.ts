@@ -106,18 +106,10 @@ export class MissionDataEditComponent {
             , usings: this.ctlUsings
 
         });
-        this.mission = this.mission;
-        //this.missionSkills = data.mission.usings!;
-        this.mission.usings?.forEach(u =>
-            this.missionUsings.push(u)
-        );
-        this.isNew = this.isNew;
 
         this.addEnterprises();
         this.refreshSkills();
         this.frm.patchValue(this.mission);
-
-
     }
 
     addEnterprises() {
@@ -199,7 +191,7 @@ export class MissionDataEditComponent {
             const finishDate: Moment = ctl.value;
             const startDate: Moment = this.ctlStart.value;
             if (finishDate < startDate)
-                return { startBiggerThanFinishDate: true }
+                return { finishDateEarlierThanStartDate: true }
             return null;
         };
     }
