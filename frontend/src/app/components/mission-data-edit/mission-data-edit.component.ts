@@ -224,7 +224,7 @@ export class MissionDataEditComponent {
         const index = this.missionUsings.indexOf(using);
         if (index >= 0) {
             let u = this.missionUsings.splice(index, 1);
-            this.otherSkills.splice(index, 0, u[0].skill!);
+            this.otherSkills.splice(0, 0, u[0].skill!);
             this.updateFilter();
             this.frm.markAsDirty();
         }
@@ -238,7 +238,7 @@ export class MissionDataEditComponent {
                 let s = this.otherSkills.splice(index, 1);
                 let u = new Using();
                 u.addSkill(s[0], this.mission);
-                this.missionUsings.splice(index, 0, u);
+                this.missionUsings.splice(0, 0, u);
                 this.frm.markAsDirty();
             }
             this.skillInput.nativeElement.value = '';
