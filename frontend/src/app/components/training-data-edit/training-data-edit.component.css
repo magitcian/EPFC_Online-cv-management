@@ -1,0 +1,29 @@
+.form {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-tab-group {
+    font-size: 14px;
+    width: 50%;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+.footer {
+    display: grid;
+    justify-items: stretch;
+    align-items: center;
+    grid-template-columns: auto auto;
+    margin-top: 30px;
+    width: 50%;
+}
