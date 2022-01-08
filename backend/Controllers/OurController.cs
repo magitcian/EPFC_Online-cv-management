@@ -62,6 +62,14 @@ namespace prid2122_g03.Controllers
             return User.IsInRole(Title.Manager.ToString());
         }
 
+        protected bool isManagerOfConsultant(int consultantID) {
+            if(isManager()){
+                var consultant = _context.Consultants.Find(consultantID);
+                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == getConnectedUserId()));
+            }
+            return false;
+        }
+
     }
 
 }        

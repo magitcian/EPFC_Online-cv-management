@@ -20,7 +20,7 @@ namespace prid2122_g03.Controllers
     [Authorize] // indique qu'il faut être authentifié, mais accepte tous les rôles
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : OurController
     {
         private readonly CvContext _context;
         private readonly IMapper _mapper;
@@ -31,10 +31,11 @@ namespace prid2122_g03.Controllers
         une instance du context EF (MsnContext) et une instance de l'auto-mapper (IMapper).
         */
 
-        public UsersController(CvContext context, IMapper mapper) {
+        public UsersController(CvContext context, IMapper mapper) : base(context, mapper) {
             _context = context;
             _mapper = mapper;
         }
+
 
         // [HttpGet("cv/{userID}")]
         // public async Task<ActionResult<UserWithExperiencesWithMasteringsDTO>> GetCV(int userID) {
@@ -49,35 +50,10 @@ namespace prid2122_g03.Controllers
         //     return _mapper.Map<UserWithExperiencesWithMasteringsDTO>(user);
         // }
 
-        private int getConnectedUserId() {
-            int connectedID = 0;
-            if (Int32.TryParse(User.Identity.Name, out int ID)) {
-                connectedID = ID;
-            }
-            return connectedID;
-        }
-
-        private User getConnectedUser() {
-            return _context.Users.FirstOrDefault(u => u.Id == getConnectedUserId());
-        }
-
-        private bool isConnectedUser(int userID) {
-            var connectedUser = getConnectedUser();
-            var user = _context.Users.Find(userID);
-            return user != null && user.Id == connectedUser.Id;
-        }
-
-        private bool isAdmin() {
-            return User.IsInRole(Title.AdminSystem.ToString());
-        }
-
-        private bool isManager() {
-            return User.IsInRole(Title.Manager.ToString());
-        }
 
         [HttpGet("user_missions/{userID}")]
         public async Task<ActionResult<IEnumerable<MissionWithEnterprisesDTO>>> GetMissions(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
                                     .OrderByDescending(m => m.Start) //inverse : OrderBy
