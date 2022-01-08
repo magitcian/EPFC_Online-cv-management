@@ -40,6 +40,7 @@ namespace prid2122_g03.Controllers
         }
 
         // GET /api/categories/{categoryID}
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet("{categoryID}")]
         public async Task<ActionResult<CategoryDTO>> GetOne(int categoryID) {
             // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
@@ -52,6 +53,7 @@ namespace prid2122_g03.Controllers
         }
 
         // POST /api/categories
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpPost]
         public async Task<ActionResult<CategoryDTO>> PostCategory(CategoryDTO category) {
             // Utilise le mapper pour convertir le DTO qu'on a reçu en une instance de User
@@ -72,6 +74,7 @@ namespace prid2122_g03.Controllers
 
 
         // PUT /api/categories
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpPut]
         public async Task<IActionResult> PutCategory(CategoryDTO dto) {
             var category = await _context.Categories.FindAsync(dto.Id);
@@ -91,6 +94,7 @@ namespace prid2122_g03.Controllers
 
 
         // DELETE /api/categories/{categoryID} 
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpDelete("{categoryID}")]
         public async Task<IActionResult> DeleteUser(int categoryID) {
             // Récupère en BD le membre à supprimer
@@ -104,6 +108,14 @@ namespace prid2122_g03.Controllers
             await _context.SaveChangesAsync();
             // Retourne un statut 204 avec une réponse vide
             return NoContent();
+        }
+        
+        
+        // GET /api/categories/name-available/{name} 
+        [Authorized(Title.AdminSystem, Title.Manager)]
+        [HttpGet("name-available/{name}")]
+        public async Task<ActionResult<bool>> IsNameAvailable(string name) {
+            return await _context.Categories.SingleOrDefaultAsync(c => c.Name == name) == null;
         }
 
     }

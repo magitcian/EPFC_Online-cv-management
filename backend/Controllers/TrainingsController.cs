@@ -32,8 +32,8 @@ namespace prid2122_g03.Controllers
         // } 
 
         // GET /api/trainings
+        [Authorized(Title.AdminSystem)]
         [HttpGet]
-        [Authorized(Title.AdminSystem)] // TODO: check if authorized for managers [Authorized(Title.AdminSystem, Title.Manager)]
         public async Task<ActionResult<IEnumerable<TrainingDTO>>> GetAll() {
             return _mapper.Map<List<TrainingDTO>>(await _context.Trainings.ToListAsync());
         }
@@ -50,19 +50,9 @@ namespace prid2122_g03.Controllers
                                     .SingleOrDefaultAsync(t => t.Id == trainingID);
             if (training == null)
                 return NotFound();
-            if (isConnectedUser(training.UserId) || isConsultantsManagerTraining(training) || isAdmin())
+            if (isConnectedUser(training.UserId) || isAdmin() || isManagerOfConsultant(training.UserId))
                 return _mapper.Map<TrainingWithEnterprisesAndUsingsDTO>(training);
             return BadRequest("You are not entitled to get these data");
-        }
-
-        // Manager is entitled to get a training of his/her consultants or consultants with no manager
-        private bool isConsultantsManagerTraining(Training training) {
-            if (isManager()) {
-                var manager = (Manager)getConnectedUser();
-                var consultant = _context.Consultants.Find(training.UserId);
-                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));
-            }
-            return false;
         }
 
 

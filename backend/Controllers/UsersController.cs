@@ -70,7 +70,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_masterings/{userID}")]
         public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetMasterings(int userID) { // MasteringWithSkillAndUserDTO
-            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
                 var masterings = await _context.Masterings
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Skill)
@@ -83,35 +83,20 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_categoriesWithDetails/{userID}")]
         public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndMasteringsDTO>>> GetCategoriesWithDetails(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
                 var categories = await _context.Categories
                                     .Where(c => c.Skills.Any(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
                                     .Include(c => c.Skills.Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
                                     .ThenInclude(s => s.MasteringSkillsLevels.Where(m => m.UserId == userID))
-                                    // .ThenInclude(m => m.User .Where(u => u.Id == userID))
-                                    // .ThenInclude(m => m.User .Single(u => u.Id == userID)) 
-                                    // .Where(c => c.Skills .Where(s => s.Mastering.UserId == userID))
-                                    //.Where(u => u.Id == userID))
-                                    //.Where(u => u.Id == userID))
-                                    //.ThenInclude(s => s.MasteringSkillsLevels .Where(m => m.UserId == userID))
-                                    //.ThenInclude(m => m.Level)
-                                    // .Include(m => m.Skill)
-                                    // .ThenInclude(s => s.Category)
                                     .ToListAsync();
                 return _mapper.Map<List<CategoryWithSkillsAndMasteringsDTO>>(categories);
-
-                // var skills = await _context.Categories
-                //                     .Include(c => c.Skills)
-                //                     .ThenInclude(s => s.MasteringSkillsLevels .Where(m => m.UserId == userID))
-                //                     .ToListAsync();
-                // return _mapper.Map<List<CategoryWithSkillsAndMasteringsDTO>>(skills);
             }
             return BadRequest("You are not entitled to obtain those data");
         }
 
         [HttpGet("user_trainings/{userID}")]
         public async Task<ActionResult<IEnumerable<TrainingWithEnterprisesAndUsingsDTO>>> GetTrainings(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
                 var trainings = await _context.Trainings
                                     .Where(t => t.UserId == userID)
                                     .OrderByDescending(t => t.Start) //inverse : OrderBy
@@ -126,7 +111,7 @@ namespace prid2122_g03.Controllers
         }
 
         // GET /api/users
-        [Authorized(Title.AdminSystem, Title.Manager)]
+        [Authorized(Title.AdminSystem)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll() {
             /*
@@ -145,7 +130,7 @@ namespace prid2122_g03.Controllers
         // GET /api/users/{userID}
         [HttpGet("{userID}")]
         public async Task<ActionResult<UserDTO>> GetOne(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManager()) {
+            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
                 // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
                 var user = await _context.Users.FindAsync(userID);
                 // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found

@@ -78,9 +78,9 @@ export class TrainingDataEditComponent {
         this.ctlFinish = this.fb.control('', [Validators.required, this.validateFinishDate()]);
         this.ctlTitle = this.fb.control('', [Validators.required]);
         this.ctlDescription = this.fb.control('', []); 
-        this.ctlGrade = this.fb.control('', []);
+        this.ctlGrade = this.fb.control('', [Validators.required]);
         this.ctlEnterprise = this.fb.control('', []);
-        this.ctlEnterpriseId = this.fb.control('', [Validators.required]);
+        this.ctlEnterpriseId = this.fb.control('', []); // [Validators.required] does not work with mat-select with loop in mat-option => TBC
         this.ctlEnterpriseName = this.fb.control('', []);
         this.ctlUsings = this.fb.control('', []);
         // fb.group content needs to respect the JSON we get from backend !
@@ -119,7 +119,7 @@ export class TrainingDataEditComponent {
             );
             for (let s = 0; s < this.otherSkills.length; s++) {
                 for (let u = 0; u < this.trainingUsings.length; u++) {
-                    if (this.otherSkills[s]?.id == this.trainingUsings[u].skill?.id) {
+                    if (this.otherSkills[s].id == this.trainingUsings[u].skill?.id) {
                         this.otherSkills.splice(s, 1) //supprime 1 élément à l'index s
                     }
                 }

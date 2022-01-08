@@ -19,10 +19,10 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>School / Training center</mat-label>
-                    <mat-select [formControl]="ctlEnterpriseId" >
+                    <mat-select [formControl]="ctlEnterpriseId" required>
                         <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
                     </mat-select>
-                    <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error>
+                    <!-- <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error> --> <!-- not working-->
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Title</mat-label>
@@ -40,6 +40,7 @@
                         <mat-option [value]="1">MagnaCumLaude</mat-option>
                         <mat-option [value]="2">CumLaude</mat-option>
                     </mat-select>
+                    <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error> 
                 </mat-form-field>
 
                 <mat-form-field class="example-chip-list" appearance="fill">

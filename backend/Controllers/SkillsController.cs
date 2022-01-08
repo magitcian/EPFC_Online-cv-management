@@ -39,6 +39,7 @@ namespace prid2122_g03.Controllers
 
 
         // GET /api/skills/{skillID}
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet("{skillID}")]
         public async Task<ActionResult<SkillWithCategoryDTO>> GetOne(int skillID) {
             var skill = await _context.Skills
