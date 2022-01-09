@@ -61,7 +61,6 @@ namespace prid2122_g03.Controllers
         public async Task<ActionResult<TrainingWithUsingsDTO>> PostTraining(TrainingWithUsingsDTO training) {
             var newTraining = _mapper.Map<Training>(training);
             newTraining.UserId = getConnectedUserId();
-            // TODO check add a training with usings !
             _context.Trainings.Add(newTraining);
             var res = await _context.SaveChangesAsyncWithValidation();
             if (!res.IsEmpty)
@@ -86,12 +85,10 @@ namespace prid2122_g03.Controllers
                 return NoContent();
             }
             return BadRequest("You are not entitled to adjust these data");
-            // TODO check edit a training with usings !
         }
 
 
         // DELETE /api/trainings/{trainingID} 
-        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpDelete("{trainingID}")]
         public async Task<IActionResult> DeleteTraining(int trainingID) {
             var training = await _context.Trainings.FindAsync(trainingID);

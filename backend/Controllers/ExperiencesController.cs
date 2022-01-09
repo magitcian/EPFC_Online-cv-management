@@ -33,7 +33,7 @@ namespace prid2122_g03.Controllers
         // public ExperiencesController(CvContext context, IMapper mapper) : base(context, mapper) {
         // }
 
-        //[Authorized(Role.Admin)]
+        [Authorized(Title.AdminSystem)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ExperienceDTO>>> GetAll() {
             //return _mapper.Map<List<ExperienceDTO>>(await _context.Experiences.ToListAsync()); 
@@ -46,14 +46,17 @@ namespace prid2122_g03.Controllers
             var experience = await _context.Experiences.FindAsync(experienceID);
             if (experience == null)
                 return NotFound();
-            return _mapper.Map<ExperienceDTO>(experience);
+            if (isConnectedUserExperience(experienceID) || isAdmin()) {
+                return _mapper.Map<ExperienceDTO>(experience);
+            } else {
+                return BadRequest("You are not entitled to obtain those data");
+            }
         }
 
 
         [HttpGet("experience_categoriesWithUsings/{experienceID}")]
         public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndUsingsDTO>>> GetCategoriesWithUsings(int experienceID) {
-            // TODO ask if it should only be manager of the connected user
-            if (isConnectedUserExperience(experienceID) || isAdmin() || isManager()) {
+            if (isConnectedUserExperience(experienceID) || isAdmin()) {
                 var categories = await _context.Categories
                                     .Where(c => c.Skills.Any(s => s.Usings.Any(u => u.ExperienceId == experienceID)))
                                     .Include(c => c.Skills.Where(s => s.Usings.Any(u => u.ExperienceId == experienceID)))
@@ -66,7 +69,7 @@ namespace prid2122_g03.Controllers
 
         private bool isConnectedUserExperience(int experienceID) {
             var experience = _context.Experiences.Find(experienceID);
-            return getConnectedUserId() == experience.UserId;
+            return getConnectedUserId() == experience.UserId || isManagerOfConsultant(experience.UserId);
         }   
 
     }

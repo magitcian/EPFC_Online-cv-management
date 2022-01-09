@@ -40,6 +40,7 @@ namespace prid2122_g03.Controllers
         }
 
         // GET /api/enterprises/{enterpriseID}
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpGet("{enterpriseID}")]
         public async Task<ActionResult<EnterpriseDTO>> GetOne(int enterpriseID) {
             var enterprise = await _context.Enterprises.FindAsync(enterpriseID);
@@ -57,7 +58,6 @@ namespace prid2122_g03.Controllers
             if (!res.IsEmpty)
                 return BadRequest(res);
             // return CreatedAtAction(nameof(GetOne), new { enterpriseID = newEnterprise.Id }, _mapper.Map<EnterpriseDTO>(newEnterprise));
-            // TODO ask confirmation
             return NoContent();
         }
 

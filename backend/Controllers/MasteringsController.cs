@@ -48,20 +48,20 @@ namespace prid2122_g03.Controllers
             var mastering = await _context.Masterings.FindAsync(masteringID);
             if (mastering == null)
                 return NotFound();
-            if (isConnectedUser(mastering.UserId) || isConsultantsManagerMastering(mastering) || isAdmin())
+            if (isConnectedUser(mastering.UserId) || isManagerOfConsultant(mastering.UserId) || isAdmin())
                 return _mapper.Map<MasteringDTO>(mastering);
             return BadRequest("You are not entitled to get these data");
         }
 
-        // Manager is entitled to get a mastering of his/her consultants or consultants with no manager
-        private bool isConsultantsManagerMastering(Mastering mastering) {
-            if (isManager()) {
-                var manager = (Manager)getConnectedUser();
-                var consultant = _context.Consultants.Find(mastering.UserId);
-                return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));
-            }
-            return false;
-        }
+        // // Manager is entitled to get a mastering of his/her consultants or consultants with no manager
+        // private bool isConsultantsManagerMastering(Mastering mastering) {
+        //     if (isManager()) {
+        //         var manager = (Manager)getConnectedUser();
+        //         var consultant = _context.Consultants.Find(mastering.UserId);
+        //         return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == manager.Id));
+        //     }
+        //     return false;
+        // }
 
         // private bool isConsultantsManagerMasteringOld(Mastering mastering) {
         //     if (isManager()) {
@@ -90,7 +90,6 @@ namespace prid2122_g03.Controllers
             if (!res.IsEmpty)
                 return BadRequest(res);
             // return CreatedAtAction(nameof(GetOne), new { masteringID = newMastering.Id }, _mapper.Map<MasteringDTO>(newMastering));
-            // TODO ask confirmation
             return NoContent();
         }
 

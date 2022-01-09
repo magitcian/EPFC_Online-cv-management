@@ -215,7 +215,7 @@ namespace prid2122_g03.Controllers
 
 
         // DELETE /api/users/{userID} 
-        [Authorized(Title.AdminSystem, Title.Manager)]
+        [Authorized(Title.AdminSystem, Title.Manager)] // TODO: ask if a manager can delete a consultant working for another manager
         [HttpDelete("{userID}")]
         public async Task<IActionResult> DeleteUser(int userID) {
             // Récupère en BD le membre à supprimer

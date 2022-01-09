@@ -62,7 +62,6 @@ namespace prid2122_g03.Controllers
             if (!res.IsEmpty)
                 return BadRequest(res);
             // return CreatedAtAction(nameof(GetOne), new { skillID = newSkill.Id }, _mapper.Map<SkillDTO>(newSkill));
-            // TODO ask confirmation
             return NoContent();
         }
 
@@ -73,11 +72,6 @@ namespace prid2122_g03.Controllers
             var skill = await _context.Skills.FindAsync(dto.Id);
             if (skill == null)
                 return NotFound();
-            // TODO issue if no category linked to a skill    
-            // if (dto.CategoryId == 0) {
-            //     dto.CategoryId = skill.CategoryId;
-            // }
-            // skill.CategoryId = dto.CategoryId;
             _mapper.Map<SkillDTO, Skill>(dto, skill);
             if (dto.CategoryId == 0) {
                 skill.CategoryId = null;
