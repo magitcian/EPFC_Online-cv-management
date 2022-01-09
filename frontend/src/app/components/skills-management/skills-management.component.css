@@ -10,3 +10,7 @@ table {
 th.mat-column-actions {
     width: 110px;
 }
+
+.row {
+    width: 65%;
+}
