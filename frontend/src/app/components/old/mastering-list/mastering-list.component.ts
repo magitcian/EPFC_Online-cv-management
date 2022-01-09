@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, OnDestroy, Input, Output, OnChanges } from '@angular/core';
 import * as _ from 'lodash-es';
-import { Skill } from '../../models/skill';
-import { Mastering } from '../../models/mastering';
-import { SkillService } from '../../services/skill.service';
-import { UserService } from '../../services/user.service';
+import { Skill } from '../../../models/skill';
+import { Mastering } from '../../../models/mastering';
+import { SkillService } from '../../../services/skill.service';
+import { UserService } from '../../../services/user.service';
 // import { EditUserComponent } from '../edit-user/edit-user.component';
 import { StateService } from 'src/app/services/state.service';
 import { MatTableState } from 'src/app/helpers/mattable.state';

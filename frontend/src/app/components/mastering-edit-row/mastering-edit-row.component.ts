@@ -27,15 +27,17 @@ export class MasteringEditRowComponent {
         this.mastering = val;
         this.controlInput();
     }
-    mastering!: Mastering;
-
     @Input() set getMasterings(values: Mastering[]) {
         this.masterings = values;
     }
-    masterings!: Mastering[];
-
     @Input() isNew!: boolean;
+
+    mastering!: Mastering;
+    masterings!: Mastering[];
     isEnoughExperience: boolean = false;
+    isVisible: boolean = false;
+    public skills!: Skill[];
+
     @Output() deleteMasteringInDaddy: EventEmitter<void> = new EventEmitter<void>(); // () car daddy connait déjà le mastering
     @Output() updateMasteringInDaddy: EventEmitter<Mastering> = new EventEmitter<Mastering>();
     @Output() refreshInDaddy: EventEmitter<void> = new EventEmitter<void>();
@@ -47,11 +49,7 @@ export class MasteringEditRowComponent {
     public ctlSkillName!: FormControl;
     public ctlCategoryId!: FormControl;
     public ctlCategoryName!: FormControl;
-    public ctlLevel!: FormControl;
-
-    isVisible: boolean = false;
-
-    public skills!: Skill[];
+    public ctlLevel!: FormControl;   
 
     constructor( // nthg in constructor bc input content overrides so content in controlInput() in @Input getMastering
         private fb: FormBuilder,
@@ -66,7 +64,6 @@ export class MasteringEditRowComponent {
         this.ctlCategoryName = this.fb.control('', []);
         this.ctlCategoryId = this.fb.control('', []);
         this.ctlLevel = this.fb.control('', [Validators.required]);
-        // this.ctlLevel = this.fb.control('', [Validators.required]);
         // fb.group content needs to respect the JSON we get from backend !
         this.frm = this.fb.group({ // building the form using FormBuilder
             id: this.ctlId,
@@ -84,9 +81,6 @@ export class MasteringEditRowComponent {
         })
         this.addSkillsInDropDown();
         this.frm.patchValue(this.mastering);
-        // this.ctlSkillId.setValidators([this.isSkillAlreadyUsed()]);
-        // console.log(this.mastering);
-        // console.log(this.masteringId);
         this.checkEnoughExperience();
     }
 
@@ -121,7 +115,6 @@ export class MasteringEditRowComponent {
         _.assign(this.mastering, res);    // dit que le res est formaté comme un mastering (il faut le repréciser)
         res = plainToClass(Mastering, res);
         this.addMasteringInDaddy.emit(res);
-
         //Pour remettre les control à blanc
         this.mastering = new Mastering();
         this.controlInput();
@@ -144,20 +137,6 @@ export class MasteringEditRowComponent {
         this.ctlLevel.patchValue(this.mastering.level);
         this.isVisible = false;
     }
-
-    // checkSkillAlreadyUSed() {
-    //     return (ctl: FormControl) => {
-    //         const skillId: number = ctl.value;
-    //         // if (isSkillAlreadyUsed)
-    //         //     return { skillAlreadyUsed: true }
-    //         this.masterings.forEach(m => {
-    //             if (m.skillId == skillId)
-    //                 return { skillAlreadyUsed: true }
-    //             return null;
-    //         });
-    //         return null;
-    //     };
-    // }
 
     checkEnoughExperience() {
         if (this.mastering.id != null) {
@@ -192,14 +171,5 @@ export class MasteringEditRowComponent {
             }
         };
     }
-
-
-    // isSkillAlreadyUsed(skillId: number): boolean {
-    //     this.masterings.forEach(m => {
-    //         if (m.skillId == skillId) 
-    //             return true;
-    //         return false; 
-    //     });
-    // }
 
 }

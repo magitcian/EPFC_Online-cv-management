@@ -1,17 +1,8 @@
 <div class="cv-edit" *ngFor="let mastering of masterings">
-    <!-- <div class="cv-edit" *ngIf="isEditMode" *ngFor="let mastering of masterings"></div> -->
-    <!-- <app-mastering-edit-row 
-        [getMasterings]="masterings"
-        [getMastering]="mastering"  [isNew]="false" (deleteMasteringInDaddy)="delete(mastering)" 
-        (updateMasteringInDaddy)="update($event)" >
-    </app-mastering-edit-row>   -->
-
     <app-mastering-edit-row [getMastering]="mastering" [isNew]="false" (deleteMasteringInDaddy)="delete(mastering)" (updateMasteringInDaddy)="update($event)">
         <!-- (refreshInDaddy)="refresh()" -->
     </app-mastering-edit-row>
 
 </div>
 
-<!-- <app-mastering-edit-row [getMastering]="masteringToAdd" [isNew]="true" (addMasteringInDaddy)="add($event)" > </app-mastering-edit-row>  -->
 <app-mastering-edit-row [getMastering]="masteringToAdd" [getMasterings]="masterings" [isNew]="true" (addMasteringInDaddy)="add($event)"> </app-mastering-edit-row>
-<!-- [getMasterings]="masterings" -->
