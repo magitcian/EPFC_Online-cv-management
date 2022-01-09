@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
          * qui identifie une valeur non valide va enregistrer une erreur dans la propriété
          * 'errors' du FormControl. Ces erreurs sont accessibles par le template grâce au binding.
          */
-        this.ctlEmail = this.formBuilder.control('', Validators.required);
+        this.ctlEmail = this.formBuilder.control('', [Validators.required, this.validateEmail()]);
         this.ctlPassword = this.formBuilder.control('', Validators.required);
         this.loginForm = this.formBuilder.group({
             email: this.ctlEmail,
@@ -78,4 +78,16 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 });
     }
+
+    validateEmail(): any {
+        return (ctl: FormControl) => {
+            const email = ctl.value;
+            const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email
+            if(email != "" && !regex.test(email)){
+                return { badEmailFormat: true };
+            }
+            return null;
+        };
+    }
+
 }

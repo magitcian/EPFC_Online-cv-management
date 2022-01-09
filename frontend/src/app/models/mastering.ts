@@ -2,7 +2,7 @@ import { User } from "./user";
 import { Skill } from "./skill";
 
 export class Mastering {
-    id?: number; // TODO: maybe "BigInteger" is more appropriate
+    id?: number; 
     level?: Level; // = Level.Starter;
     user?: User;
     skill?: Skill;
@@ -11,8 +11,6 @@ export class Mastering {
 
     get display(): string {
         return "";
-        // TODO return `${this.name} - ${this.mastering?.level}`;
-        // return `${this.category?.name}: ${this.name} - ${this.mastering?.level}`;
     } 
 
 }

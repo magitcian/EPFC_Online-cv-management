@@ -3,7 +3,7 @@ import { Mastering } from './mastering';
 import { Using } from './using';
 
 export class Skill {
-    id : number = 0; // TODO: maybe "BigInteger" is more appropriate
+    id : number = 0;
     name?: string;
     categoryId?: number;
     category?: Category;

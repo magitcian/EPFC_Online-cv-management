@@ -2,7 +2,7 @@ import { forEach } from "lodash";
 import { Skill } from "./skill";
 
 export class Category {
-    id : number = 0; // TODO: maybe "BigInteger" is more appropriate
+    id : number = 0;
     name?: string;
     skills?: Skill[] = [];
 

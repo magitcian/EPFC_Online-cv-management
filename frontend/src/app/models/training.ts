@@ -16,7 +16,7 @@ export enum Grade {
 
 export class Training extends Experience {
    
-    grade!: Grade; // TODO fix issue (not working)
+    grade!: Grade; 
     // grade: Grade = Grade.CumLaude;
 
     public get gradeAsString(): string {

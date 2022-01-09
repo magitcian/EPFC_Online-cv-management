@@ -3,7 +3,7 @@
     <mat-form-field>
         <input #pseudo matInput placeholder="Email" [formControl]="ctlEmail" required appSetFocus>
         <mat-error class="field-error" *ngIf="ctlEmail.hasError('required')">Required</mat-error>
-        <!-- TODO: add validation for email address format if we have time at the end -->
+        <mat-error class="float-right" *ngIf="ctlEmail.hasError('badEmailFormat')">Bad email format </mat-error>
         <mat-error class="field-error" *ngIf="ctlEmail.hasError('custom')">{{ctlEmail.errors?.custom}}</mat-error>
     </mat-form-field>
     <mat-form-field>

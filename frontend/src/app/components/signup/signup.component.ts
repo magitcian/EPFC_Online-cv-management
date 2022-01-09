@@ -101,7 +101,7 @@ export class SignUpComponent {
         return (ctl: FormControl) => {
             const email = ctl.value;
             const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email
-            if(!regex.test(email)){
+            if(email != "" && !regex.test(email)){
                 return { badEmailFormat: true };
             }
             return null;

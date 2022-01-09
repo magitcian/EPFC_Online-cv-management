@@ -35,7 +35,7 @@ namespace prid2122_g03.Controllers
         // }
 
         // GET /api/masterings  
-        [Authorized(Title.AdminSystem)] // TODO: check if authorized for managers [Authorized(Title.AdminSystem, Title.Manager)]
+        [Authorized(Title.AdminSystem)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MasteringDTO>>> GetAll() {
             return _mapper.Map<List<MasteringDTO>>(await _context.Masterings.ToListAsync());

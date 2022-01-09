@@ -1,7 +1,7 @@
 <form [formGroup]="frm" novalidate>
     <h1>Sign Up</h1>
     <mat-form-field>
-        <input matInput placeholder="Last name" [formControl]="ctlLastName">
+        <input matInput placeholder="Last name" [formControl]="ctlLastName" appSetFocus>
         <!-- <mat-error class="float-right" *ngIf="ctlLastName.hasError('required')">Required</mat-error> -->
         <mat-error class="float-right" *ngIf="ctlLastName.hasError('minlength')">Minimum length is {{ctlLastName.errors?.minlength?.requiredLength}}
         </mat-error>
@@ -20,7 +20,7 @@
     </mat-form-field> 
     <mat-form-field appearance="fill">
         <mat-label>Birth Date</mat-label>
-        <input matInput [matDatepicker]="picker" [formControl]="ctlBirthDate" [max]="maxDate">
+        <input matInput [matDatepicker]="picker" [formControl]="ctlBirthDate" [max]="maxDate" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error class="float-right" *ngIf="ctlBirthDate.hasError('required')">Required</mat-error>
@@ -28,8 +28,8 @@
         <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('futureBorn')">Can't be born in the future</mat-error>
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Email" [formControl]="ctlEmail" required appSetFocus>
-        <!-- <mat-error class="float-right" *ngIf="ctlEmail.hasError('required')">Required</mat-error> -->
+        <input matInput placeholder="Email" [formControl]="ctlEmail" required>
+        <mat-error class="float-right" *ngIf="ctlEmail.hasError('required')">Required</mat-error>
         <mat-error class="float-right" *ngIf="ctlEmail.hasError('emailUsed')">This email address is not available </mat-error>
         <mat-error class="float-right" *ngIf="ctlEmail.hasError('badEmailFormat')">Bad email format </mat-error>
     </mat-form-field>

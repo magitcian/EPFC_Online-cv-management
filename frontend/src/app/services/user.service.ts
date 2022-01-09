@@ -27,7 +27,6 @@ export class UserService {
     }
 
     // Attention: keep "userID" as it is the same param than in User class in backend
-    // TODO: maybe "BigInteger" is more appropriate
     getById(userID: number) { //: Observable<Member> or undefined
         // ça renvoie un observable quand on subscribe à "getById" / renvoie une promesse qu'il exécutera ça
         return this.http.get<User>(`${this.baseUrl}api/users/${userID}`).pipe(

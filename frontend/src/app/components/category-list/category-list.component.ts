@@ -81,9 +81,7 @@ export class CategoryListComponent { // implements AfterViewInit, OnDestroy {
                 
             //     this.dataSource.data = backup;
         });
-        // if (isUndo)
-        //     this.categories.splice(index, 0, category); //ne refresh pas automatiquement (faut cliquer sur edit)
-        // this.refresh(); // TODO: ça ne fonctionne pas !
+        
     }
 
     // // appelée quand on clique sur le bouton "new user"

@@ -14,7 +14,7 @@ namespace prid2122_g03.Models
         [Key]
         public int Id { get; set; }
 
-        // [Required(ErrorMessage = "Required"), MinLength(2, ErrorMessage = "Minimum 2 characters")] // TODO ask if needed be
+        [Required(ErrorMessage = "Required")] 
         public string Name { get; set; }
         public ICollection<Experience> Experiences { get; set; } = new HashSet<Experience>();
         public ICollection<Mission> Missions { get; set; } = new HashSet<Mission>();

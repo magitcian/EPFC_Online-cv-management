@@ -94,7 +94,7 @@ export class EditUserComponent {
                     if (ctl.pristine) {
                         resolve(null);
                     } else {
-                        this.userService.getById(email).subscribe(user => { // TODO: change email by userID but how ?
+                        this.userService.getById(email).subscribe(user => { 
                             resolve(user ? { emailUsed: true } : null);
                         });
                     }

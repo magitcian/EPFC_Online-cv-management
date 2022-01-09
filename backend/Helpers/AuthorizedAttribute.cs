@@ -22,7 +22,7 @@ namespace prid2122_g03.Helpers
             foreach (var title in titles) {
                 titlesNames.Add(names[(int)title]);
             }
-            Roles = String.Join(",", titlesNames); // TODO ask where Roles comes from ?
+            Roles = String.Join(",", titlesNames); 
         }
     }
 }
