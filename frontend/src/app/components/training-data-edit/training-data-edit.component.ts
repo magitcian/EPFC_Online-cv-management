@@ -11,15 +11,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as _ from 'lodash-es';
 import { plainToClass } from 'class-transformer';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Moment } from 'moment';
 
 @Component({
-    selector: 'app-training-data-edit', 
+    selector: 'app-training-data-edit',
     templateUrl: './training-data-edit.component.html',
     styleUrls: ['./training-data-edit.component.css']
 })
@@ -45,11 +45,11 @@ export class TrainingDataEditComponent {
 
     @ViewChild('skillInput', { static: false }) skillInput: ElementRef<HTMLInputElement> = {} as ElementRef;
 
-    @Output() updateTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>(); 
-    @Output() addTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>(); 
-    @Output() changeAddModeInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
-    @Output() changeUpdateModeInDaddy: EventEmitter<void> = new EventEmitter<void>(); 
-    
+    @Output() updateTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>();
+    @Output() addTrainingInDaddy: EventEmitter<Training> = new EventEmitter<Training>();
+    @Output() changeAddModeInDaddy: EventEmitter<void> = new EventEmitter<void>();
+    @Output() changeUpdateModeInDaddy: EventEmitter<void> = new EventEmitter<void>();
+
     public frm!: FormGroup;
     private ctlId!: FormControl;
     public ctlStart!: FormControl;
@@ -68,16 +68,16 @@ export class TrainingDataEditComponent {
         private trainingService: TrainingService,
         private enterpriseService: EnterpriseService,
         private skillService: SkillService,
-        public dialog: MatDialog, 
+        public dialog: MatDialog,
         public snackBar: MatSnackBar) {
-       
+
     }
 
     controlInput() {
         this.ctlStart = this.fb.control('', [Validators.required]);
         this.ctlFinish = this.fb.control('', [Validators.required, this.validateFinishDate()]);
         this.ctlTitle = this.fb.control('', [Validators.required]);
-        this.ctlDescription = this.fb.control('', []); 
+        this.ctlDescription = this.fb.control('', []);
         this.ctlGrade = this.fb.control('', [Validators.required]);
         this.ctlEnterprise = this.fb.control('', []);
         this.ctlEnterpriseId = this.fb.control('', []); // [Validators.required] does not work with mat-select with loop in mat-option => TBC
@@ -96,14 +96,14 @@ export class TrainingDataEditComponent {
                 id: this.ctlEnterpriseId,
                 name: this.ctlEnterpriseName
             })
-            ,usings: this.ctlUsings
+            , usings: this.ctlUsings
         })
         this.addEnterprisesInDropDown();
         this.refreshSkills();
         this.frm.patchValue(this.training);
     }
 
-    addEnterprisesInDropDown() { 
+    addEnterprisesInDropDown() {
         this.enterpriseService.getAll().subscribe(enterprises => {
             this.enterprises = enterprises;
             // console.log(this.enterprises);
@@ -117,8 +117,8 @@ export class TrainingDataEditComponent {
             this.training.usings?.forEach(u =>
                 this.trainingUsings.push(u)
             );
-            for (let s = 0; s < this.otherSkills.length; s++) {
-                for (let u = 0; u < this.trainingUsings.length; u++) {
+            for (let u = 0; u < this.trainingUsings.length; u++) {
+                for (let s = this.otherSkills.length-1; s >= 0 ; s--) {
                     if (this.otherSkills[s].id == this.trainingUsings[u].skill?.id) {
                         this.otherSkills.splice(s, 1) //supprime 1 élément à l'index s
                     }
