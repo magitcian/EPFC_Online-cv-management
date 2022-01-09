@@ -126,8 +126,8 @@ export class MissionDataEditComponent {
             this.mission.usings?.forEach(u =>
                 this.missionUsings.push(u)
             );
-            for (let s = 0; s < this.otherSkills.length; s++) {
-                for (let u = 0; u < this.missionUsings.length; u++) {
+            for (let u = 0; u < this.missionUsings.length; u++) {
+                for (let s = this.otherSkills.length-1; s >= 0 ; s--) {
                     if (this.otherSkills[s].id == this.missionUsings[u].skill?.id) {
                         this.otherSkills.splice(s, 1) //supprime 1 élément à l'index s
                     }
