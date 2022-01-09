@@ -22,8 +22,6 @@ export class TrainingsViewComponent {
 
     isAddMode: boolean = false;
 
-    // isAddMode: boolean = false;
-
     trainings!: Training[]; 
     
     public trainingToAdd : Training = new Training();
@@ -43,16 +41,6 @@ export class TrainingsViewComponent {
             console.log(this.trainings);
         });
     }
-
-    // refresh() {
-    //     console.log("test2");
-    //     this.userService.getMasterings(this.userCvId).subscribe(masterings => {
-    //         this.masterings = masterings;
-    //         this.masteringToAdd = new Mastering();
-    //         console.log(this.masterings);
-    //         // console.log("testDaddy2");
-    //     });
-    // }
 
     delete(training: Training) {
         var index = this.trainings.indexOf(training);
