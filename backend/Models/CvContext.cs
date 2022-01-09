@@ -56,19 +56,19 @@ namespace prid2122_g03.Models
             modelBuilder.Entity<Manager>().HasIndex(m => m.Email).IsUnique();
 
             modelBuilder.Entity<Manager>().HasData(
-                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno", Title = Title.Manager },
-                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben", Title = Title.Manager },
-                new Manager { Id = 5, LastName = "Sytem", FirstName = "Admin", Email = "as@epfc.eu", Password = "admin", Title = Title.AdminSystem },
-                new Manager { Id = 6, LastName = "Manager6", FirstName = "M6", Email = "m6@epfc.eu", Password = "manager", Title = Title.Manager }
+                new Manager { Id = 1, LastName = "Lacroix", FirstName = "Bruno", Email = "bl@epfc.eu", Password = "bruno", Title = Title.Manager, BirthDate = new DateTime(1980, 01, 16) },
+                new Manager { Id = 2, LastName = "Penelle", FirstName = "Benoît", Email = "bp@epfc.eu", Password = "ben", Title = Title.Manager, BirthDate = new DateTime(1981, 01, 16) },
+                new Manager { Id = 5, LastName = "Sytem", FirstName = "Admin", Email = "as@epfc.eu", Password = "admin", Title = Title.AdminSystem, BirthDate = new DateTime(1982, 01, 16) },
+                new Manager { Id = 6, LastName = "Manager6", FirstName = "M6", Email = "m6@epfc.eu", Password = "manager", Title = Title.Manager, BirthDate = new DateTime(1983, 01, 16) }
             );
 
             modelBuilder.Entity<Consultant>().HasIndex(c => c.Email).IsUnique();
 
             modelBuilder.Entity<Consultant>().HasData(
                 new Consultant { Id = 3, LastName = "Schiltz", FirstName = "Séverine", Email = "ss@epfc.eu", Password = "sev", ManagerId = 1, BirthDate = new DateTime(1990, 01, 16) },
-                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines", ManagerId = 1 },
-                new Consultant { Id = 7, LastName = "Consultant7", FirstName = "Consul7", Email = "c7@epfc.eu", Password = "consul" },
-                new Consultant { Id = 8, LastName = "Consultant8", FirstName = "Consul8", Email = "c8@epfc.eu", Password = "consul2", ManagerId = 2 }
+                new Consultant { Id = 4, LastName = "Boudghene", FirstName = "Ines", Email = "ib@epfc.eu", Password = "ines", ManagerId = 1, BirthDate = new DateTime(1984, 01, 16) },
+                new Consultant { Id = 7, LastName = "Consultant7", FirstName = "Consul7", Email = "c7@epfc.eu", Password = "consul", BirthDate = new DateTime(1985, 01, 16) },
+                new Consultant { Id = 8, LastName = "Consultant8", FirstName = "Consul8", Email = "c8@epfc.eu", Password = "consul2", ManagerId = 2, BirthDate = new DateTime(1986, 01, 16) }
 
             );
 
@@ -133,9 +133,6 @@ namespace prid2122_g03.Models
                 new Skill { Id = 9, Name = "Angular", CategoryId = 3 }
                 // ,new Skill { Id = 10, Name = "SkillWithNoCategory" } // not working now 
             );
-
-
-            // TODO ask Sev & Bruno to improve
 
             // foreign key constraint 1 for Mastering
             modelBuilder.Entity<Mastering>()

@@ -4,6 +4,8 @@ import { map, mergeMap } from 'rxjs/operators';
 import { User } from '../models/user';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -44,8 +46,8 @@ export class AuthenticationService {
         return this.http.get<boolean>(`${this.baseUrl}api/users/available/${email}`);
     }
 
-    public signup(email: string, password: string, firstName: string, lastName: string): Observable<User> {
-        return this.http.post<User>(`${this.baseUrl}api/users/signup`, { email: email, password: password, firstName: firstName, lastName: lastName }).pipe(
+    public signup(email: string, password: string, firstName: string, lastName: string, birthDate: Moment): Observable<User> {
+        return this.http.post<User>(`${this.baseUrl}api/users/signup`, { email: email, password: password, firstName: firstName, lastName: lastName, birthDate: birthDate }).pipe(
             mergeMap(res => this.login(email, password)),
         );
     }

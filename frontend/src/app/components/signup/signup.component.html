@@ -2,19 +2,34 @@
     <h1>Sign Up</h1>
     <mat-form-field>
         <input matInput placeholder="Last name" [formControl]="ctlLastName">
+        <!-- <mat-error class="float-right" *ngIf="ctlLastName.hasError('required')">Required</mat-error> -->
         <mat-error class="float-right" *ngIf="ctlLastName.hasError('minlength')">Minimum length is {{ctlLastName.errors?.minlength?.requiredLength}}
+        </mat-error>
+        <mat-error class="float-right" *ngIf="ctlLastName.hasError('maxlength')">Maximum length is {{ctlLastName.errors?.maxlength?.requiredLength}}
         </mat-error>
     </mat-form-field>
     <mat-form-field>
         <input matInput placeholder="First name" [formControl]="ctlFirstName">
+        <!-- <mat-error class="float-right" *ngIf="ctlFirstName.hasError('required')">Required</mat-error> -->
         <mat-error class="float-right" *ngIf="ctlFirstName.hasError('minlength')">Minimum length is {{ctlFirstName.errors?.minlength?.requiredLength}}
         </mat-error>
+        <mat-error class="float-right" *ngIf="ctlFirstName.hasError('maxlength')">Maximum length is {{ctlFirstName.errors?.maxlength?.requiredLength}}
+        </mat-error> 
+        <!-- <mat-error class="float-right" *ngIf="ctlFirstName.hasError('firstNameToComplete')">First name is required as last name is completed.
+        </mat-error>  -->
+    </mat-form-field> 
+    <mat-form-field appearance="fill">
+        <mat-label>Birth Date</mat-label>
+        <input matInput [matDatepicker]="picker" [formControl]="ctlBirthDate" [max]="maxDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error class="float-right" *ngIf="ctlBirthDate.hasError('required')">Required</mat-error>
+        <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('tooYoung')">Must be at least 18 years old</mat-error>
+        <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('futureBorn')">Can't be born in the future</mat-error>
     </mat-form-field>
     <mat-form-field>
         <input matInput placeholder="Email" [formControl]="ctlEmail" required appSetFocus>
         <!-- <mat-error class="float-right" *ngIf="ctlEmail.hasError('required')">Required</mat-error> -->
-        <mat-error class="float-right" *ngIf="ctlEmail.hasError('minlength')">Minimum length is {{ctlEmail.errors?.minlength?.requiredLength}}
-        </mat-error>
         <mat-error class="float-right" *ngIf="ctlEmail.hasError('emailUsed')">This email address is not available </mat-error>
         <mat-error class="float-right" *ngIf="ctlEmail.hasError('badEmailFormat')">Bad email format </mat-error>
     </mat-form-field>
@@ -23,11 +38,15 @@
         <mat-error class="float-right" *ngIf="ctlPassword.hasError('required')">Required</mat-error>
         <mat-error class="float-right" *ngIf="ctlPassword.hasError('minlength')">Minimum length is {{ctlPassword.errors?.minlength?.requiredLength}}
         </mat-error>
+        <mat-error class="float-right" *ngIf="ctlPassword.hasError('maxlength')">Maximum length is {{ctlPassword.errors?.maxlength?.requiredLength}}
+        </mat-error>
     </mat-form-field>
     <mat-form-field>
         <input type="password" matInput placeholder="Confirm Password" [formControl]="ctlPasswordConfirm" required>
         <mat-error class="float-right" *ngIf="ctlPasswordConfirm.hasError('required')">Required</mat-error>
         <mat-error class="float-right" *ngIf="ctlPasswordConfirm.hasError('minlength')">Minimum length is {{ctlPasswordConfirm.errors?.minlength?.requiredLength}}
+        </mat-error>
+        <mat-error class="float-right" *ngIf="ctlPasswordConfirm.hasError('maxlength')">Maximum length is {{ctlPasswordConfirm.errors?.maxlength?.requiredLength}}
         </mat-error>
     </mat-form-field>
     <div *ngIf="frm.errors && ctlPasswordConfirm.dirty && ctlPasswordConfirm.valid">

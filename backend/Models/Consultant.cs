@@ -17,7 +17,7 @@ namespace prid2122_g03.Models
         public Consultant() { 
         } 
 
-        public Consultant(string lastName, string firstName, string email, string password, Manager manager) : base(lastName, firstName, email, password) {
+        public Consultant(string lastName, string firstName, string email, string password, Manager manager, DateTime birthdate) : base(lastName, firstName, email, password, birthdate) {
             Manager = manager;
         } 
 

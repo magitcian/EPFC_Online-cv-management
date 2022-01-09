@@ -35,6 +35,7 @@ namespace prid2122_g03.Models
         [Required(ErrorMessage = "Required"), StringLength(10, MinimumLength = 3, ErrorMessage = "Password has to be between 3 and 10 characters")] 
         public string Password { get; set; }
         
+        [Required(ErrorMessage = "Required")]
         public DateTime? BirthDate { get; set; }
 
         public Title Title { get; set; } = Title.Consultant;
@@ -49,22 +50,19 @@ namespace prid2122_g03.Models
         public User() {
         } 
  
-        public User(string email, string password) { //, int id = 0) { => vérifier que ça fonctionne
+        public User(string email, string password, DateTime birthdate) { //, int id = 0) { => vérifier que ça fonctionne
             Email = email;
             Password = password;
+            BirthDate = birthdate;
         } 
-        public User(string lastName, string firstName, string email, string password) : this(email, password) {
+        
+        public User(string lastName, string firstName, string email, string password, DateTime birthdate) : this(email, password, birthdate) {
             LastName = lastName;
             FirstName = firstName;
         } 
 
-        // Constructors: not yet used
-        // public User(string lastName, string firstName, string email, string password, DateTime birthDate) : this(lastName, firstName, email, password) {
-        //     BirthDate = birthDate;
-        // } 
-
-        public User(string lastName, string firstName, string email, string password, Title title) 
-                    : this(lastName, firstName, email, password) {
+        public User(string lastName, string firstName, string email, string password, DateTime birthdate, Title title) 
+                    : this(lastName, firstName, email, password, birthdate) {
             title = Title;
         } 
 
@@ -86,7 +84,6 @@ namespace prid2122_g03.Models
             */
             return context.Entry(this).State == EntityState.Modified || 
                     context.Users.AsNoTracking().Count(u => u.Id != Id && u.Email == Email) == 0;
-            // TODO ask Séverine
             // return context.Users.Count(u => u.Id != Id && u.Email == Email) == 0;    // not sure which one is the best
         }
 
