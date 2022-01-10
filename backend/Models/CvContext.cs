@@ -98,7 +98,7 @@ namespace prid2122_g03.Models
 
             modelBuilder.Entity<Mission>().HasData(
                 new Mission { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission1", Description = "M1", EnterpriseId = 2, UserId = 4, ClientId = 2 },
-                new Mission { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission2", Description = "M2", EnterpriseId = 1, UserId = 4, ClientId = 3 },
+                new Mission { Id = 2, Start = new DateTime(2016, 1, 2), Finish = null, Title = "Mission2", Description = "M2", EnterpriseId = 1, UserId = 4, ClientId = 3 },
                 new Mission { Id = 3, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission3", Description = "M3", EnterpriseId = 1, UserId = 1, ClientId = 3 },
                 new Mission { Id = 4, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission4", Description = "M4", EnterpriseId = 1, UserId = 4, ClientId = 2 },
                 new Mission { Id = 5, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Mission5", Description = "M5", EnterpriseId = 1, UserId = 4, ClientId = 3 },

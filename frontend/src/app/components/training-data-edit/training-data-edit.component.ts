@@ -75,7 +75,7 @@ export class TrainingDataEditComponent {
 
     controlInput() {
         this.ctlStart = this.fb.control('', [Validators.required]);
-        this.ctlFinish = this.fb.control('', [Validators.required, this.validateFinishDate()]);
+        this.ctlFinish = this.fb.control('', [this.validateFinishDate()]);
         this.ctlTitle = this.fb.control('', [Validators.required]);
         this.ctlDescription = this.fb.control('', []);
         this.ctlGrade = this.fb.control('', [Validators.required]);
@@ -176,7 +176,7 @@ export class TrainingDataEditComponent {
         _.assign(this.training, res);
         res = plainToClass(Training, res);
         res.usings = this.trainingUsings;
-        //console.log(res);
+        // console.log(res);
         if (this.isNew) {
             res.id = 0;
             this.addTrainingInDaddy.emit(res);
@@ -197,7 +197,7 @@ export class TrainingDataEditComponent {
         return (ctl: FormControl) => {
             const finishDate: Moment = ctl.value;
             const startDate: Moment = this.ctlStart.value;
-            if (finishDate < startDate)
+            if (finishDate!= null && finishDate < startDate)
                 return { finishDateEarlierThanStartDate: true }
             return null;
         };

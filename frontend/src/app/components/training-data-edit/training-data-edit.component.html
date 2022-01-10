@@ -14,7 +14,7 @@
                     <input matInput [matDatepicker]="picker2" [formControl]="ctlFinish">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
-                    <mat-error class="field-error" *ngIf="ctlFinish.hasError('required')">Required</mat-error>
+                    <!-- <mat-error class="field-error" *ngIf="ctlFinish.hasError('required')">Required</mat-error> -->
                     <mat-error class="field-error" *ngIf="ctlFinish.hasError('finishDateEarlierThanStartDate')">Must be a later date than start date</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="fill">
@@ -22,7 +22,8 @@
                     <mat-select [formControl]="ctlEnterpriseId" required>
                         <mat-option *ngFor="let enterprise of enterprises" [value]="enterprise.id">{{ enterprise.name }}</mat-option>
                     </mat-select>
-                    <!-- <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error> --> <!-- not working-->
+                    <!-- <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error> -->
+                    <!-- not working-->
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Title</mat-label>
@@ -40,7 +41,7 @@
                         <mat-option [value]="1">MagnaCumLaude</mat-option>
                         <mat-option [value]="2">CumLaude</mat-option>
                     </mat-select>
-                    <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error> 
+                    <mat-error class="field-error" *ngIf="ctlEnterpriseId.hasError('required')">Required</mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="example-chip-list" appearance="fill">
