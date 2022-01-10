@@ -59,11 +59,13 @@ export class MasteringEditRowComponent {
 
     controlInput() {
         this.ctlId = this.fb.control('', []);
-        this.ctlSkillId = this.fb.control('', [Validators.required, this.isSkillAlreadyUsed()]);
+        this.ctlSkillId = this.fb.control('', [this.isSkillAlreadyUsed()]);
+        // this.ctlSkillId = this.fb.control('', [Validators.required, this.isSkillAlreadyUsed()]);
         this.ctlSkillName = this.fb.control('', []);     // this.fb.control('', []); // form element potentially "controlled"
         this.ctlCategoryName = this.fb.control('', []);
         this.ctlCategoryId = this.fb.control('', []);
-        this.ctlLevel = this.fb.control('', [Validators.required]);
+        this.ctlLevel = this.fb.control('', []);
+        // this.ctlLevel = this.fb.control('', [Validators.required]);
         // fb.group content needs to respect the JSON we get from backend !
         this.frm = this.fb.group({ // building the form using FormBuilder
             id: this.ctlId,

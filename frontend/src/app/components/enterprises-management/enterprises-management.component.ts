@@ -95,8 +95,9 @@ export class EnterprisesManagementComponent { // implements AfterViewInit, OnDes
     
     delete(enterprise: Enterprise) {
         const backup = this.dataSource.data;
-        this.dataSource.data = _.filter(this.dataSource.data, e => e.name !== enterprise.name); // don't understand this line
-        const snackBarRef = this.snackBar.open(`Enterprise '${enterprise.name}' will be deleted`, 'Undo', { duration: 3000 });
+        this.dataSource.data = _.filter(this.dataSource.data, e => e.name !== enterprise.name); 
+        const snackBarRef = this.snackBar.open(`Enterprise '${enterprise.name}' will be deleted. Trainings and work at this company will be removed from all users' CV.`, 
+                                                'Undo', { duration: 6000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction)
                 this.enterpriseService.delete(enterprise).subscribe();

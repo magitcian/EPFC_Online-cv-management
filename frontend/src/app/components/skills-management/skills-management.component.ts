@@ -100,8 +100,9 @@ export class SkillsManagementComponent { // implements AfterViewInit, OnDestroy 
     // appelée quand on clique sur le bouton "delete" d'une skill
     delete(skill: Skill) {
         const backup = this.dataSource.data;
-        this.dataSource.data = _.filter(this.dataSource.data, s => s.name !== skill.name); // don't understand this line
-        const snackBarRef = this.snackBar.open(`Skill '${skill.name}' will be deleted`, 'Undo', { duration: 3000 });
+        this.dataSource.data = _.filter(this.dataSource.data, s => s.name !== skill.name); 
+        const snackBarRef = this.snackBar.open(`Skill '${skill.name}' will be deleted. This skill will be removed from all users' CV.`, 
+                                                'Undo', { duration: 6000 });
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction)
                 this.skillService.delete(skill).subscribe();
