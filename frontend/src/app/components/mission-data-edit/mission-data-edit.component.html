@@ -19,7 +19,7 @@
                     <input matInput [matDatepicker]="picker2" [formControl]="ctlFinish">
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
-                    <mat-error class="field-error" *ngIf="ctlFinish.hasError('required')">Required</mat-error>
+                    <!-- <mat-error class="field-error" *ngIf="ctlFinish.hasError('required')">Required</mat-error> -->
                     <mat-error class="field-error" *ngIf="ctlFinish.hasError('finishDateEarlierThanStartDate')">Must be a later date than start date</mat-error>
                 </mat-form-field>
                 <mat-form-field>

@@ -79,7 +79,7 @@ export class MissionDataEditComponent {
         this.ctlTitle = this.fb.control('', [Validators.required]);
         //this.ctlFinish = this.fb.control(null, null);
         this.ctlStart = this.fb.control('', [Validators.required]); //, this.validateStartDate()]);
-        this.ctlFinish = this.fb.control('', [Validators.required, this.validateFinishDate()]);
+        this.ctlFinish = this.fb.control('', [this.validateFinishDate()]);
         this.ctlDescription = this.fb.control('', []);
         this.ctlEnterpriseId = this.fb.control('', []);
         this.ctlEnterpriseName = this.fb.control('', []);
@@ -190,7 +190,7 @@ export class MissionDataEditComponent {
         return (ctl: FormControl) => {
             const finishDate: Moment = ctl.value;
             const startDate: Moment = this.ctlStart.value;
-            if (finishDate < startDate)
+            if (finishDate!= null && finishDate < startDate)
                 return { finishDateEarlierThanStartDate: true }
             return null;
         };

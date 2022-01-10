@@ -1,10 +1,14 @@
-<div class="cv-view" *ngIf="!isUpdateMode" >
+<div class="cv-view" *ngIf="!isUpdateMode">
     <table>
         <tr>
-            <td><span class="inBold">{{training?.monthOfStartDate}}/{{training?.yearOfStartDate}} -
-                    {{training?.monthOfFinishDate}}/{{training?.yearOfFinishDate}}</span></td>
-            <td><span class="inBold" *ngIf="!isEditable">
-                    &nbsp;&nbsp;
+            <td class="trDateFormat"><span class="inBold">{{training?.monthOfStartDate}}/{{training?.yearOfStartDate}} -
+                    <span
+                        *ngIf="training.finish != null">{{training?.monthOfFinishDate}}/{{training?.yearOfFinishDate}}</span>
+                <span *ngIf="training.finish == null">current date</span></span>
+            </td>
+            <td>
+                <span class="inBold" *ngIf="!isEditable">
+                    &nbsp;&nbsp;&nbsp;
                     {{training?.enterprise?.name}} - {{training?.title}}
                 </span>
                 <span *ngIf="isEditable">
@@ -22,14 +26,14 @@
             </td>
         </tr>
         <tr *ngIf='training.description != null && training.description != ""'>
-            <td></td>
-            <td>&nbsp;&nbsp;&nbsp; {{training?.description}}</td>
+            <td class="trDateFormat"></td>
+            <td class="txtUnderTitre">{{training?.description}}</td>
         </tr>
         <tr>
-            <td></td>
-            <td><span *ngIf="training.usings != null ? training.usings.length != 0 : false">&nbsp;&nbsp;&nbsp; Skills :
+            <td class="trDateFormat"></td>
+            <td class="txtUnderTitre"><span *ngIf="training.usings != null ? training.usings.length != 0 : false">Skills :
                     <!-- <span *ngFor="let using of training.usings; let isFirst = first"><span *ngIf=!isFirst>, </span>{{using.skill?.name}}</span> -->
-                    <app-experience-categories-view [getExperience]="training"> </app-experience-categories-view> 
+                <app-experience-categories-view [getExperience]="training"> </app-experience-categories-view>
                 </span>
             </td>
         </tr>
@@ -39,4 +43,4 @@
 
 <div class="cv-edit" *ngIf="isEditable && isUpdateMode">
     <app-training-data-edit [getTraining]="training" [isNew]="false" (updateTrainingInDaddy)="update($event)" (changeUpdateModeInDaddy)="changeUpdateMode()"> </app-training-data-edit>
-</div> 
+</div>

@@ -1,10 +1,12 @@
 <div class="cv-view" *ngIf="!isUpdateMode">
     <table>
         <tr>
-            <td><span class="inBold">{{mission?.monthOfStartDate}}/{{mission?.yearOfStartDate}} -
-                    {{mission?.monthOfFinishDate}}/{{mission?.yearOfFinishDate}}</span></td>
+            <td class="trDateFormat"><span class="inBold">{{mission?.monthOfStartDate}}/{{mission?.yearOfStartDate}} -
+                <span *ngIf="mission.finish != null">{{mission?.monthOfFinishDate}}/{{mission?.yearOfFinishDate}}</span>
+                <span *ngIf="mission.finish == null">current date</span></span>
+            </td>
             <td><span class="inBold" *ngIf="!isEditable">
-                    &nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;
                     {{mission?.enterprise?.name}} - {{mission?.title}}
                 </span>
                 <span *ngIf="isEditable">
@@ -22,18 +24,18 @@
             </td>
         </tr>
         <tr *ngIf='mission.description != null && mission.description != ""'>
-            <td></td>
-            <td>&nbsp;&nbsp;&nbsp; {{mission?.description}}</td>
+            <td class="trDateFormat"></td>
+            <td class="txtUnderTitre">{{mission?.description}}</td>
         </tr>
         <tr *ngIf="mission.client != null">
-            <td></td>
-            <td>&nbsp;&nbsp;&nbsp; Mission accomplished at {{mission?.client?.name}}</td>
+            <td class="trDateFormat"></td>
+            <td class="txtUnderTitre">Mission accomplished at {{mission?.client?.name}}</td>
         </tr>
         <tr>
-            <td></td>
-            <td><span *ngIf="mission.usings != null ? mission.usings.length != 0 : false">&nbsp;&nbsp;&nbsp; Skills :
+            <td class="trDateFormat"></td>
+            <td class="txtUnderTitre"><span *ngIf="mission.usings != null ? mission.usings.length != 0 : false">Skills :
                     <!-- <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>, </span>{{using.skill?.name}}</span> -->
-                    <app-experience-categories-view [getExperience]="mission"> </app-experience-categories-view> 
+                <app-experience-categories-view [getExperience]="mission"> </app-experience-categories-view>
                 </span>
             </td>
         </tr>

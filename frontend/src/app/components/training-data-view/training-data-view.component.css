@@ -1,12 +1,22 @@
-.form { 
+.form {
     display: flex;
     flex-direction: column;
 }
 
-.form > * {
+.form>* {
     width: 50%;
 }
 
 .inBold {
     font-weight: bold;
+}
+
+.trDateFormat {
+    /* border-right: 1px solid black;
+    border-left: 1px solid black; */
+    width: 170px;
+}
+
+.txtUnderTitre {
+    padding-left: 17px;
 }
