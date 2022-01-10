@@ -58,7 +58,7 @@ namespace prid2122_g03.Models
 
         // }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
+        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
             Debug.Assert(currContext != null);
             if (this.Title == null)

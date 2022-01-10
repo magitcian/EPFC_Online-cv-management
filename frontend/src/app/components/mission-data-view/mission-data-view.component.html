@@ -34,7 +34,8 @@
         <tr>
             <td class="trDateFormat"></td>
             <td class="txtUnderTitre"><span *ngIf="mission.usings != null ? mission.usings.length != 0 : false">Skills :
-                    <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>, </span>{{using.skill?.name}}</span>
+                    <!-- <span *ngFor="let using of mission.usings; let isFirst = first"><span *ngIf=!isFirst>, </span>{{using.skill?.name}}</span> -->
+                <app-experience-categories-view [getExperience]="mission"> </app-experience-categories-view>
                 </span>
             </td>
         </tr>
