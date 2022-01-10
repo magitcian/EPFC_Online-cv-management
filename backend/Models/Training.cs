@@ -26,20 +26,23 @@ namespace prid2122_g03.Models
 
         }
 
-        // public bool CheckGradeInput() {  // TODO to review and check in postman (maybe to add in User for Title too)
-        //     foreach (int i in Enum.GetValues(typeof(Grade))) { // int SummaCumLaude = (int) Grade.SummaCumLaude;
-        //         if (i >= 0 && i <= 2)
-        //             return true;
-        //     }
-        //     return false; 
-        // }
+        public bool CheckGradeInput() {  
+            foreach (int i in Enum.GetValues(typeof(Grade))) { // int SummaCumLaude = (int) Grade.SummaCumLaude;
+                if (this.Grade.Equals((Grade)Enum.ToObject(typeof(Grade), i)))
+                    return true;
+            }
+            return false; 
+        }
 
-        // public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
-        //     var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
-        //     Debug.Assert(currContext != null);
-        //     if (!CheckGradeInput())
-        //         yield return new ValidationResult("The grade is between 0 and 2", new[] { nameof(Grade) });  
-        // }
+
+        public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
+            var results = base.Validate(validationContext).ToList();
+            var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
+            Debug.Assert(currContext != null);
+            if (!CheckGradeInput())
+                results.Add(new ValidationResult("The grade is between 0 and 2", new[] { nameof(Grade) }));  
+            return results;
+        }
 
     }
 }

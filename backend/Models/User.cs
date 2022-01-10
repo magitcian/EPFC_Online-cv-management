@@ -87,11 +87,21 @@ namespace prid2122_g03.Models
             // return context.Users.Count(u => u.Id != Id && u.Email == Email) == 0;    // not sure which one is the best
         }
 
+        public bool CheckTitleInput() {         
+            foreach (int i in Enum.GetValues(typeof(Title))) { 
+                if (this.Title.Equals((Title)Enum.ToObject(typeof(Title), i)))
+                    return true;
+            }
+            return false; 
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
             Debug.Assert(currContext != null);
             if (!CheckEmailUnicity(currContext))
                 yield return new ValidationResult("The email address of a user must be unique", new[] { nameof(Email) });
+            if (!CheckTitleInput())
+                yield return new ValidationResult("The title is between 0 and 2", new[] { nameof(Title) });     
             if ((LastName == null && FirstName != null) || (LastName != null && FirstName == null))
                 yield return new ValidationResult("The last name and first name are required once one of them is not null", new[] { nameof(LastName) });
             if (BirthDate.HasValue && BirthDate.Value.Date > DateTime.Today)

@@ -66,11 +66,12 @@ namespace prid2122_g03.Models
 
         public bool CheckLevelInput() {         
             foreach (int i in Enum.GetValues(typeof(Level))) { // int start = (int) Level.Starter;
-                if (i >= 1 && i <=5)
+                if (this.Level.Equals((Level)Enum.ToObject(typeof(Level), i)))
                     return true;
             }
             return false; 
         }
+
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
