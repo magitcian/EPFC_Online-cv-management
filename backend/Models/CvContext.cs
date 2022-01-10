@@ -72,6 +72,12 @@ namespace prid2122_g03.Models
 
             );
 
+            //Mettre les clients des missions à NULL lorsqu'on les supprime
+            modelBuilder.Entity<Enterprise>()
+            .HasMany(e => e.Missions) 
+            .WithOne(m => m.Client) 
+            .OnDelete(DeleteBehavior.SetNull);
+
             modelBuilder.Entity<Enterprise>().HasData(
                 new Enterprise { Id = 1, Name = "Enterprise1" },
                 new Enterprise { Id = 2, Name = "Enterprise2" },
@@ -88,6 +94,7 @@ namespace prid2122_g03.Models
             //     new Experience { Id = 2, Start = new DateTime(2016, 1, 2), Finish = new DateTime(2016, 3, 2), Title = "Programmation", Description = "P", EnterpriseId = 1, UserId = 4 },
             //     new Experience { Id = 3, Start = new DateTime(2017, 1, 2), Finish = new DateTime(2017, 3, 2), Title = "Testing", Description = "T", EnterpriseId = 2, UserId = 4 }
             // );
+
 
             modelBuilder.Entity<Mission>().HasData(
                 new Mission { Id = 1, Start = new DateTime(2015, 1, 2), Finish = new DateTime(2015, 3, 2), Title = "Mission1", Description = "M1", EnterpriseId = 2, UserId = 4, ClientId = 2 },
