@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema; // propr [NotMapped]
 
 namespace prid2122_g03.Models
 {
-    public class Category //: IValidatableObject
+    public class Category : IValidatableObject
     {
         [Key]
         public int Id { get; set; }

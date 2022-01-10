@@ -46,23 +46,12 @@ namespace prid2122_g03.Models
             Skill = skill;
         } 
 
-        // public Mastering(Level level) { // , int id = 0) {
-        //     Level = level;
-        // }
 
         public bool CheckSkillUnicityByUser(CvContext context) {
             // return context.Masterings.Count(m => m.UserId == UserId && m.SkillId == SkillId) == 0;   
             return context.Entry(this).State == EntityState.Modified || 
                 context.Masterings.AsNoTracking().Count(m => m.UserId == UserId && m.SkillId == SkillId) == 0;
         }
-
-        // public bool CheckLevelInput() {         
-        //     foreach (int i in Enum.GetValues(typeof(Level))) { // int start = (int) Level.Starter;
-        //         if (i < 1 || i > 5)
-        //             return false;
-        //     }
-        //     return true; 
-        // }
 
         public bool CheckLevelInput() {         
             foreach (int i in Enum.GetValues(typeof(Level))) { // int start = (int) Level.Starter;

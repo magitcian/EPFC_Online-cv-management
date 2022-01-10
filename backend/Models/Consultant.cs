@@ -12,7 +12,7 @@ namespace prid2122_g03.Models
     public class Consultant : User //: IValidatableObject
     {
         public int? ManagerId { get; set; }
-        public Manager Manager { get; set; } // public virtual Manager Manager { get; set; }    // check if virtual is needed as inheritance
+        public Manager Manager { get; set; } 
 
         public Consultant() { 
         } 
@@ -20,8 +20,6 @@ namespace prid2122_g03.Models
         public Consultant(string lastName, string firstName, string email, string password, Manager manager, DateTime birthdate) : base(lastName, firstName, email, password, birthdate) {
             Manager = manager;
         } 
-
-        // add method to add a manager => maybe better to add this in Manager class
 
     }
 

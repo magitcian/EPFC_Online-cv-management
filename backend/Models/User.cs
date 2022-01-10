@@ -23,10 +23,10 @@ namespace prid2122_g03.Models
         [Key]
         public int Id { get; set; }
        
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Last name has to be between 3 and 50 characters")]
+        [Required(ErrorMessage = "Required"), StringLength(50, MinimumLength = 3, ErrorMessage = "Last name has to be between 3 and 50 characters")]
         public string LastName { get; set; }
 
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "First name has to be between 3 and 50 characters")]
+        [Required(ErrorMessage = "Required"), StringLength(50, MinimumLength = 3, ErrorMessage = "First name has to be between 3 and 50 characters")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Required"), EmailAddress(ErrorMessage = "This is not a valid email address")]
@@ -102,8 +102,8 @@ namespace prid2122_g03.Models
                 yield return new ValidationResult("The email address of a user must be unique", new[] { nameof(Email) });
             if (!CheckTitleInput())
                 yield return new ValidationResult("The title is between 0 and 2", new[] { nameof(Title) });     
-            if ((LastName == null && FirstName != null) || (LastName != null && FirstName == null))
-                yield return new ValidationResult("The last name and first name are required once one of them is not null", new[] { nameof(LastName) });
+            // if ((LastName == null && FirstName != null) || (LastName != null && FirstName == null))
+            //     yield return new ValidationResult("The last name and first name are required once one of them is not null", new[] { nameof(LastName) });
             if (BirthDate.HasValue && BirthDate.Value.Date > DateTime.Today)
                 yield return new ValidationResult("Can't be born in the future in this reality", new[] { nameof(BirthDate) });
             else if (Age.HasValue && Age < 18)

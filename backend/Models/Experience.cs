@@ -52,12 +52,6 @@ namespace prid2122_g03.Models
 
         }
 
-        // public void addSkill(Using u) {
-        //     this.Skills.Add(s);
-        //     s.Experiences.Add(this);
-
-        // }
-
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             var currContext = validationContext.GetService(typeof(CvContext)) as CvContext;
             Debug.Assert(currContext != null);
@@ -72,13 +66,6 @@ namespace prid2122_g03.Models
             // if (this.Start.Value.Year <= this.User.BirthDate.Value.AddYears(18).Year) //Ne peut pas commencer avant ses 18 ans?
             //     yield return new ValidationResult("Start date must be realistic!", new[] { nameof(this.Start) });
 
-        }
-
-        public int GetDuration() {
-            var date1 = (DateTime) this.Start;
-            var date2 = (DateTime) this.Finish;
-            int durationInDays = date2.Subtract(date1).Days;
-            return durationInDays;
         }
 
     }
