@@ -40,7 +40,7 @@ import { SkillsManagementComponent } from '../components/skills-management/skill
 import { SkillEditComponent } from '../components/skill-edit/skill-edit.component';
 
 import { TrainingsViewComponent } from '../components/trainings-view/trainings-view.component';
-import { TrainingCategoriesViewComponent } from '../components/training-categories-view/training-categories-view.component';
+import { ExperienceCategoriesViewComponent } from '../components/experience-categories-view/experience-categories-view.component';
 import { TrainingDataViewComponent } from '../components/training-data-view/training-data-view.component';
 import { TrainingDataEditComponent } from '../components/training-data-edit/training-data-edit.component';
 
@@ -86,7 +86,7 @@ export function getBaseUrl() {
         ,SkillsManagementComponent
         ,SkillEditComponent
         ,TrainingsViewComponent
-        ,TrainingCategoriesViewComponent
+        ,ExperienceCategoriesViewComponent
         ,TrainingDataViewComponent
         ,TrainingDataEditComponent
         ,EnterprisesManagementComponent
