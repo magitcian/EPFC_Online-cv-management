@@ -170,7 +170,7 @@ namespace prid2122_g03.Controllers
                 return NotFound();
             if (string.IsNullOrEmpty(userDTO.Password))
                 userDTO.Password = user.Password;
-            if(!isAdmin()){
+            if (!isAdmin()) {
                 userDTO.Title = user.Title;
             }
             if (isConnectedUser(userDTO.Id) || isAdmin()) {
@@ -215,20 +215,23 @@ namespace prid2122_g03.Controllers
 
 
         // DELETE /api/users/{userID} 
-        [Authorized(Title.AdminSystem, Title.Manager)] // TODO: ask if a manager can delete a consultant working for another manager
+        [Authorized(Title.AdminSystem, Title.Manager)] 
         [HttpDelete("{userID}")]
         public async Task<IActionResult> DeleteUser(int userID) {
-            // Récupère en BD le membre à supprimer
-            var user = await _context.Users.FindAsync(userID);
-            // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
-            if (user == null)
-                return NotFound();
-            // Indique au contexte EF qu'il faut supprimer ce membre
-            _context.Users.Remove(user);
-            // Sauve les changements
-            await _context.SaveChangesAsync();
-            // Retourne un statut 204 avec une réponse vide
-            return NoContent();
+            if (isAdmin() || isManagerOfConsultant(userID)) {
+                // Récupère en BD le membre à supprimer
+                var user = await _context.Users.FindAsync(userID);
+                // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
+                if (user == null)
+                    return NotFound();
+                // Indique au contexte EF qu'il faut supprimer ce membre
+                _context.Users.Remove(user);
+                // Sauve les changements
+                await _context.SaveChangesAsync();
+                // Retourne un statut 204 avec une réponse vide
+                return NoContent();
+            }
+            return BadRequest("You are not entitled to delete those data");
         }
 
         [AllowAnonymous] // to unprotect this method (the only one in the controller)
