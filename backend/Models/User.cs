@@ -29,7 +29,8 @@ namespace prid2122_g03.Models
         [Required(ErrorMessage = "Required"), StringLength(50, MinimumLength = 3, ErrorMessage = "First name has to be between 3 and 50 characters")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Required"), EmailAddress(ErrorMessage = "This is not a valid email address")]
+        // [Required(ErrorMessage = "Required"), EmailAddress(ErrorMessage = "This is not a valid email address")]
+        [Required(ErrorMessage = "Required"), RegularExpression(@"^\w+@\w+\.\w+$", ErrorMessage = "Bad email format")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Required"), StringLength(10, MinimumLength = 3, ErrorMessage = "Password has to be between 3 and 10 characters")] 

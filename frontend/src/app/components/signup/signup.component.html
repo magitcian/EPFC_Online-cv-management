@@ -2,7 +2,7 @@
     <h1>Sign Up</h1>
     <mat-form-field>
         <input matInput placeholder="Last name" [formControl]="ctlLastName" appSetFocus>
-        <!-- <mat-error class="float-right" *ngIf="ctlLastName.hasError('required')">Required</mat-error> -->
+        <mat-error class="float-right" *ngIf="ctlLastName.hasError('required')">Required</mat-error>
         <mat-error class="float-right" *ngIf="ctlLastName.hasError('minlength')">Minimum length is {{ctlLastName.errors?.minlength?.requiredLength}}
         </mat-error>
         <mat-error class="float-right" *ngIf="ctlLastName.hasError('maxlength')">Maximum length is {{ctlLastName.errors?.maxlength?.requiredLength}}
@@ -10,13 +10,11 @@
     </mat-form-field>
     <mat-form-field>
         <input matInput placeholder="First name" [formControl]="ctlFirstName">
-        <!-- <mat-error class="float-right" *ngIf="ctlFirstName.hasError('required')">Required</mat-error> -->
+        <mat-error class="float-right" *ngIf="ctlFirstName.hasError('required')">Required</mat-error>
         <mat-error class="float-right" *ngIf="ctlFirstName.hasError('minlength')">Minimum length is {{ctlFirstName.errors?.minlength?.requiredLength}}
         </mat-error>
         <mat-error class="float-right" *ngIf="ctlFirstName.hasError('maxlength')">Maximum length is {{ctlFirstName.errors?.maxlength?.requiredLength}}
         </mat-error> 
-        <!-- <mat-error class="float-right" *ngIf="ctlFirstName.hasError('firstNameToComplete')">First name is required as last name is completed.
-        </mat-error>  -->
     </mat-form-field> 
     <mat-form-field appearance="fill">
         <mat-label>Birth Date</mat-label>

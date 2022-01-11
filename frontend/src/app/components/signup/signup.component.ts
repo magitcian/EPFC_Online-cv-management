@@ -25,10 +25,8 @@ export class SignUpComponent {
         public router: Router,                      // pour rediriger vers la page d'accueil en cas de login
         private fb: FormBuilder                     // pour construire le formulaire, du côté TypeScript
     ) {
-        this.ctlLastName = this.fb.control('', [Validators.minLength(3), Validators.maxLength(50)]);
-        // this.ctlLastName = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
-        this.ctlFirstName = this.fb.control('', [Validators.minLength(3), Validators.maxLength(50)]);
-        // this.ctlFirstName = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+        this.ctlLastName = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+        this.ctlFirstName = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
         this.ctlBirthDate = this.fb.control('', [Validators.required, this.validateBirthDate()]);
         this.ctlEmail = this.fb.control('', [Validators.required, this.validateEmail()], [this.emailUsed()]);
         this.ctlPassword = this.fb.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]);
@@ -60,16 +58,6 @@ export class SignUpComponent {
         };
     }
 
-    // validateFirstName(): any {
-    //     return (ctl: FormControl) => {
-    //         const firstName: string = ctl.value; // this.ctlFirstName.value;
-    //         const lastName: string = this.ctlLastName.value;
-    //         if (firstName == null && lastName != null)
-    //             return { firstNameToComplete: true }
-    //         return null;
-    //     };
-    // }
-
     crossValidations(group: FormGroup): ValidationErrors | null {
         if (!group.value) { return null; }
         return group.value.password === group.value.passwordConfirm ? null : { passwordNotConfirmed: true };
@@ -100,7 +88,8 @@ export class SignUpComponent {
     validateEmail(): any {
         return (ctl: FormControl) => {
             const email = ctl.value;
-            const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email
+            const regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/); 
+            // const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email 
             if(email != "" && !regex.test(email)){
                 return { badEmailFormat: true };
             }
