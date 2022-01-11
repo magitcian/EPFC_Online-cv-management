@@ -20,3 +20,7 @@
 .txtUnderTitre {
     padding-left: 17px;
 }
+
+.italic {
+    font-style: italic;
+}

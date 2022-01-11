@@ -31,6 +31,10 @@
         </tr>
         <tr>
             <td class="trDateFormat"></td>
+            <td class="txtUnderTitre italic">Grade: {{training?.gradeAsString}}</td>
+        </tr>
+        <tr>
+            <td class="trDateFormat"></td>
             <td class="txtUnderTitre"><span *ngIf="training.usings != null ? training.usings.length != 0 : false">Skills :
                     <!-- <span *ngFor="let using of training.usings; let isFirst = first"><span *ngIf=!isFirst>, </span>{{using.skill?.name}}</span> -->
                 <app-experience-categories-view [getExperience]="training"> </app-experience-categories-view>
