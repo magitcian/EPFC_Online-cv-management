@@ -82,7 +82,9 @@ export class LoginComponent implements OnInit {
     validateEmail(): any {
         return (ctl: FormControl) => {
             const email = ctl.value;
-            const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email
+            // https://newbedev.com/typescript-email-validation-regex-code-example
+            const regex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/); 
+            // const regex = new RegExp("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$"); //regex email
             if(email != "" && !regex.test(email)){
                 return { badEmailFormat: true };
             }
