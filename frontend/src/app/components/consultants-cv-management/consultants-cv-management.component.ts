@@ -18,8 +18,25 @@ export class ConsultantsCvManagementComponent {
   CvViewComponent = CvViewComponent;
 
   addTabCVUser(user : User) {
-    let tab = { tabName: `CV ${user.firstName} ${user.lastName}`, selector: CvViewComponent, userID : user.id}; 
-    this.tabs.push(tab);
+    let findCV : boolean = false;
+    for (let i = 0; i < this.tabs.length; i++) {
+      if(this.tabs[i].userID == user.id){
+        findCV = true;
+        this.selected.setValue(i + 1);
+      }
+    }
+    if(!findCV){
+      let tab = { tabName: `CV ${user.firstName} ${user.lastName}`, selector: CvViewComponent, userID : user.id}; 
+      this.tabs.push(tab);
+    }
+  }
+
+  removeTabCVUser(user : User) {
+    for (let i = this.tabs.length-1; i >= 0 ; i--) {
+      if(this.tabs[i].userID == user.id){
+        this.tabs.splice(i, 1);
+      }
+    }
   }
 
   removeTab(index: number) {

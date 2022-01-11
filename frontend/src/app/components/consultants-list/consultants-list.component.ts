@@ -26,6 +26,7 @@ export class ConsultantsListComponent implements AfterViewInit, OnDestroy {
     filter: string = '';
     state: MatTableState;
     @Output() addTabCVUser: EventEmitter<User> = new EventEmitter<User>();
+    @Output() removeTabCVUser: EventEmitter<User> = new EventEmitter<User>();
     @Input() areMyConsultants!: boolean;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -99,17 +100,10 @@ export class ConsultantsListComponent implements AfterViewInit, OnDestroy {
         const dlg = this.dialog.open(ConfirmDeleteUserComponent);
         dlg.beforeClosed().subscribe(res => {
             if (res) {
-                this.userService.delete(user).subscribe(res => {this.refresh();});
-                
-                // const backup = this.dataSource.data;
-                // this.dataSource.data = _.filter(this.dataSource.data, u => u.id !== user.id);
-                // const snackBarRef = this.snackBar.open(`User '${user.email}' will be deleted`, 'Undo', { duration: 10000 });
-                // snackBarRef.afterDismissed().subscribe(res => {
-                //     if (!res.dismissedByAction)
-                //         this.userService.delete(user).subscribe();
-                //     else
-                //         this.dataSource.data = backup;
-                // });
+                this.userService.delete(user).subscribe(res => {
+                    this.removeTabCVUser.emit(user);
+                    this.refresh()
+                });
             }
         });
 
@@ -126,11 +120,17 @@ export class ConsultantsListComponent implements AfterViewInit, OnDestroy {
     }
 
     remove_link(user: User){
-        this.userService.removeLinkWithConsultant(user.id).subscribe(res => {this.refresh()});
+        this.userService.removeLinkWithConsultant(user.id).subscribe(res => {
+            this.removeTabCVUser.emit(user);
+            this.refresh()
+        });
     }
 
     add_link(user: User){
-        this.userService.addLinkWithConsultant(user.id).subscribe(res => {this.refresh()});
+        this.userService.addLinkWithConsultant(user.id).subscribe(res => {
+            this.removeTabCVUser.emit(user);
+            this.refresh()
+        });
     }
 
 }
