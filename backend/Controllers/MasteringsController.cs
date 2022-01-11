@@ -153,7 +153,12 @@ namespace prid2122_g03.Controllers
             if (mastering.UserId == getConnectedUserId()) {
                 double dur = 0;
                 mastering.Skill.Usings.ToList().ForEach( u => {
-                    dur += (u.Experience.Finish - u.Experience.Start).Value.TotalDays;
+                    DateTime? finish = u.Experience.Finish;
+                    if(u.Experience.Finish == null){
+                        finish = DateTime.Now;
+                    }
+                    dur += (finish - u.Experience.Start).Value.TotalDays;
+                    // dur += (u.Experience.Finish - u.Experience.Start).Value.TotalDays;
                 });
                 if(((int) mastering.Level ==3 && dur < 730) ||
                 ((int) mastering.Level ==4 && dur < 1460) ||
