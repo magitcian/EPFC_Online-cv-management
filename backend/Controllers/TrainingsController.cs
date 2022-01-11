@@ -50,7 +50,7 @@ namespace prid2122_g03.Controllers
                                     .SingleOrDefaultAsync(t => t.Id == trainingID);
             if (training == null)
                 return NotFound();
-            if (isConnectedUser(training.UserId) || isAdmin() || isManagerOfConsultant(training.UserId))
+            if (isConnectedUser(training.UserId) || isAdmin() || hasManagerRightsOnConsultant(training.UserId))
                 return _mapper.Map<TrainingWithEnterprisesAndUsingsDTO>(training);
             return BadRequest("You are not entitled to get these data");
         }

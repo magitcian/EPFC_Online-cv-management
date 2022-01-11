@@ -48,7 +48,7 @@ namespace prid2122_g03.Controllers
             var mastering = await _context.Masterings.FindAsync(masteringID);
             if (mastering == null)
                 return NotFound();
-            if (isConnectedUser(mastering.UserId) || isManagerOfConsultant(mastering.UserId) || isAdmin())
+            if (isConnectedUser(mastering.UserId) || hasManagerRightsOnConsultant(mastering.UserId) || isAdmin())
                 return _mapper.Map<MasteringDTO>(mastering);
             return BadRequest("You are not entitled to get these data");
         }

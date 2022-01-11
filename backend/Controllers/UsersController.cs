@@ -53,10 +53,11 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_missions/{userID}")]
         public async Task<ActionResult<IEnumerable<MissionWithEnterprisesDTO>>> GetMissions(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || hasManagerRightsOnConsultant(userID)) {
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
                                     .OrderByDescending(m => m.Start) //inverse : OrderBy
+                                    // .ThenByDescending(m => m.Finish)
                                     .Include(m => m.Client)
                                     .Include(m => m.Enterprise)
                                     .Include(m => m.Usings)
@@ -70,7 +71,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_masterings/{userID}")]
         public async Task<ActionResult<IEnumerable<MasteringWithSkillDTO>>> GetMasterings(int userID) { // MasteringWithSkillAndUserDTO
-            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || hasManagerRightsOnConsultant(userID)) {
                 var masterings = await _context.Masterings
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Skill)
@@ -83,7 +84,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_categoriesWithDetails/{userID}")]
         public async Task<ActionResult<IEnumerable<CategoryWithSkillsAndMasteringsDTO>>> GetCategoriesWithDetails(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || hasManagerRightsOnConsultant(userID)) {
                 var categories = await _context.Categories
                                     .Where(c => c.Skills.Any(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
                                     .Include(c => c.Skills.Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
@@ -96,7 +97,7 @@ namespace prid2122_g03.Controllers
 
         [HttpGet("user_trainings/{userID}")]
         public async Task<ActionResult<IEnumerable<TrainingWithEnterprisesAndUsingsDTO>>> GetTrainings(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || hasManagerRightsOnConsultant(userID)) {
                 var trainings = await _context.Trainings
                                     .Where(t => t.UserId == userID)
                                     .OrderByDescending(t => t.Start) //inverse : OrderBy
@@ -130,7 +131,7 @@ namespace prid2122_g03.Controllers
         // GET /api/users/{userID}
         [HttpGet("{userID}")]
         public async Task<ActionResult<UserDTO>> GetOne(int userID) {
-            if (isConnectedUser(userID) || isAdmin() || isManagerOfConsultant(userID)) {
+            if (isConnectedUser(userID) || isAdmin() || hasManagerRightsOnConsultant(userID)) {
                 // Récupère en BD le membre dont l'id est passé en paramètre dans l'url
                 var user = await _context.Users.FindAsync(userID);
                 // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found
@@ -218,7 +219,7 @@ namespace prid2122_g03.Controllers
         [Authorized(Title.AdminSystem, Title.Manager)] 
         [HttpDelete("{userID}")]
         public async Task<IActionResult> DeleteUser(int userID) {
-            if (isAdmin() || isManagerOfConsultant(userID)) {
+            if (isAdmin() || hasManagerRightsOnConsultant(userID)) {
                 // Récupère en BD le membre à supprimer
                 var user = await _context.Users.FindAsync(userID);
                 // Si aucun membre n'a été trouvé, renvoyer une erreur 404 Not Found

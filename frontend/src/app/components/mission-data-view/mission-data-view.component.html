@@ -3,7 +3,7 @@
         <tr>
             <td class="trDateFormat"><span class="inBold">{{mission?.monthOfStartDate}}/{{mission?.yearOfStartDate}} -
                 <span *ngIf="mission.finish != null">{{mission?.monthOfFinishDate}}/{{mission?.yearOfFinishDate}}</span>
-                <span *ngIf="mission.finish == null">current date</span></span>
+                <span *ngIf="mission.finish == null"> ...</span></span>
             </td>
             <td><span class="inBold" *ngIf="!isEditable">
                     &nbsp;&nbsp;&nbsp;

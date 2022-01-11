@@ -14,7 +14,7 @@
 .trDateFormat {
     /* border-right: 1px solid black;
     border-left: 1px solid black; */
-    width: 170px;
+    min-width: 150px;
 }
 
 .txtUnderTitre {

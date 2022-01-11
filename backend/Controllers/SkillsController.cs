@@ -34,7 +34,10 @@ namespace prid2122_g03.Controllers
         // GET /api/skills
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SkillWithCategoryDTO>>> GetAll() {
-            return _mapper.Map<List<SkillWithCategoryDTO>>(await _context.Skills.Include(s => s.Category).ToListAsync());
+            return _mapper.Map<List<SkillWithCategoryDTO>>(await _context.Skills
+                    .OrderBy(s => s.Name)
+                    .Include(s => s.Category)
+                    .ToListAsync());
         }
 
 

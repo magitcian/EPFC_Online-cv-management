@@ -69,7 +69,7 @@ namespace prid2122_g03.Controllers
 
         private bool isConnectedUserExperience(int experienceID) {
             var experience = _context.Experiences.Find(experienceID);
-            return getConnectedUserId() == experience.UserId || isManagerOfConsultant(experience.UserId);
+            return getConnectedUserId() == experience.UserId || hasManagerRightsOnConsultant(experience.UserId);
         }   
 
     }
