@@ -85,7 +85,7 @@ export class MasteringEditFormComponent  {
         snackBarRef.afterDismissed().subscribe(res => {
             if (!res.dismissedByAction) {
                 this.masteringService.delete(mastering).subscribe(res => {
-                    this.refresh();
+                    //this.refresh();
                     this.refreshInDaddy.emit();
                 });
             }

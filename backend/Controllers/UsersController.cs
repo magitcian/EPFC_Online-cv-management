@@ -76,6 +76,7 @@ namespace prid2122_g03.Controllers
                                     .Where(m => m.UserId == userID)
                                     .Include(m => m.Skill)
                                     .ThenInclude(s => s.Category)
+                                    .OrderBy(s => s.Skill.Name)
                                     .ToListAsync();
                 return _mapper.Map<List<MasteringWithSkillDTO>>(masterings); // MasteringWithSkillAndUserDTO
             }
