@@ -47,7 +47,7 @@ export class PersonalDataViewComponent {
 
         this.ctlFirstName = this.fb.control('', [Validators.required]);
         this.ctlLastName = this.fb.control('', [Validators.required]);
-        this.ctlBirthDate = this.fb.control(null, [this.validateBirthDate()]);
+        this.ctlBirthDate = this.fb.control(null, [Validators.required, this.validateBirthDate()]);
         this.ctlEmail = this.fb.control('', [Validators.required, this.validateEmail()], [this.emailUsed()]); //this.validateEmail(), this.emailUsed()
         this.ctlPassword = this.fb.control('', [ this.validatePassword()]);
         this.ctlPasswordConfirm = this.fb.control('', [this.validatePassword()]);
@@ -92,6 +92,13 @@ export class PersonalDataViewComponent {
         if (this.isEditable) {
             this.isEditMode = !this.isEditMode;
         }
+    }
+
+    cancel(){
+        this.frm.patchValue(this.user);
+        this.frm.markAsPristine();
+        this.frm.markAsUntouched();
+        this.changeEditMode();
     }
 
     crossValidations(group: FormGroup): ValidationErrors | null {

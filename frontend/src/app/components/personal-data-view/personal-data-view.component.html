@@ -41,6 +41,7 @@
                             <input matInput [matDatepicker]="picker" [formControl]="ctlBirthDate" [max]="maxDate">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
+                            <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('required')">Required</mat-error>
                             <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('tooYoung')">Must be at least 18 years old</mat-error>
                             <mat-error class="field-error" *ngIf="ctlBirthDate.hasError('futureBorn')">Can't be born in the future</mat-error>
                         </mat-form-field>
@@ -78,7 +79,7 @@
         </mat-tab-group>
         <div class="footer">
             <button type="submit" mat-button form="frm" [disabled]="frm.pristine || frm.invalid || frm.pending" (click)="update()">Update</button>
-            <button type="reset" mat-button (click)="changeEditMode()">Cancel</button>
+            <button type="reset" mat-button (click)="cancel()">Cancel</button>
         </div>
     </form>
 </div>
