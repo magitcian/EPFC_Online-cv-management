@@ -60,6 +60,9 @@ namespace prid2122_g03.Controllers
         [HttpPost]
         public async Task<ActionResult<TrainingWithUsingsDTO>> PostTraining(TrainingWithUsingsDTO training) {
             var newTraining = _mapper.Map<Training>(training);
+            if (training.Finish == null) {
+                newTraining.Finish = null;
+            }
             newTraining.UserId = getConnectedUserId();
             _context.Trainings.Add(newTraining);
             var res = await _context.SaveChangesAsyncWithValidation();

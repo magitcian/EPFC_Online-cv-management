@@ -74,7 +74,7 @@ export class TrainingDataEditComponent {
     }
 
     controlInput() {
-        this.ctlStart = this.fb.control('', [Validators.required]);
+        this.ctlStart = this.fb.control('', [Validators.required, this.validateStartDate()]);
         this.ctlFinish = this.fb.control('', [this.validateFinishDate()]);
         this.ctlTitle = this.fb.control('', [Validators.required]);
         this.ctlDescription = this.fb.control('', []);
@@ -199,6 +199,19 @@ export class TrainingDataEditComponent {
             const startDate: Moment = this.ctlStart.value;
             if (finishDate!= null && finishDate < startDate)
                 return { finishDateEarlierThanStartDate: true }
+            return null;
+        };
+    }
+
+    validateStartDate(): any {
+        return (ctl: FormControl) => {
+            if(this.ctlFinish != null){
+                const startDate : Moment = ctl.value;
+                const finishDate: Moment = this.ctlFinish?.value;
+                if (finishDate != null && finishDate.toString() != "" && finishDate < startDate)
+                    return { finishDateEarlierThanStartDate: true }
+                return null;
+            }
             return null;
         };
     }

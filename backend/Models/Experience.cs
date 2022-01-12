@@ -59,9 +59,9 @@ namespace prid2122_g03.Models
                 yield return new ValidationResult("Title muste be completed", new[] { nameof(this.Title) });
             if (this.Finish != null && this.Start > this.Finish)
                 yield return new ValidationResult("Start date must be lower than finish date!", new[] { nameof(this.Start) });
-            if (this.Start.Value.Year <= 1990)
+            if (this.Start.Value.Year <= 1900)
                 yield return new ValidationResult("Start date must be realistic!", new[] { nameof(this.Start) });
-            if (this.Finish != null && this.Finish.Value.Year <= 1990)
+            if (this.Finish != null && this.Finish.Value.Year <= 1900)
                 yield return new ValidationResult("Finish date must be realistic!", new[] { nameof(this.Finish) });
             // if (this.Start.Value.Year <= this.User.BirthDate.Value.AddYears(18).Year) //Ne peut pas commencer avant ses 18 ans?
             //     yield return new ValidationResult("Start date must be realistic!", new[] { nameof(this.Start) });

@@ -70,6 +70,9 @@ namespace prid2122_g03.Controllers
         [HttpPost]
         public async Task<IActionResult> PostMission(MissionWithUsingsDTO dto) {
             var newMission = _mapper.Map<Mission>(dto);
+            if(dto.Finish == null){
+                newMission.Finish = null;
+            }
             newMission.UserId = getConnectedUserId();
             if (newMission.ClientId == 0) {
                 newMission.ClientId = null;

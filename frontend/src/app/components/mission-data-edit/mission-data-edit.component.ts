@@ -78,7 +78,7 @@ export class MissionDataEditComponent {
     controlInput() {
         this.ctlTitle = this.fb.control('', [Validators.required]);
         //this.ctlFinish = this.fb.control(null, null);
-        this.ctlStart = this.fb.control('', [Validators.required]); //, this.validateStartDate()]);
+        this.ctlStart = this.fb.control('', [Validators.required, this.validateStartDate()]); //, this.validateStartDate()]);
         this.ctlFinish = this.fb.control('', [this.validateFinishDate()]);
         this.ctlDescription = this.fb.control('', []);
         this.ctlEnterpriseId = this.fb.control('', []);
@@ -197,15 +197,18 @@ export class MissionDataEditComponent {
     }
 
 
-    // validateStartDate(): any {
-    //     return (ctl: FormControl) => {
-    //         const startDate : Moment = ctl.value;
-    //         const finishDate: Moment = this.ctlFinish.value;
-    //         if (finishDate < startDate)
-    //             return { finishLowerThanStartDate: true }
-    //         return null;
-    //     };
-    // }
+    validateStartDate(): any {
+        return (ctl: FormControl) => {
+            if(this.ctlFinish != null){
+                const startDate : Moment = ctl.value;
+                const finishDate: Moment = this.ctlFinish?.value;
+                if (finishDate != null && finishDate.toString() != "" && finishDate < startDate)
+                    return { finishDateEarlierThanStartDate: true }
+                return null;
+            }
+            return null;
+        };
+    }
 
     addSkill(event: MatChipInputEvent): void {
 
