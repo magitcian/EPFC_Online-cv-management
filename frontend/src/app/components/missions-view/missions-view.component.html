@@ -16,5 +16,4 @@
          (deleteMissionInDaddy)="delete(mission)"></app-mission-data-view> 
     </span>
 </div>
-
-<br>
+<br *ngIf="missions != null && missions.length != 0">  

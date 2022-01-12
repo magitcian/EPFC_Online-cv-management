@@ -17,5 +17,4 @@
          (deleteTrainingInDaddy)="delete(training)"></app-training-data-view> 
     </span>
 </div>
-
-<br>
+<br *ngIf="trainings != null && trainings.length != 0">  
