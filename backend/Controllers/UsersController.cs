@@ -57,7 +57,7 @@ namespace prid2122_g03.Controllers
                 var missions = await _context.Missions
                                     .Where(m => m.UserId == userID)
                                     .OrderByDescending(m => m.Start) //inverse : OrderBy
-                                    // .ThenByDescending(m => m.Finish)
+                                                                     // .ThenByDescending(m => m.Finish)
                                     .Include(m => m.Client)
                                     .Include(m => m.Enterprise)
                                     .Include(m => m.Usings)
@@ -91,6 +91,19 @@ namespace prid2122_g03.Controllers
                                     .Include(c => c.Skills.Where(s => s.MasteringSkillsLevels.Any(m => m.UserId == userID)))
                                     .ThenInclude(s => s.MasteringSkillsLevels.Where(m => m.UserId == userID))
                                     .ToListAsync();
+                //ajouter les skills sans catégorie :
+                var noCat = new Category("No catogory");
+                var skillsNoCategory = await _context.Skills
+                                    .Where(s => s.CategoryId == null && s.MasteringSkillsLevels.Any(m => m.UserId == userID))
+                                    .Include(s => s.MasteringSkillsLevels.Where(m => m.UserId == userID))
+                                    .ToListAsync();
+                if (skillsNoCategory.Count != 0) {
+                    skillsNoCategory.ForEach(s => {
+                        noCat.Skills.Add(s);
+                    });
+                    //otherCat.Skills.Concat(skills);
+                    categories.Add(noCat);
+                }
                 return _mapper.Map<List<CategoryWithSkillsAndMasteringsDTO>>(categories);
             }
             return BadRequest("You are not entitled to obtain those data");
@@ -217,7 +230,7 @@ namespace prid2122_g03.Controllers
 
 
         // DELETE /api/users/{userID} 
-        [Authorized(Title.AdminSystem, Title.Manager)] 
+        [Authorized(Title.AdminSystem, Title.Manager)]
         [HttpDelete("{userID}")]
         public async Task<IActionResult> DeleteUser(int userID) {
             if (isAdmin() || hasManagerRightsOnConsultant(userID)) {

@@ -137,7 +137,8 @@ namespace prid2122_g03.Models
                 new Skill { Id = 6, Name = "C sharp", CategoryId = 1 },
                 new Skill { Id = 7, Name = "JavaScript", CategoryId = 1 },
                 new Skill { Id = 8, Name = "MySQL", CategoryId = 2 },
-                new Skill { Id = 9, Name = "Angular", CategoryId = 3 }
+                new Skill { Id = 9, Name = "Angular", CategoryId = 3 },
+                new Skill { Id = 10, Name = "SkillWithNoCategory", CategoryId = null }
                 // ,new Skill { Id = 10, Name = "SkillWithNoCategory" } // working now :)
             );
 
@@ -161,7 +162,9 @@ namespace prid2122_g03.Models
                 new Mastering { Id = 6, Level = Level.Medior, UserId = 1, SkillId = 3 }, // Bruno   Sqlite
                 new Mastering { Id = 7, Level = Level.Expert, UserId = 3, SkillId = 1 }, // Sev     Java
                 new Mastering { Id = 8, Level = Level.Expert, UserId = 7, SkillId = 6 }, // Cons7   C#          no manager
-                new Mastering { Id = 9, Level = Level.Senior, UserId = 8, SkillId = 7 }  // Cons9   JavaScript  Ben manager
+                new Mastering { Id = 9, Level = Level.Senior, UserId = 8, SkillId = 7 },  // Cons9   JavaScript  Ben manager
+                new Mastering { Id = 10, Level = Level.Senior, UserId = 2, SkillId = 10 },  
+                new Mastering { Id = 11, Level = Level.Medior, UserId = 4, SkillId = 10 }  
             );
 
             modelBuilder.Entity<Using>().HasData(
@@ -173,7 +176,8 @@ namespace prid2122_g03.Models
                 new Using { Id = 6, ExperienceId = 12, SkillId = 2 },
                 new Using { Id = 7, ExperienceId = 12, SkillId = 9 },
                 new Using { Id = 8, ExperienceId = 13, SkillId = 6 },
-                new Using { Id = 9, ExperienceId = 11, SkillId = 6 }
+                new Using { Id = 9, ExperienceId = 11, SkillId = 6 },
+                new Using { Id = 10, ExperienceId = 11, SkillId = 10 }
             );
 
             modelBuilder.Entity<Training>().HasData(

@@ -62,6 +62,19 @@ namespace prid2122_g03.Controllers
                                     .Include(c => c.Skills.Where(s => s.Usings.Any(u => u.ExperienceId == experienceID)))
                                     .ThenInclude(s => s.Usings.Where(u => u.ExperienceId == experienceID))
                                     .ToListAsync();
+                //ajouter les skills sans catégorie :
+                var noCat = new Category("No catogory");
+                var skillsNoCategory = await _context.Skills
+                                    .Where(s => s.CategoryId == null && s.Usings.Any(u => u.ExperienceId == experienceID))
+                                    .Include(s => s.Usings.Where(u => u.ExperienceId == experienceID))
+                                    .ToListAsync();
+                if (skillsNoCategory.Count != 0) {
+                    skillsNoCategory.ForEach(s => {
+                        noCat.Skills.Add(s);
+                    });
+                    //otherCat.Skills.Concat(skills);
+                    categories.Add(noCat);
+                }
                 return _mapper.Map<List<CategoryWithSkillsAndUsingsDTO>>(categories);
             }
             return BadRequest("You are not entitled to obtain those data");

@@ -49,9 +49,10 @@ namespace prid2122_g03.Controllers
         }
 
         protected bool isConnectedUser(int userID) {
-            var connectedUser = getConnectedUser();
-            var user = _context.Users.Find(userID);
-            return user != null && user.Id == connectedUser.Id;
+            return getConnectedUserId() == userID;
+            // var connectedUser = getConnectedUser();
+            // var user = _context.Users.Find(userID);
+            // return user != null && user.Id == connectedUser.Id;
         }
 
         protected bool isAdmin() {
