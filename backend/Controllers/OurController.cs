@@ -64,7 +64,7 @@ namespace prid2122_g03.Controllers
         }
 
         protected bool hasManagerRightsOnConsultant(int consultantID) {
-            if(isManager()){
+            if(isManager() || isAdmin()){
                 var consultant = _context.Consultants.Find(consultantID);
                 return (consultant != null && (consultant.ManagerId == null || consultant.ManagerId == getConnectedUserId()));
             }

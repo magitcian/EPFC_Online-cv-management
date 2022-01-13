@@ -63,7 +63,7 @@ namespace prid2122_g03.Controllers
                                     .ThenInclude(s => s.Usings.Where(u => u.ExperienceId == experienceID))
                                     .ToListAsync();
                 //ajouter les skills sans catégorie :
-                var noCat = new Category("No catogory");
+                var noCat = new Category("No category");
                 var skillsNoCategory = await _context.Skills
                                     .Where(s => s.CategoryId == null && s.Usings.Any(u => u.ExperienceId == experienceID))
                                     .Include(s => s.Usings.Where(u => u.ExperienceId == experienceID))

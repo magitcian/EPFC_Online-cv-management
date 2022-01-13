@@ -92,7 +92,7 @@ namespace prid2122_g03.Controllers
                                     .ThenInclude(s => s.MasteringSkillsLevels.Where(m => m.UserId == userID))
                                     .ToListAsync();
                 //ajouter les skills sans catégorie :
-                var noCat = new Category("No catogory");
+                var noCat = new Category("No category");
                 var skillsNoCategory = await _context.Skills
                                     .Where(s => s.CategoryId == null && s.MasteringSkillsLevels.Any(m => m.UserId == userID))
                                     .Include(s => s.MasteringSkillsLevels.Where(m => m.UserId == userID))
@@ -279,7 +279,7 @@ namespace prid2122_g03.Controllers
                     new Claim(ClaimTypes.Role, user.Title.ToString())
                 }),
                     IssuedAt = DateTime.UtcNow,
-                    Expires = DateTime.UtcNow.AddMinutes(120), // TODO: to update at the end
+                    Expires = DateTime.UtcNow.AddMinutes(30), // TODO: to update at the end
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
