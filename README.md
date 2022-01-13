@@ -2,7 +2,7 @@
 # Projet PRID2122-G03
 
 ## Notes de livraison
-- Un administrateur existe dans le système : il a encore un peu plus de droit que le manager (il peut, par exemple, voir l'ensemble des utilisateurs et des catégories)
+- Un administrateur existe dans le système : il a encore un peu plus de droit que le manager (il peut, par exemple, voir l'ensemble des utilisateurs et des catégories). Il peut également modifier quelques données signalétiques chez d'autres utilisateurs (même chez les managers).
 - Un bug d'affichage a été détecté sur firefox lorsqu'un utilisateur ajoute un skill (dans les skills): "required" apparait en-dessous de la case d'ajout d'un skill (cela ne semble pas arriver dans chrome et edge).
 - Les diagrammes se trouvent dans le dossier "Diagrams" :
     - Un diagramme de Use cases a été fait à l'origine pour visualiser comment agencer les écrans à l'origine du projet. Il n'est plus tout a fait représentatif du projet.
