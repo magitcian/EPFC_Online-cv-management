@@ -35,7 +35,7 @@ export class MasteringEditRowComponent {
 
     mastering!: Mastering;
     masterings!: Mastering[];
-    isEnoughExperience: boolean = false;
+    isEnoughExperience: boolean = true;
     isVisible: boolean = false;
     public skills!: Skill[];
 
