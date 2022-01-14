@@ -83,7 +83,11 @@ const appRoutes: Routes = [
   //{ path: 'experiences-view', component: ExperiencesViewComponent },
  // { path: 'missions-view', component: MissionsViewComponent },
   //{ path: 'cv-view', component: CvViewComponent },
-  { path: 'cv-connected-user', component: CvConnectedUserComponent },
+  { 
+    path: 'cv-connected-user', 
+    component: CvConnectedUserComponent,
+    canActivate: [AuthGuard] 
+  },
   { path: 'restricted', component: RestrictedComponent },
   { path: '**', component: UnknownComponent }
 ];
