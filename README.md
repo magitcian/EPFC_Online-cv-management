@@ -3,9 +3,9 @@
 
 ## Description
 Site web pour gérer les CV des consultants et managers d'une entreprise de consultance.
-Backend en c#, .NET
-Frontend en angular
-Base de données avec SQLite
+Backend en c#, .NET.
+Frontend en angular.
+Base de données avec SQLite.
 
 ## Heroku
 Le site est accessible sur Heroku : https://prid2122-g03.herokuapp.com/
