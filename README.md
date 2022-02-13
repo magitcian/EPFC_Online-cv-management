@@ -1,8 +1,14 @@
 
 # Projet PRID2122-G03
 
+## Description
+Site web pour gérer les CV des consultants et managers d'une entreprise de consultance.
+Backend en c#, .NET
+Frontend en angular
+Base de données avec SQLite
+
 ## Heroku
-Site sur Heroku : https://prid2122-g03.herokuapp.com/
+Le site est accessible sur Heroku : https://prid2122-g03.herokuapp.com/
 
 ## Les utilisateurs encodés dans le système:
 
