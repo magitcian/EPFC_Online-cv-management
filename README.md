@@ -1,5 +1,5 @@
 
-# Projet PRID2122-G03
+# Projet PRID2122-G03 - Online CV management
 
 ## Description
 Site web pour gérer les CV des consultants et managers d'une entreprise de consultance.
